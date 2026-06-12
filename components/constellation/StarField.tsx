@@ -6,8 +6,8 @@ import { positieVoorId, tekenSter, KLEUREN } from "./Star";
 import type { Ster } from "@/lib/mock-data";
 
 const MAX_STERREN = 60;
-const PARALLAX_MAX = 20; // px
-const PARALLAX_FACTOR = 0.04;
+const PARALLAX_MAX = 40; // px — merkbaar maar subtiel; sterren drijven niet weg
+const PARALLAX_FACTOR = 0.06;
 
 // Per ster: de databron plus de stabiele, geseede tekengegevens
 type VeldSter = Ster & ReturnType<typeof positieVoorId>;
@@ -204,7 +204,11 @@ export default function StarField({
   }, [sterren, interactief]);
 
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
+    // De meegegeven className bepaalt de positie (bijv. "absolute inset-0").
+    // Géén harde `relative` ervoor: dat wint in Tailwind van `absolute` en
+    // zou het veld als in-flow blok bóven de tekst laten staan i.p.v. erachter.
+    // Valt terug op `relative` als positiecontext voor de tooltip.
+    <div ref={containerRef} className={className || "relative"}>
       <canvas ref={canvasRef} className="block h-full w-full" />
       {tooltip && (
         <div

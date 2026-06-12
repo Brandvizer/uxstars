@@ -5,6 +5,15 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden">
       <StarField className="absolute inset-0" />
+      {/* Zachte radiale verdonkering achter de tekst: koppen blijven leesbaar,
+          sterren aan de randen blijven helder. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 45% at 50% 52%, rgba(10,14,26,0.72), transparent 72%)",
+        }}
+      />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
 
       {/* pointer-events-none zodat hover op de sterren achter de tekst blijft werken */}
