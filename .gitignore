@@ -44,3 +44,6 @@ next-env.d.ts
 # macOS metadata (externe schijf)
 ._*
 .DS_Store
+
+# Claude Code machine-lokale settings
+.claude/settings.local.json
