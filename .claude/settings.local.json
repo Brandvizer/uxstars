@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(git --version)",
+      "Bash(npx --yes create-next-app@15 . --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(npx --yes create-next-app@15 uxstars-tmp --typescript --tailwind --eslint --app --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(npx tsx -e ' *)",
+      "Bash(git add *)",
+      "Bash(git -c core.hooksPath=/dev/null commit -m 'Fase 1: The Constellation — statische site met sterrenveld, missies en missieformulier *)"
+    ]
+  }
+}

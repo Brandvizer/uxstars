@@ -1,103 +1,114 @@
-import Image from "next/image";
+import Link from "next/link";
+import Hero from "@/components/home/Hero";
+import BelofteKaart from "@/components/home/BelofteKaart";
+import LogoRij from "@/components/home/LogoRij";
+import SplitsBlok from "@/components/home/SplitsBlok";
+import MissieKaart from "@/components/missie/MissieKaart";
+import { missies } from "@/lib/mock-data";
+
+const beloften = [
+  {
+    titel: "Gevouched, niet gescreend",
+    tekst:
+      "Elke ster is aanbevolen door iemand die écht met haar of hem werkte. Dat zegt meer dan honderd cv's.",
+    icoon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+        <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+      </svg>
+    ),
+  },
+  {
+    titel: "Binnen dagen aan boord",
+    tekst:
+      "Geen wekenlange procedures. Een open missie bereikt direct de sterren die beschikbaar zijn en passen.",
+    icoon: (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-6 w-6 stroke-current"
+        fill="none"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M13 2L4.5 13.5H11L9.5 22 19 10.5h-6.5L13 2z" />
+      </svg>
+    ),
+  },
+  {
+    titel: "Eerlijke tarieven",
+    tekst:
+      "Transparant voor beide kanten. Geen onzichtbare marges — wat jij betaalt, weet de designer ook.",
+    icoon: (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-6 w-6 stroke-current"
+        fill="none"
+        strokeWidth="2"
+        strokeLinecap="round"
+      >
+        <path d="M12 3v18M7 8.5C7 6.5 9 5.5 12 5.5s5 1 5 3-2 2.8-5 3.5-5 1.5-5 3.5 2 3 5 3 5-1 5-3" />
+      </svg>
+    ),
+  },
+  {
+    titel: "Een stelsel, geen lijstje",
+    tekst:
+      "Sterren sparren met elkaar, vouchen elkaar en springen bij. Jouw missie krijgt een netwerk, geen eenling.",
+    icoon: (
+      <svg
+        viewBox="0 0 24 24"
+        className="h-6 w-6 stroke-current"
+        fill="none"
+        strokeWidth="2"
+        strokeLinecap="round"
+      >
+        <circle cx="5" cy="6" r="2" />
+        <circle cx="19" cy="4" r="2" />
+        <circle cx="12" cy="13" r="2" />
+        <circle cx="6" cy="20" r="2" />
+        <circle cx="19" cy="18" r="2" />
+        <path d="M6.8 7.2l3.6 4.2M13.8 11.6L17.4 5.4M11 14.7l-3.6 3.8M13.9 13.9l3.6 3.2" />
+      </svg>
+    ),
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const openMissies = missies.filter((m) => m.status === "open").slice(0, 3);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <>
+      <Hero />
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <h2 className="max-w-2xl">Waarom opdrachtgevers en designers hier samenkomen</h2>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {beloften.map((belofte) => (
+            <BelofteKaart key={belofte.titel} {...belofte} />
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <LogoRij />
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2>Open missies</h2>
+          <Link
+            href="/missies"
+            className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+          >
+            Alle missies →
+          </Link>
+        </div>
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          {openMissies.map((missie) => (
+            <MissieKaart key={missie.slug} missie={missie} />
+          ))}
+        </div>
+      </section>
+
+      <SplitsBlok />
+    </>
   );
 }
