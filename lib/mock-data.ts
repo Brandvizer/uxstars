@@ -4,17 +4,14 @@
 export type Ster = {
   id: string;
   naam: string;
-  rol: string;
+  specialisme: string;
+  seniority: string;
   beschikbaar: boolean;
-  /** Positie als fractie van het canvas (0–1) */
-  x: number;
-  y: number;
-  grootte: number;
-};
-
-export type Vouch = {
-  van: string;
-  naar: string;
+  /**
+   * Ids van sterren waarmee deze ster een (vouch)verbinding heeft.
+   * Posities worden niet opgeslagen: StarField seedt ze stabiel op de id.
+   */
+  verbindingen?: string[];
 };
 
 export type Missie = {
@@ -41,39 +38,55 @@ export type Verhaal = {
   alineas: string[];
 };
 
-export const sterren: Ster[] = [
-  { id: "s1", naam: "Maartje V.", rol: "Senior UX Designer", beschikbaar: true, x: 0.18, y: 0.32, grootte: 3.2 },
-  { id: "s2", naam: "Daan K.", rol: "Product Designer", beschikbaar: false, x: 0.31, y: 0.18, grootte: 2.6 },
-  { id: "s3", naam: "Sofie B.", rol: "UX Researcher", beschikbaar: true, x: 0.44, y: 0.41, grootte: 3.0 },
-  { id: "s4", naam: "Ruben T.", rol: "Design Lead", beschikbaar: false, x: 0.27, y: 0.58, grootte: 2.8 },
-  { id: "s5", naam: "Anne-Fleur D.", rol: "Service Designer", beschikbaar: true, x: 0.55, y: 0.22, grootte: 2.7 },
-  { id: "s6", naam: "Jasper M.", rol: "UX Designer", beschikbaar: false, x: 0.63, y: 0.52, grootte: 2.5 },
-  { id: "s7", naam: "Lotte H.", rol: "UX Writer", beschikbaar: true, x: 0.72, y: 0.3, grootte: 2.9 },
-  { id: "s8", naam: "Bram S.", rol: "Senior Product Designer", beschikbaar: false, x: 0.81, y: 0.48, grootte: 3.1 },
-  { id: "s9", naam: "Yara E.", rol: "UX Researcher", beschikbaar: true, x: 0.88, y: 0.24, grootte: 2.6 },
-  { id: "s10", naam: "Thomas W.", rol: "Interaction Designer", beschikbaar: false, x: 0.5, y: 0.68, grootte: 2.4 },
-  { id: "s11", naam: "Nadia R.", rol: "Design Systems Designer", beschikbaar: true, x: 0.69, y: 0.72, grootte: 2.8 },
-  { id: "s12", naam: "Pieter J.", rol: "Senior UX Designer", beschikbaar: false, x: 0.12, y: 0.62, grootte: 2.5 },
-  { id: "s13", naam: "Eva L.", rol: "Product Designer", beschikbaar: true, x: 0.38, y: 0.78, grootte: 2.7 },
-  { id: "s14", naam: "Koen A.", rol: "UX Strateeg", beschikbaar: false, x: 0.85, y: 0.7, grootte: 2.6 },
+// 51 mock-sterren. In fase 2 vervangt een Supabase-query (stars status=actief)
+// deze lijst; de vorm blijft gelijk zodat StarField niet wijzigt.
+const sterNamen = [
+  "Maartje V.", "Daan K.", "Sofie B.", "Ruben T.", "Anne-Fleur D.",
+  "Jasper M.", "Lotte H.", "Bram S.", "Yara E.", "Thomas W.",
+  "Nadia R.", "Pieter J.", "Eva L.", "Koen A.", "Fleur P.",
+  "Sander G.", "Iris N.", "Joost V.", "Sanne K.", "Tijn B.",
+  "Noor M.", "Lars D.", "Femke H.", "Bas O.", "Roos T.",
+  "Wessel K.", "Lieke V.", "Stijn R.", "Marit B.", "Gijs L.",
+  "Hanne D.", "Niels P.", "Saar W.", "Teun M.", "Julia K.",
+  "Mees B.", "Tess V.", "Daniël H.", "Loes G.", "Robin J.",
+  "Anouk D.", "Cas T.", "Veerle M.", "Floris B.", "Esmee K.",
+  "Menno W.", "Nina V.", "Carlijn S.", "Sven P.", "Imke R.",
+  "Bram-Jan O.",
 ];
 
-export const vouches: Vouch[] = [
-  { van: "s1", naar: "s2" },
-  { van: "s1", naar: "s4" },
-  { van: "s2", naar: "s5" },
-  { van: "s3", naar: "s5" },
-  { van: "s3", naar: "s6" },
-  { van: "s5", naar: "s7" },
-  { van: "s6", naar: "s10" },
-  { van: "s7", naar: "s8" },
-  { van: "s8", naar: "s9" },
-  { van: "s8", naar: "s14" },
-  { van: "s10", naar: "s13" },
-  { van: "s11", naar: "s14" },
-  { van: "s4", naar: "s12" },
-  { van: "s6", naar: "s11" },
+const specialismen = [
+  "UX Design", "Product Design", "UX Research", "Service Design",
+  "UX Writing", "Interaction Design", "Design Systems", "UX Strategy",
+  "Content Design", "UI / Visual Design", "Design Ops", "Conversation Design",
 ];
+
+const seniorityNiveaus = ["Junior", "Medior", "Senior", "Lead", "Principal"];
+
+// Verbindingen als paren van (1-gebaseerde) indices — vormen het stelsel.
+const verbindingsParen: [number, number][] = [
+  [1, 2], [1, 4], [2, 5], [3, 5], [3, 6], [5, 7], [6, 10], [7, 8],
+  [8, 9], [8, 14], [10, 13], [11, 14], [4, 12], [6, 11], [9, 15], [15, 17],
+  [16, 18], [12, 16], [19, 20], [20, 21], [17, 22], [21, 25], [23, 25], [24, 26],
+  [27, 28], [28, 29], [30, 31], [31, 33], [13, 19], [26, 30], [34, 37], [38, 40],
+  [40, 42], [41, 43], [44, 45], [45, 47], [46, 48], [48, 49], [50, 51], [35, 36],
+  [22, 24], [29, 32], [33, 35], [37, 39], [43, 44], [47, 50], [32, 34], [36, 38],
+];
+
+export const sterren: Ster[] = sterNamen.map((naam, i) => {
+  const n = i + 1;
+  const verbindingen = verbindingsParen
+    .filter(([van]) => van === n)
+    .map(([, naar]) => `s${naar}`);
+  return {
+    id: `s${n}`,
+    naam,
+    specialisme: specialismen[(i * 5) % specialismen.length],
+    seniority: seniorityNiveaus[(i * 3 + 1) % seniorityNiveaus.length],
+    // ~40% beschikbaar, deterministisch zodat de render stabiel is
+    beschikbaar: (i * 13 + 4) % 10 < 4,
+    ...(verbindingen.length ? { verbindingen } : {}),
+  };
+});
 
 export const missies: Missie[] = [
   {

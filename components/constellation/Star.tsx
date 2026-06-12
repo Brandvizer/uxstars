@@ -1,29 +1,73 @@
-import type { Ster } from "@/lib/mock-data";
-
 export const KLEUREN = {
   ster: "#F2F4F8",
-  gloed: "#F5B941",
-  beschikbaar: "#4ADE80",
+  beschikbaar: "#4ADE80", // succes-groen
   lijn: "#2A3350",
 };
 
+// Deterministische hash (FNV-1a + avalanche-finalizer), 32-bit unsigned.
+// De finalizer is essentieel: zonder mixstap verschillen opeenvolgende ids
+// (s1, s2, s3 …) maar in één byte, wat bijna gelijke fracties geeft en de
+// sterren op één diagonaal legt. De mixstap spreidt die volledig uit.
+function hash(tekst: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < tekst.length; i++) {
+    h ^= tekst.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  h ^= h >>> 16;
+  h = Math.imul(h, 0x21f0aaad);
+  h ^= h >>> 15;
+  h = Math.imul(h, 0x735a2d97);
+  h ^= h >>> 15;
+  return h >>> 0;
+}
+
+const fractie = (id: string, kanaal: string) =>
+  hash(`${kanaal}:${id}`) / 0xffffffff;
+
+export type SterPositie = {
+  /** Positie als fractie (0–1) van het veld */
+  fx: number;
+  fy: number;
+  /** Straal in px */
+  grootte: number;
+  /** Faseverschuiving voor het twinkelen */
+  fase: number;
+};
+
 /**
- * Tekent één ster op het canvas. Beschikbare sterren krijgen een
- * zachte groene gloed; twinkelen gebeurt uitsluitend via alpha.
+ * Stabiele, semi-willekeurige positie geseed op de id. Een marge houdt
+ * sterren van de randen; de grootte varieert subtiel per ster.
+ */
+export function positieVoorId(id: string): SterPositie {
+  const marge = 0.06;
+  const bereik = 1 - marge * 2;
+  return {
+    fx: marge + fractie(id, "x") * bereik,
+    fy: marge + fractie(id, "y") * bereik,
+    grootte: 1.8 + fractie(id, "g") * 1.8, // 1.8–3.6px
+    fase: fractie(id, "f") * Math.PI * 2,
+  };
+}
+
+/**
+ * Tekent één ster. Beschikbare sterren krijgen een zachte groene gloed;
+ * twinkelen gebeurt uitsluitend via de meegegeven alpha.
  */
 export function tekenSter(
   ctx: CanvasRenderingContext2D,
-  ster: Ster,
   px: number,
   py: number,
+  grootte: number,
   alpha: number,
+  beschikbaar: boolean,
   actief: boolean,
 ) {
-  const straal = ster.grootte * (actief ? 1.4 : 1);
+  const straal = grootte * (actief ? 1.4 : 1);
 
-  if (ster.beschikbaar) {
+  if (beschikbaar) {
     const gloed = ctx.createRadialGradient(px, py, 0, px, py, straal * 5);
-    gloed.addColorStop(0, `rgba(74, 222, 128, ${0.35 * alpha})`);
+    gloed.addColorStop(0, `rgba(74, 222, 128, ${0.4 * alpha})`);
     gloed.addColorStop(1, "rgba(74, 222, 128, 0)");
     ctx.fillStyle = gloed;
     ctx.beginPath();
@@ -42,7 +86,7 @@ export function tekenSter(
   }
 
   ctx.globalAlpha = alpha;
-  ctx.fillStyle = actief ? KLEUREN.gloed : KLEUREN.ster;
+  ctx.fillStyle = actief ? "#FFD166" : beschikbaar ? KLEUREN.beschikbaar : KLEUREN.ster;
   ctx.beginPath();
   ctx.arc(px, py, straal, 0, Math.PI * 2);
   ctx.fill();

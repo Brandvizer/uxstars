@@ -2,42 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useStarData } from "./useStarData";
-import { tekenSter, KLEUREN } from "./Star";
+import { positieVoorId, tekenSter, KLEUREN } from "./Star";
 import type { Ster } from "@/lib/mock-data";
 
-type AchtergrondSter = {
-  x: number;
-  y: number;
-  straal: number;
-  fase: number;
-  snelheid: number;
-};
+const MAX_STERREN = 60;
+const PARALLAX_MAX = 20; // px
+const PARALLAX_FACTOR = 0.04;
+
+// Per ster: de databron plus de stabiele, geseede tekengegevens
+type VeldSter = Ster & ReturnType<typeof positieVoorId>;
 
 type Tooltip = {
-  ster: Ster;
+  specialisme: string;
+  seniority: string;
   px: number;
   py: number;
 };
-
-// Deterministische pseudo-random zodat het veld er elke render hetzelfde uitziet
-function maakAchtergrondSterren(aantal: number): AchtergrondSter[] {
-  const sterren: AchtergrondSter[] = [];
-  let zaad = 42;
-  const rnd = () => {
-    zaad = (zaad * 16807) % 2147483647;
-    return zaad / 2147483647;
-  };
-  for (let i = 0; i < aantal; i++) {
-    sterren.push({
-      x: rnd(),
-      y: rnd(),
-      straal: 0.4 + rnd() * 1.1,
-      fase: rnd() * Math.PI * 2,
-      snelheid: 0.3 + rnd() * 0.7,
-    });
-  }
-  return sterren;
-}
 
 export default function StarField({
   interactief = true,
@@ -48,10 +28,12 @@ export default function StarField({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { sterren, vouches } = useStarData();
+  const { sterren } = useStarData();
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
-  const tooltipRef = useRef<Tooltip | null>(null);
-  tooltipRef.current = tooltip;
+
+  // Refs voor waarden die per frame veranderen — geen React re-render per frame
+  const tooltipIdRef = useRef<string | null>(null);
+  const parallaxRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -63,8 +45,27 @@ export default function StarField({
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const achtergrond = maakAchtergrondSterren(140);
-    const perId = new Map(sterren.map((s) => [s.id, s]));
+
+    // Bouw de velddata eenmalig op: max 60 sterren, posities geseed op id
+    const veldSterren: VeldSter[] = sterren
+      .slice(0, MAX_STERREN)
+      .map((s) => ({ ...s, ...positieVoorId(s.id) }));
+    const perId = new Map(veldSterren.map((s) => [s.id, s]));
+
+    // Verbindingen ontdubbelen tot unieke paren (a–b == b–a)
+    const paren: [VeldSter, VeldSter][] = [];
+    const gezien = new Set<string>();
+    for (const s of veldSterren) {
+      for (const doelId of s.verbindingen ?? []) {
+        const doel = perId.get(doelId);
+        if (!doel) continue;
+        const sleutel = [s.id, doelId].sort().join("|");
+        if (gezien.has(sleutel)) continue;
+        gezien.add(sleutel);
+        paren.push([s, doel]);
+      }
+    }
+
     let breedte = 0;
     let hoogte = 0;
     let frame = 0;
@@ -81,60 +82,54 @@ export default function StarField({
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
+    const px = (s: VeldSter) => s.fx * breedte;
+    const py = (s: VeldSter) => s.fy * hoogte + parallaxRef.current;
+
     const teken = (tijd: number) => {
       ctx.clearRect(0, 0, breedte, hoogte);
 
-      // Decoratieve achtergrondsterren: twinkelen alleen via opacity
-      for (const s of achtergrond) {
-        const alpha = reducedMotion
-          ? 0.5
-          : 0.25 + 0.45 * (0.5 + 0.5 * Math.sin(tijd * 0.001 * s.snelheid + s.fase));
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = KLEUREN.ster;
-        ctx.beginPath();
-        ctx.arc(s.x * breedte, s.y * hoogte, s.straal, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-
-      // Vouch-lijnen: het stelsel
+      // Verbindingslijnen: het stelsel
       ctx.strokeStyle = KLEUREN.lijn;
       ctx.lineWidth = 1;
-      for (const v of vouches) {
-        const a = perId.get(v.van);
-        const b = perId.get(v.naar);
-        if (!a || !b) continue;
+      for (const [a, b] of paren) {
         ctx.beginPath();
-        ctx.moveTo(a.x * breedte, a.y * hoogte);
-        ctx.lineTo(b.x * breedte, b.y * hoogte);
+        ctx.moveTo(px(a), py(a));
+        ctx.lineTo(px(b), py(b));
         ctx.stroke();
       }
 
-      // De sterren zelf
-      const actiefId = tooltipRef.current?.ster.id;
-      sterren.forEach((ster, i) => {
+      // De sterren zelf — twinkelen uitsluitend via opacity
+      for (const s of veldSterren) {
         const alpha = reducedMotion
-          ? 0.95
-          : 0.75 + 0.25 * (0.5 + 0.5 * Math.sin(tijd * 0.0008 + i * 1.7));
+          ? 0.9
+          : 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(tijd * 0.0009 + s.fase));
         tekenSter(
           ctx,
-          ster,
-          ster.x * breedte,
-          ster.y * hoogte,
+          px(s),
+          py(s),
+          s.grootte,
           alpha,
-          ster.id === actiefId,
+          s.beschikbaar,
+          s.id === tooltipIdRef.current,
         );
-      });
+      }
     };
 
     const lus = (tijd: number) => {
+      // Parallax: veld beweegt heel licht mee met scroll, gemaximeerd op 20px
+      if (!reducedMotion) {
+        parallaxRef.current = Math.max(
+          -PARALLAX_MAX,
+          Math.min(PARALLAX_MAX, window.scrollY * PARALLAX_FACTOR),
+        );
+      }
       if (zichtbaar) teken(tijd);
       frame = requestAnimationFrame(lus);
     };
 
     resize();
     if (reducedMotion) {
-      teken(0);
+      teken(0); // statische render, geen animatielus
     } else {
       frame = requestAnimationFrame(lus);
     }
@@ -151,44 +146,62 @@ export default function StarField({
     });
     intersect.observe(container);
 
-    const zoekSter = (clientX: number, clientY: number): Tooltip | null => {
+    const zoekSter = (clientX: number, clientY: number): VeldSter | null => {
       const rect = canvas.getBoundingClientRect();
       const mx = clientX - rect.left;
       const my = clientY - rect.top;
-      for (const ster of sterren) {
-        const px = ster.x * breedte;
-        const py = ster.y * hoogte;
-        const afstand = Math.hypot(mx - px, my - py);
-        if (afstand < Math.max(18, ster.grootte * 6)) {
-          return { ster, px, py };
-        }
+      for (const s of veldSterren) {
+        const afstand = Math.hypot(mx - px(s), my - py(s));
+        if (afstand < Math.max(18, s.grootte * 6)) return s;
       }
       return null;
     };
 
-    const opBeweging = (e: PointerEvent) => {
+    const toon = (s: VeldSter | null) => {
+      tooltipIdRef.current = s?.id ?? null;
+      setTooltip(
+        s
+          ? {
+              specialisme: s.specialisme,
+              seniority: s.seniority,
+              px: px(s),
+              py: py(s),
+            }
+          : null,
+      );
+    };
+
+    // Desktop: hover. Mobiel: tap (toggelt de tooltip).
+    const opMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
       const gevonden = zoekSter(e.clientX, e.clientY);
-      const huidig = tooltipRef.current;
-      if (gevonden?.ster.id !== huidig?.ster.id) setTooltip(gevonden);
+      if (gevonden?.id !== tooltipIdRef.current) toon(gevonden);
       canvas.style.cursor = gevonden ? "pointer" : "default";
     };
-    const opVerlaten = () => setTooltip(null);
+    const opTap = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") return;
+      const gevonden = zoekSter(e.clientX, e.clientY);
+      toon(gevonden?.id === tooltipIdRef.current ? null : gevonden);
+    };
+    const opLeave = () => {
+      if (tooltipIdRef.current) toon(null);
+    };
 
     if (interactief) {
-      canvas.addEventListener("pointermove", opBeweging);
-      canvas.addEventListener("pointerdown", opBeweging);
-      canvas.addEventListener("pointerleave", opVerlaten);
+      canvas.addEventListener("pointermove", opMove);
+      canvas.addEventListener("pointerdown", opTap);
+      canvas.addEventListener("pointerleave", opLeave);
     }
 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
       intersect.disconnect();
-      canvas.removeEventListener("pointermove", opBeweging);
-      canvas.removeEventListener("pointerdown", opBeweging);
-      canvas.removeEventListener("pointerleave", opVerlaten);
+      canvas.removeEventListener("pointermove", opMove);
+      canvas.removeEventListener("pointerdown", opTap);
+      canvas.removeEventListener("pointerleave", opLeave);
     };
-  }, [sterren, vouches, interactief]);
+  }, [sterren, interactief]);
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
@@ -199,14 +212,8 @@ export default function StarField({
           className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-xl border border-lijn bg-paneel px-4 py-2.5 text-sm shadow-xl"
           style={{ left: tooltip.px, top: tooltip.py + 16 }}
         >
-          <p className="font-semibold text-tekst">{tooltip.ster.naam}</p>
-          <p className="text-tekst-secundair">{tooltip.ster.rol}</p>
-          {tooltip.ster.beschikbaar && (
-            <p className="mt-1 flex items-center gap-1.5 text-succes">
-              <span className="h-1.5 w-1.5 rounded-full bg-succes" />
-              Beschikbaar voor een missie
-            </p>
-          )}
+          <p className="font-semibold text-tekst">{tooltip.specialisme}</p>
+          <p className="text-tekst-secundair">{tooltip.seniority}</p>
         </div>
       )}
     </div>
