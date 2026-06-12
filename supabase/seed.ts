@@ -82,6 +82,9 @@ async function seed() {
       status: m.status,
       intro: m.intro,
       omschrijving: m.omschrijving,
+      // Publiek label (= de omschrijving) op de missie; opdrachtgever_id wijst
+      // naar de privé contactgegevens.
+      opdrachtgever_label: m.opdrachtgever,
       opdrachtgever_id: ogIdVoorNaam.get(m.opdrachtgever) ?? null,
     })),
   );

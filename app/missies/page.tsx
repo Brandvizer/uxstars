@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import MissieKaart from "@/components/missie/MissieKaart";
 import Button from "@/components/ui/Button";
-import { missies } from "@/lib/mock-data";
+import { getMissies } from "@/lib/missies";
 
 export const metadata: Metadata = {
   title: "Missies",
@@ -9,7 +9,11 @@ export const metadata: Metadata = {
     "Open UX-missies bij opdrachtgevers die op zoek zijn naar een ster uit het UXSTARS-netwerk.",
 };
 
-export default function MissiesPagina() {
+// Missies uit Supabase: periodiek hervalideren (ISR).
+export const revalidate = 300;
+
+export default async function MissiesPagina() {
+  const missies = await getMissies();
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div className="max-w-2xl">

@@ -4,10 +4,10 @@ import BelofteKaart from "@/components/home/BelofteKaart";
 import LogoRij from "@/components/home/LogoRij";
 import SplitsBlok from "@/components/home/SplitsBlok";
 import MissieKaart from "@/components/missie/MissieKaart";
-import { missies } from "@/lib/mock-data";
+import { getMissies } from "@/lib/missies";
 
-// Sterrenveld komt uit Supabase: periodiek hervalideren (ISR) i.p.v. statisch
-// vastgepind, zodat nieuwe actieve stars na uiterlijk 5 minuten verschijnen.
+// Sterrenveld én missies komen uit Supabase: periodiek hervalideren (ISR)
+// i.p.v. statisch vastgepind, zodat nieuwe data na uiterlijk 5 minuten verschijnt.
 export const revalidate = 300;
 
 const beloften = [
@@ -77,7 +77,8 @@ const beloften = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const missies = await getMissies();
   const openMissies = missies.filter((m) => m.status === "open").slice(0, 3);
 
   return (

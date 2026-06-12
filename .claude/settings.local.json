@@ -15,7 +15,11 @@
       "Bash(mount)",
       "Bash(echo \"=== Lokale cache \\(APFS\\) ===\" && ls \"$HOME/.cache/uxstars-next/build\" 2>/dev/null | head && echo \"\" && echo \"=== .next op LaCie \\(hoort weg te zijn\\) ===\" && ls -d .next 2>/dev/null || echo \"geen .next op de externe schijf ✓\")",
       "Bash(npx next *)",
-      "Bash(cd /Volumes/LaCie/04_UXSTARS/UXSTARS_website *)"
+      "Bash(cd /Volumes/LaCie/04_UXSTARS/UXSTARS_website *)",
+      "Bash(git -c core.hooksPath=/dev/null commit -m 'Fase 2: Supabase gekoppeld — schema, RLS, seed, sterrenveld uit DB *)",
+      "Bash(git checkout *)",
+      "Bash(node --env-file=.env.local --import tsx -e ' *)",
+      "Bash(npx tsc *)"
     ]
   }
 }
