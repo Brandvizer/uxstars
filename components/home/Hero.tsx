@@ -1,10 +1,10 @@
-import StarField from "@/components/constellation/StarField";
+import SterrenVeld from "@/components/constellation/SterrenVeld";
 import Button from "@/components/ui/Button";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <StarField className="absolute inset-0" />
+      <SterrenVeld className="absolute inset-0" />
       {/* Zachte radiale verdonkering achter de tekst: koppen blijven leesbaar,
           sterren aan de randen blijven helder. */}
       <div

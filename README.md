@@ -19,18 +19,44 @@ npm run build    # productiebuild
 npm run lint
 ```
 
-## Status: fase 1
+## Status: fase 2 (Supabase gekoppeld)
 
-Statische site met mock data (`lib/mock-data.ts`). Het sterrenveld, alle pagina's en het 7-staps missieformulier werken; verzenden toont de bevestiging maar slaat nog niets op. In fase 2 vervangen `lib/supabase.ts` en het datamodel (tabellen `stars`, `missies`, `opdrachtgevers`, `reacties`, `vouches`, `plaatsingen`) de mock data — `components/constellation/useStarData.ts` is daarvoor het koppelpunt.
+Het sterrenveld leest nu uit Supabase via een server component
+(`components/constellation/SterrenVeld.tsx` → `lib/stars.ts`), met **terugval
+op de mockdata** zolang Supabase niet is geconfigureerd of de database leeg is.
+Zo werken `npm run dev` en `npm run build` ook zonder keys. Het missieformulier
+toont nog de bevestiging zonder op te slaan (volgt in een latere fase).
+
+## Supabase opzetten
+
+1. Maak een project op [supabase.com](https://supabase.com) (gratis).
+2. Kopieer `.env.example` naar `.env.local` en vul in (Project Settings → API):
+   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY` (geheim).
+3. Schema toepassen — kies één:
+   - **SQL-editor**: plak `supabase/schema.sql` in Database → SQL Editor en run.
+   - **CLI**: `supabase link --project-ref <ref>` en `supabase db push`
+     (leest `supabase/migrations/`).
+4. Vul met voorbeelddata: `npm run seed` (5 missies, 51 stars, vouches).
+
+**Datamodel** — zes tabellen in `supabase/migrations/`: `opdrachtgevers`,
+`stars`, `missies`, `reacties`, `vouches`, `plaatsingen`. Row Level Security
+staat aan op alles; publiek leest alleen `missies` met status `open` en `stars`
+met status `actief` (zonder e-mail/tarief, via kolomrechten). `vouches` zijn
+publiek als id-paren voor de lijnen.
+
+> Het schema is afgeleid uit de app (mockdata + missieformulier + briefing).
+> Pas `supabase/migrations/` aan als je adviesdocument op details afwijkt.
 
 ## Structuur
 
 - `app/` — pagina's (home, missies, missie-plaatsen, word-een-star, opdrachtgevers, verhalen, over-ons, admin)
-- `components/constellation/` — StarField (canvas), Star, useStarData
+- `components/constellation/` — StarField (canvas, client), SterrenVeld (server, fetcht), Star
 - `components/missie/` — MissieKaart, MissieDetail, MissieForm (één stap per bestand), Bevestiging
 - `components/ui/` — Button, Input, Badge, Modal
 - `components/home/` — Hero, BelofteKaart, LogoRij, SplitsBlok
-- `lib/` — validaties (Zod), mock data
+- `lib/` — supabase (client), stars (data + fallback), validaties (Zod), mock data
+- `supabase/` — migrations (SQL per tabel), schema.sql (gecombineerd), seed.ts
 
 ## Designprincipes
 

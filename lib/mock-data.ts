@@ -157,6 +157,23 @@ export const missies: Missie[] = [
     ],
     opdrachtgever: "Gemeente (G4)",
   },
+  {
+    slug: "design-systems-designer-saas",
+    titel: "Eén designsysteem voor drie productteams van een SaaS-schaalbedrijf",
+    rol: "Design Systems Designer",
+    locatie: "Hybride · Eindhoven",
+    urenPerWeek: "32 uur p/w",
+    tariefIndicatie: "€90–105 p/u",
+    seniority: "Senior",
+    status: "open",
+    intro:
+      "Drie teams bouwen drie keer dezelfde componenten. Jij brengt rust met één designsysteem dat ze allemaal delen.",
+    omschrijving: [
+      "De productsuite is snel gegroeid en elk team maakt zijn eigen knoppen, tabellen en formulieren. Jij inventariseert de echte variatie, ontwerpt een gedeeld systeem en zet de governance op die het levend houdt.",
+      "Je werkt samen met een front-end gilde en een tweede ster uit het netwerk voor de documentatie. Ervaring met tokens en een headless component-aanpak is een plus.",
+    ],
+    opdrachtgever: "SaaS-schaalbedrijf, Eindhoven",
+  },
 ];
 
 export const verhalen: Verhaal[] = [

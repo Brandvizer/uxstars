@@ -6,6 +6,10 @@ import SplitsBlok from "@/components/home/SplitsBlok";
 import MissieKaart from "@/components/missie/MissieKaart";
 import { missies } from "@/lib/mock-data";
 
+// Sterrenveld komt uit Supabase: periodiek hervalideren (ISR) i.p.v. statisch
+// vastgepind, zodat nieuwe actieve stars na uiterlijk 5 minuten verschijnen.
+export const revalidate = 300;
+
 const beloften = [
   {
     titel: "Gevouched, niet gescreend",

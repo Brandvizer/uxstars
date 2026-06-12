@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Button from "@/components/ui/Button";
-import StarField from "@/components/constellation/StarField";
+import SterrenVeld from "@/components/constellation/SterrenVeld";
 
 export const metadata: Metadata = {
   title: "Word een star",
   description:
     "Sluit je aan bij het UXSTARS-netwerk: mooie missies, eerlijke tarieven en een stelsel van collega's dat voor je instaat.",
 };
+
+// Sterrenveld uit Supabase: periodiek hervalideren (ISR).
+export const revalidate = 300;
 
 const redenen = [
   {
@@ -74,7 +77,7 @@ export default function WordEenStarPagina() {
         </div>
 
         <div className="relative mt-20 overflow-hidden rounded-2xl border border-lijn">
-          <StarField interactief={false} className="absolute inset-0" />
+          <SterrenVeld interactief={false} className="absolute inset-0" />
           <div className="pointer-events-none relative bg-gradient-to-t from-achtergrond/90 via-transparent p-8 sm:p-12">
             <h2 className="max-w-xl">Zo word je een ster in het stelsel</h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">

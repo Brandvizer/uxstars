@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useStarData } from "./useStarData";
 import { positieVoorId, tekenSter, KLEUREN } from "./Star";
 import type { Ster } from "@/lib/mock-data";
 
@@ -20,15 +19,16 @@ type Tooltip = {
 };
 
 export default function StarField({
+  sterren,
   interactief = true,
   className = "",
 }: {
+  sterren: Ster[];
   interactief?: boolean;
   className?: string;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { sterren } = useStarData();
   const [tooltip, setTooltip] = useState<Tooltip | null>(null);
 
   // Refs voor waarden die per frame veranderen — geen React re-render per frame
