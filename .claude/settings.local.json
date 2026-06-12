@@ -11,7 +11,11 @@
       "Bash(node --input-type=module -e ' *)",
       "Bash(npx tsx -e ' *)",
       "Bash(git add *)",
-      "Bash(git -c core.hooksPath=/dev/null commit -m 'Fase 1: The Constellation — statische site met sterrenveld, missies en missieformulier *)"
+      "Bash(git -c core.hooksPath=/dev/null commit -m 'Fase 1: The Constellation — statische site met sterrenveld, missies en missieformulier *)",
+      "Bash(mount)",
+      "Bash(echo \"=== Lokale cache \\(APFS\\) ===\" && ls \"$HOME/.cache/uxstars-next/build\" 2>/dev/null | head && echo \"\" && echo \"=== .next op LaCie \\(hoort weg te zijn\\) ===\" && ls -d .next 2>/dev/null || echo \"geen .next op de externe schijf ✓\")",
+      "Bash(npx next *)",
+      "Bash(cd /Volumes/LaCie/04_UXSTARS/UXSTARS_website *)"
     ]
   }
 }
