@@ -15,6 +15,7 @@ import StapStart, { stapStartVelden } from "./StapStart";
 import StapContact, { stapContactVelden } from "./StapContact";
 import { missieFormSchema } from "@/lib/validaties";
 import type { MissieFormData } from "@/lib/validaties";
+import { plaatsMissie } from "@/app/missie-plaatsen/actions";
 
 const stappen = [
   { Component: StapRol, velden: stapRolVelden },
@@ -29,6 +30,8 @@ const stappen = [
 export default function MissieForm() {
   const [stap, setStap] = useState(0);
   const [verzonden, setVerzonden] = useState<MissieFormData | null>(null);
+  const [bezig, setBezig] = useState(false);
+  const [fout, setFout] = useState<string | null>(null);
 
   const form = useForm<MissieFormData>({
     resolver: zodResolver(missieFormSchema),
@@ -45,9 +48,18 @@ export default function MissieForm() {
     if (geldig) setStap((s) => s + 1);
   };
 
-  const verstuur = form.handleSubmit((data) => {
-    // Fase 2: opslaan in Supabase (missies, status concept) + mail via Resend
-    setVerzonden(data);
+  const verstuur = form.handleSubmit(async (data) => {
+    setBezig(true);
+    setFout(null);
+    const resultaat = await plaatsMissie(data);
+    setBezig(false);
+    if (resultaat.ok) {
+      setVerzonden(data);
+    } else {
+      setFout(
+        "Er ging iets mis bij het opslaan. Probeer het zo nog eens, of mail ons op hallo@uxstars.nl.",
+      );
+    }
   });
 
   if (verzonden) {
@@ -77,16 +89,23 @@ export default function MissieForm() {
             type="button"
             variant="ghost"
             onClick={() => setStap((s) => s - 1)}
+            disabled={bezig}
           >
             ← Vorige
           </Button>
         ) : (
           <span />
         )}
-        <Button type="submit">
-          {laatste ? "Lanceer de missie 🚀" : "Volgende"}
+        <Button type="submit" disabled={bezig}>
+          {laatste ? (bezig ? "Bezig met lanceren…" : "Lanceer de missie 🚀") : "Volgende"}
         </Button>
       </div>
+
+      {fout && (
+        <p className="mt-4 text-right text-sm text-accent-actief" role="alert">
+          {fout}
+        </p>
+      )}
     </form>
   );
 }
