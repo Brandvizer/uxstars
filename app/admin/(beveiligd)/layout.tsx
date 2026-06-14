@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getAdminStatus } from "@/lib/admin";
 import { uitloggen } from "./actions";
+import Tabs from "./Tabs";
 
 export const metadata: Metadata = {
   title: "Missiecontrole",
@@ -63,7 +64,10 @@ export default async function BeveiligdeAdminLayout({
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">{children}</div>
+      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+        <Tabs />
+      </div>
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</div>
     </div>
   );
 }
