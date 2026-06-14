@@ -18,14 +18,14 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-lijn bg-achtergrond/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
           className="flex items-center text-tekst"
           aria-label="UXSTARS — naar home"
           onClick={() => setOpen(false)}
         >
-          <Logo className="h-8 w-auto" />
+          <Logo className="h-14 w-auto" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
