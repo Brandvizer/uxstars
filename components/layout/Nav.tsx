@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/ui/Logo";
 
 const links = [
   { href: "/missies", label: "Missies" },
@@ -20,17 +21,11 @@ export default function Nav() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold tracking-tight"
+          className="flex items-center text-tekst"
+          aria-label="UXSTARS — naar home"
           onClick={() => setOpen(false)}
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-5 w-5 fill-accent"
-            aria-hidden="true"
-          >
-            <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
-          </svg>
-          UXSTARS
+          <Logo className="h-6 w-auto" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

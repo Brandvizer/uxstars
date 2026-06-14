@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Logo from "@/components/ui/Logo";
 
 const kolommen = [
   {
@@ -28,16 +29,7 @@ export default function Footer() {
     <footer className="border-t border-lijn">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3">
         <div>
-          <p className="flex items-center gap-2 text-lg font-semibold">
-            <svg
-              viewBox="0 0 24 24"
-              className="h-4 w-4 fill-accent"
-              aria-hidden="true"
-            >
-              <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
-            </svg>
-            UXSTARS
-          </p>
+          <Logo className="h-7 w-auto text-tekst" />
           <p className="mt-3 max-w-xs text-base text-tekst-secundair">
             Het sterrenstelsel van UX-talent. Elke designer een ster, elke
             opdracht een missie.
