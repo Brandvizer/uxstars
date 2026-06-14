@@ -25,7 +25,7 @@ export default function Nav() {
           aria-label="UXSTARS — naar home"
           onClick={() => setOpen(false)}
         >
-          <Logo className="h-6 w-auto" />
+          <Logo className="h-8 w-auto" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

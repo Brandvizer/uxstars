@@ -29,7 +29,7 @@ export default function Footer() {
     <footer className="border-t border-lijn">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3">
         <div>
-          <Logo className="h-7 w-auto text-tekst" />
+          <Logo className="h-10 w-auto text-tekst" />
           <p className="mt-3 max-w-xs text-base text-tekst-secundair">
             Het sterrenstelsel van UX-talent. Elke designer een ster, elke
             opdracht een missie.
