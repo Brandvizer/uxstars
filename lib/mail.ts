@@ -87,7 +87,7 @@ export function emailHtml(opts: {
 
   const knop = opts.knop
     ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 4px;"><tr>
-        <td align="center" bgcolor="#f5b941" style="border-radius:999px;mso-padding-alt:13px 28px;">
+        <td align="center" bgcolor="#ffd166" style="border-radius:999px;mso-padding-alt:13px 28px;">
           <a href="${opts.knop.url}" style="display:inline-block;padding:13px 28px;font:600 15px ${FONT};color:#0a0e1a;text-decoration:none;border-radius:999px;">${opts.knop.label}</a>
         </td></tr></table>`
     : "";
