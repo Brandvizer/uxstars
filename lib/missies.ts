@@ -9,11 +9,12 @@ type MissieRow = Database["public"]["Tables"]["missies"]["Row"];
 const PUBLIEKE_STATUSSEN = ["open", "gevuld"] as const;
 
 const PUBLIEKE_KOLOMMEN =
-  "slug, titel, rol, locatie, uren_per_week, tarief_indicatie, seniority, status, intro, omschrijving, opdrachtgever_label";
+  "id, slug, titel, rol, locatie, uren_per_week, tarief_indicatie, seniority, status, intro, omschrijving, opdrachtgever_label";
 
 // DB-rij (snake_case, nullables) → domeintype Missie dat de componenten verwachten.
 function naarMissie(r: Partial<MissieRow>): Missie {
   return {
+    id: r.id,
     slug: r.slug!,
     titel: r.titel!,
     rol: r.rol!,

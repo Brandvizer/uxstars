@@ -15,6 +15,8 @@ export type Ster = {
 };
 
 export type Missie = {
+  /** Aanwezig bij missies uit de DB; afwezig bij mock-fallback */
+  id?: string;
   slug: string;
   titel: string;
   rol: string;

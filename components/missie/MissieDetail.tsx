@@ -1,6 +1,6 @@
 import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
 import type { Missie } from "@/lib/mock-data";
+import MissieReactie from "@/components/missie/MissieReactie";
 
 export default function MissieDetail({ missie }: { missie: Missie }) {
   const open = missie.status === "open";
@@ -41,17 +41,7 @@ export default function MissieDetail({ missie }: { missie: Missie }) {
       {open && (
         <div className="mt-12 rounded-2xl border border-lijn bg-paneel p-8">
           <h3>Is dit jouw missie?</h3>
-          <p className="mt-2 text-tekst-secundair">
-            Reageren kan in fase één via e-mail. Vertel kort waarom deze missie
-            bij je past — een ster uit het netwerk neemt contact op.
-          </p>
-          <div className="mt-6">
-            <Button
-              href={`mailto:hallo@uxstars.nl?subject=Reactie op missie: ${encodeURIComponent(missie.titel)}`}
-            >
-              Reageer op deze missie
-            </Button>
-          </div>
+          <MissieReactie missieId={missie.id} />
         </div>
       )}
     </article>

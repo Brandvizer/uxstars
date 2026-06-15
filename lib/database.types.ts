@@ -258,6 +258,14 @@ export type Database = {
         Args: Record<string, never>;
         Returns: string;
       };
+      reageer_op_missie: {
+        Args: { p_missie_id: string; p_motivatie: string };
+        Returns: Json;
+      };
+      mijn_reactie: {
+        Args: { p_missie_id: string };
+        Returns: Json;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
