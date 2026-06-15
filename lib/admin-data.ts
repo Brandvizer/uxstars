@@ -20,6 +20,28 @@ export type AdminReactie = {
   };
 };
 
+export type VouchAanvraag = {
+  id: string;
+  naam: string;
+  email: string;
+  portfolio_url: string | null;
+  motivatie: string | null;
+  status: "nieuw" | "uitgenodigd" | "afgewezen";
+  created_at: string;
+};
+
+/** Vouch-aanvragen (kandidatenpool) voor de admin. */
+export async function getVouchAanvragen(): Promise<VouchAanvraag[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_vouch_aanvragen");
+  if (error) {
+    console.error("getVouchAanvragen:", error.message);
+    return [];
+  }
+  return (data as VouchAanvraag[] | null) ?? [];
+}
+
 /** Alle reacties met ster- en missiedetails (voor de admin). */
 export async function getAdminReacties(): Promise<AdminReactie[]> {
   const supabase = await getSupabaseServer();

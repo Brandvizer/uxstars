@@ -60,6 +60,68 @@ export async function maakBootstrapUitnodiging(): Promise<{
 }
 
 /**
+ * Nodigt een kandidaat uit de pool uit: maakt een invite, mailt de
+ * uitnodigingslink (via Resend), en geeft de link terug om eventueel zelf te
+ * delen. Mailt het niet als RESEND_API_KEY ontbreekt — de link blijft bruikbaar.
+ */
+export async function nodigKandidaatUit(
+  aanvraagId: string,
+  origin: string,
+): Promise<{ ok: boolean; link?: string; gemaild?: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { data, error } = await supabase.rpc("nodig_kandidaat_uit", {
+    p_aanvraag_id: aanvraagId,
+  });
+  if (error) {
+    console.error("nodig_kandidaat_uit:", error.message);
+    return { ok: false };
+  }
+
+  const res = data as { token: string; email: string; naam: string };
+  const link = `${origin}/uitnodiging/${res.token}`;
+
+  const mail = await stuurMail({
+    naar: res.email,
+    onderwerp: "Je bent gevouched voor UXSTARS",
+    html: `
+      <p>Hoi ${res.naam},</p>
+      <p>Goed nieuws — je bent uitgenodigd voor UXSTARS, het invite-only netwerk
+        van gevouchte designers.</p>
+      <p><a href="${link}">Maak je ster aan →</a></p>
+      <p>Deze uitnodiging is eenmalig en persoonlijk.</p>
+    `,
+  });
+
+  revalidatePath("/admin/uitnodigingen");
+  return { ok: true, link, gemaild: mail.ok };
+}
+
+export async function wijsKandidaatAf(
+  aanvraagId: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("wijs_kandidaat_af", {
+    p_aanvraag_id: aanvraagId,
+  });
+  if (error) {
+    console.error("wijs_kandidaat_af:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/uitnodigingen");
+  return { ok: true };
+}
+
+/**
  * Stelt de ster van een reactie voor aan de opdrachtgever: mailt het
  * starprofiel + de motivatie, en markeert de reactie als voorgesteld.
  * Haalt de gegevens server-side opnieuw op (vertrouwt niet op de client).

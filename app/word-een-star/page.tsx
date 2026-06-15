@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Button from "@/components/ui/Button";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
+import VouchAanvraagForm from "@/components/auth/VouchAanvraagForm";
 
 export const metadata: Metadata = {
   title: "Word een star",
@@ -96,16 +96,16 @@ export default function WordEenStarPagina() {
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-          <Button
-            href="mailto:hallo@uxstars.nl?subject=Ik wil een star worden"
-            size="lg"
-          >
-            Meld je aan
-          </Button>
-          <p className="mt-4 text-sm text-tekst-secundair">
-            In fase één gaat aanmelden per e-mail. Vertel kort wie je bent en
-            met wie je werkte.
+        <div className="mx-auto mt-16 max-w-2xl">
+          <VouchAanvraagForm />
+          <p className="mt-6 text-center text-sm text-tekst-secundair">
+            Al een ster in het stelsel?{" "}
+            <a
+              href="/account/login"
+              className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+            >
+              Inloggen
+            </a>
           </p>
         </div>
       </div>

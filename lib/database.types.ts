@@ -100,6 +100,32 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["stars"]["Insert"]>;
         Relationships: [];
       };
+      vouch_aanvragen: {
+        Row: {
+          id: string;
+          naam: string;
+          email: string;
+          portfolio_url: string | null;
+          motivatie: string | null;
+          status: "nieuw" | "uitgenodigd" | "afgewezen";
+          uitnodiging_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          naam: string;
+          email: string;
+          portfolio_url?: string | null;
+          motivatie?: string | null;
+          status?: "nieuw" | "uitgenodigd" | "afgewezen";
+          uitnodiging_id?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<
+          Database["public"]["Tables"]["vouch_aanvragen"]["Insert"]
+        >;
+        Relationships: [];
+      };
       uitnodigingen: {
         Row: {
           id: string;
@@ -285,6 +311,22 @@ export type Database = {
       publieke_sterren: {
         Args: Record<string, never>;
         Returns: Json;
+      };
+      vraag_vouch_aan: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
+      admin_vouch_aanvragen: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      nodig_kandidaat_uit: {
+        Args: { p_aanvraag_id: string };
+        Returns: Json;
+      };
+      wijs_kandidaat_af: {
+        Args: { p_aanvraag_id: string };
+        Returns: undefined;
       };
     };
     Enums: Record<string, never>;
