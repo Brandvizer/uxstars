@@ -47,6 +47,12 @@ export type Database = {
           contactpersoon: string | null;
           email: string;
           telefoon: string | null;
+          user_id: string | null;
+          website: string | null;
+          logo_url: string | null;
+          membership_status: string;
+          membership_tier: string | null;
+          membership_tot: string | null;
           created_at: string;
         };
         Insert: {
@@ -55,6 +61,12 @@ export type Database = {
           contactpersoon?: string | null;
           email: string;
           telefoon?: string | null;
+          user_id?: string | null;
+          website?: string | null;
+          logo_url?: string | null;
+          membership_status?: string;
+          membership_tier?: string | null;
+          membership_tot?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["opdrachtgevers"]["Insert"]>;
@@ -340,6 +352,31 @@ export type Database = {
       };
       wijs_kandidaat_af: {
         Args: { p_aanvraag_id: string };
+        Returns: undefined;
+      };
+      maak_bedrijf: {
+        Args: { p_naam: string };
+        Returns: string;
+      };
+      mijn_bedrijf: {
+        Args: Record<string, never>;
+        Returns: Database["public"]["Tables"]["opdrachtgevers"]["Row"][];
+      };
+      werk_bedrijf_bij: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
+      admin_bedrijven: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      zet_membership: {
+        Args: {
+          p_bedrijf_id: string;
+          p_status: string;
+          p_tier: string;
+          p_tot: string;
+        };
         Returns: undefined;
       };
     };
