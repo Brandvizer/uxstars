@@ -9,6 +9,7 @@ import { getSupabaseBrowser } from "@/lib/supabase-browser";
 
 const links = [
   { href: "/missies", label: "Missies" },
+  { href: "/opdrachtgevers", label: "Opdrachtgevers" },
   { href: "/leden", label: "Het stelsel" },
   { href: "/word-een-star", label: "Word een star" },
   { href: "/verhalen", label: "Verhalen" },
@@ -35,17 +36,17 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-lijn bg-achtergrond/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:h-20 sm:px-6">
         <Link
           href="/"
           className="flex items-center text-tekst"
           aria-label="UXSTARS — naar home"
           onClick={() => setOpen(false)}
         >
-          <Logo className="h-14 w-auto" />
+          <Logo className="h-10 w-auto sm:h-14" />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 lg:flex xl:gap-8">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -71,40 +72,66 @@ export default function Nav() {
 
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center md:hidden"
+          className="relative flex h-10 w-10 items-center justify-center lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Menu sluiten" : "Menu openen"}
           onClick={() => setOpen(!open)}
         >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-6 w-6 stroke-tekst"
-            fill="none"
-            strokeWidth="2"
-            strokeLinecap="round"
-          >
-            {open ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
-          </svg>
+          <span className="relative block h-6 w-6">
+            <span
+              className={`absolute left-0 h-0.5 w-6 rounded-full bg-tekst transition-all duration-300 ${
+                open ? "top-[11px] rotate-45" : "top-[7px]"
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[11px] h-0.5 w-6 rounded-full bg-tekst transition-all duration-300 ${
+                open ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 h-0.5 w-6 rounded-full bg-tekst transition-all duration-300 ${
+                open ? "top-[11px] -rotate-45" : "top-[15px]"
+              }`}
+            />
+          </span>
         </button>
       </nav>
 
       {open && (
-        <div className="border-t border-lijn px-4 pb-6 pt-2 md:hidden">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="block py-3 text-tekst-secundair transition-colors duration-200 hover:text-tekst"
-              onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <div className="flex flex-col gap-3 pt-3">
+        <div className="menu-paneel border-t border-lijn bg-achtergrond/95 px-4 pb-7 pt-1 backdrop-blur-md lg:hidden">
+          {links.map((link, i) => {
+            const actief = pathname.startsWith(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                style={{ animationDelay: `${i * 45}ms` }}
+                className={`menu-item flex items-center justify-between border-b border-lijn/50 py-4 text-lg transition-colors duration-200 ${
+                  actief ? "text-tekst" : "text-tekst-secundair hover:text-tekst"
+                }`}
+              >
+                <span className="flex items-center gap-3">
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full transition-colors duration-200 ${
+                      actief ? "bg-accent" : "bg-transparent"
+                    }`}
+                  />
+                  {link.label}
+                </span>
+                <span
+                  aria-hidden
+                  className="text-tekst-secundair/40 transition-transform duration-200"
+                >
+                  →
+                </span>
+              </Link>
+            );
+          })}
+          <div
+            className="menu-item flex flex-col gap-3 pt-6"
+            style={{ animationDelay: `${links.length * 45}ms` }}
+          >
             {ingelogd !== null && (
               <Button
                 href={accountHref}

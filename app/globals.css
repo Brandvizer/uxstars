@@ -107,6 +107,35 @@ h3 {
   animation: zacht-zweven 2.2s ease-in-out infinite;
 }
 
+/* ── Mobiel menu ───────────────────────────────────────────────── */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.menu-paneel {
+  animation: menu-in 0.26s var(--ease-uit) both;
+  transform-origin: top;
+}
+.menu-item {
+  animation: menu-item-in 0.42s var(--ease-uit) both;
+}
+
 /* Scroll-reveal: rustig in beeld komen wanneer een sectie in zicht scrollt. */
 .onthul-item {
   opacity: 0;
