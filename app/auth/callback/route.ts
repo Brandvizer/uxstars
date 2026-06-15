@@ -27,7 +27,26 @@ export async function GET(request: NextRequest) {
     const supabase = await getSupabaseServer();
     if (supabase) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (!error) return NextResponse.redirect(`${origin}${next}`);
+      if (!error) {
+        // Eén inlogscherm voor iedereen: staat dit adres op de admin-allowlist,
+        // dan landt 'ie in de missiecontrole — anders in het sterportaal. Een
+        // expliciete `next` (bijv. /welkom) heeft altijd voorrang.
+        let bestemming = next;
+        if (next === "/account") {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          if (user?.email) {
+            const { data: adminRij } = await supabase
+              .from("admins")
+              .select("email")
+              .eq("email", user.email)
+              .maybeSingle();
+            if (adminRij) bestemming = "/admin";
+          }
+        }
+        return NextResponse.redirect(`${origin}${bestemming}`);
+      }
       console.error("exchangeCodeForSession:", error.message);
     }
   }

@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getAdminStatus } from "@/lib/admin";
+import {
+  getReviewMissies,
+  getAdminReacties,
+  getVouchAanvragen,
+} from "@/lib/admin-data";
 import { uitloggen } from "./actions";
 import Tabs from "./Tabs";
 
@@ -16,8 +21,9 @@ export default async function BeveiligdeAdminLayout({
 }) {
   const { user, isAdmin } = await getAdminStatus();
 
-  // Geen sessie → naar login (middleware vangt dit meestal al af).
-  if (!user) redirect("/admin/login");
+  // Geen sessie → naar het gedeelde inlogscherm (de callback stuurt admins
+  // daarna automatisch terug naar /admin).
+  if (!user) redirect("/account/login");
 
   // Ingelogd maar niet op de allowlist → geen toegang.
   if (!isAdmin) {
@@ -40,6 +46,18 @@ export default async function BeveiligdeAdminLayout({
       </div>
     );
   }
+
+  // Tellingen voor de tab-badges: alleen wat nog actie vraagt.
+  const [missies, reacties, aanvragen] = await Promise.all([
+    getReviewMissies(),
+    getAdminReacties(),
+    getVouchAanvragen(),
+  ]);
+  const tellingen: Record<string, number> = {
+    "/admin": missies.length,
+    "/admin/reacties": reacties.filter((r) => r.status === "nieuw").length,
+    "/admin/uitnodigingen": aanvragen.filter((a) => a.status === "nieuw").length,
+  };
 
   return (
     <div>
@@ -65,7 +83,7 @@ export default async function BeveiligdeAdminLayout({
         </div>
       </div>
       <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
-        <Tabs />
+        <Tabs tellingen={tellingen} />
       </div>
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</div>
     </div>

@@ -1,11 +1,7 @@
-import MagicLinkLogin from "@/components/auth/MagicLinkLogin";
+import { redirect } from "next/navigation";
 
+// Eén inlogscherm voor iedereen. Oude /admin/login-links sturen we door naar
+// het gedeelde scherm; de auth-callback brengt admins daarna naar /admin.
 export default function AdminLogin() {
-  return (
-    <MagicLinkLogin
-      titel="Missiecontrole"
-      intro="Log in met je e-mailadres. Je krijgt een veilige inloglink toegestuurd. Alleen voor beheerders op de allowlist."
-      next="/admin"
-    />
-  );
+  redirect("/account/login");
 }

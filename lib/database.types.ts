@@ -252,6 +252,20 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["plaatsingen"]["Insert"]>;
         Relationships: [];
       };
+      admins: {
+        Row: {
+          id: string;
+          email: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["admins"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {

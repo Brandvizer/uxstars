@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { meldNieuweVouchAanvraag } from "@/app/word-een-star/actions";
 import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 
@@ -14,15 +15,21 @@ export default function VouchAanvraagForm() {
     e.preventDefault();
     setStatus("bezig");
     const f = new FormData(e.currentTarget);
+    const naam = String(f.get("naam") ?? "");
+    const email = String(f.get("email") ?? "");
     const supabase = getSupabaseBrowser();
     const { error } = await supabase.rpc("vraag_vouch_aan", {
       payload: {
-        naam: String(f.get("naam") ?? ""),
-        email: String(f.get("email") ?? ""),
+        naam,
+        email,
         portfolio_url: String(f.get("portfolio_url") ?? ""),
         motivatie: String(f.get("motivatie") ?? ""),
       },
     });
+    if (!error) {
+      // Notificeer de beheerders — los van de UI, mag stil falen.
+      meldNieuweVouchAanvraag(naam, email).catch(() => {});
+    }
     setStatus(error ? "fout" : "verzonden");
   };
 

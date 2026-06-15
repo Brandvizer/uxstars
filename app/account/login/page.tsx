@@ -3,8 +3,8 @@ import MagicLinkLogin from "@/components/auth/MagicLinkLogin";
 export default function StarLogin() {
   return (
     <MagicLinkLogin
-      titel="Jouw plek in het stelsel"
-      intro="Log in om je profiel, beschikbaarheid en vouch te beheren."
+      titel="Welkom terug"
+      intro="Log in met je e-mailadres — je krijgt een veilige inloglink. We brengen je vanzelf naar de juiste plek."
       next="/account"
     />
   );

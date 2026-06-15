@@ -10,7 +10,7 @@ import type { AdminReactie } from "@/lib/admin-data";
 export async function uitloggen() {
   const supabase = await getSupabaseServer();
   if (supabase) await supabase.auth.signOut();
-  redirect("/admin/login");
+  redirect("/account/login");
 }
 
 /**
