@@ -67,7 +67,7 @@ export default function StarField({
     }
 
     // Avatar-beelden laden voor sterren met (toegestane) foto.
-    const AVATAR_STRAAL = 16;
+    const AVATAR_STRAAL = 20;
     const beelden = new Map<string, HTMLImageElement>();
     // Bij reduced motion draait er geen lus → hertekenen zodra een foto laadt.
     let herteken = () => {};
