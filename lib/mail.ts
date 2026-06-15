@@ -74,26 +74,27 @@ export function emailHtml(opts: {
   knop?: { label: string; url: string };
 }): string {
   const voorkop = opts.voorkop
-    ? `<p class="accent" style="margin:0 0 12px;font:600 12px ${FONT};letter-spacing:0.15em;text-transform:uppercase;color:#a8740f;">${opts.voorkop}</p>`
+    ? `<p style="margin:0 0 10px;font:600 12px ${FONT};letter-spacing:0.15em;text-transform:uppercase;color:#a8740f;">${opts.voorkop}</p>`
     : "";
 
   const alineas = opts.alineas
     .filter(Boolean)
     .map(
       (a) =>
-        `<p class="t-muted" style="margin:0 0 14px;font:400 15px/1.65 ${FONT};color:#56607a;">${a}</p>`,
+        `<p style="margin:0 0 14px;font:400 15px/1.7 ${FONT};color:#444b5a;">${a}</p>`,
     )
     .join("");
 
   const knop = opts.knop
-    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:22px 0 2px;"><tr>
-        <td align="center" bgcolor="#f5b941" style="border-radius:999px;mso-padding-alt:13px 26px;">
-          <a href="${opts.knop.url}" style="display:inline-block;padding:13px 26px;font:600 15px ${FONT};color:#0a0e1a;text-decoration:none;border-radius:999px;">${opts.knop.label}</a>
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 4px;"><tr>
+        <td align="center" bgcolor="#f5b941" style="border-radius:999px;mso-padding-alt:13px 28px;">
+          <a href="${opts.knop.url}" style="display:inline-block;padding:13px 28px;font:600 15px ${FONT};color:#0a0e1a;text-decoration:none;border-radius:999px;">${opts.knop.label}</a>
         </td></tr></table>`
     : "";
 
-  // Volledig maildocument met <head>-controle: zo dwingen we ook in Outlook
-  // (donkere modus + Word-engine) onze kleuren af via [data-ogsc]/[data-ogsb].
+  // Bewust kale mail: geen achtergrond, kaart of randen — alleen logo, titel,
+  // tekst en knop. Zo valt er niets te "washen" of te inverteren. De tekst is
+  // donker (leesbaar op licht); donkere-modus-clients keren 'm netjes om.
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
 <head>
@@ -102,29 +103,24 @@ export function emailHtml(opts: {
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
-<!--[if mso]><style>*{font-family:Arial,sans-serif !important;}</style><![endif]-->
 <style>
-  :root{color-scheme:light dark;supported-color-schemes:light dark;}
-  body{margin:0;padding:0;width:100% !important;background-color:#f4f5f7;}
+  body{margin:0;padding:0;width:100% !important;}
   a{text-decoration:none;}
 </style>
 </head>
-<body class="bg" style="margin:0;padding:0;background-color:#f4f5f7;">
-<table role="presentation" class="bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f5f7" style="background-color:#f4f5f7;">
-  <tr><td align="center" style="padding:32px 16px;">
-    <!--[if mso]><table role="presentation" width="520" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;margin:0 auto;">
-      <tr><td style="padding:0 4px 22px;">
+<body style="margin:0;padding:0;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr><td align="center" style="padding:32px 20px;">
+    <!--[if mso]><table role="presentation" width="480" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;margin:0 auto;">
+      <tr><td style="padding:0 0 26px;">
         <img src="${LOGO_URL}" width="150" height="60" alt="UXSTARS" style="display:block;border:0;outline:none;text-decoration:none;height:60px;width:150px;" />
       </td></tr>
-      <tr><td class="card" bgcolor="#ffffff" style="background-color:#ffffff;border:1px solid #e6e8ec;border-radius:16px;padding:30px;">
+      <tr><td>
         ${voorkop}
-        <h1 class="t-head" style="margin:0 0 14px;font:600 23px/1.3 ${FONT};color:#0a0e1a;">${opts.kop}</h1>
+        <h1 style="margin:0 0 16px;font:600 24px/1.3 ${FONT};color:#0a0e1a;">${opts.kop}</h1>
         ${alineas}
         ${knop}
-      </td></tr>
-      <tr><td class="t-muted" style="padding:22px 4px 0;font:400 12px/1.5 ${FONT};color:#8a92a4;">
-        UXSTARS — het sterrenstelsel van UX-talent
       </td></tr>
     </table>
     <!--[if mso]></td></tr></table><![endif]-->

@@ -53,7 +53,6 @@ export async function stuurInloglink(
     naar: email,
     onderwerp: "Je inloglink voor UXSTARS",
     html: emailHtml({
-      voorkop: "Inloggen",
       kop: "Je inloglink",
       alineas: [
         "Klik op de knop om in te loggen bij UXSTARS. Deze link is eenmalig en kort geldig — heb je 'm niet aangevraagd, negeer deze mail dan gerust.",
