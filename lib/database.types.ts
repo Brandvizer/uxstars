@@ -387,6 +387,10 @@ export type Database = {
         Args: Record<string, never>;
         Returns: Json;
       };
+      publieke_leden: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

@@ -9,6 +9,7 @@ import { getSupabaseBrowser } from "@/lib/supabase-browser";
 
 const links = [
   { href: "/missies", label: "Missies" },
+  { href: "/leden", label: "Het stelsel" },
   { href: "/word-een-star", label: "Word een star" },
   { href: "/verhalen", label: "Verhalen" },
 ];
