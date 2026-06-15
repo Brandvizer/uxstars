@@ -17,7 +17,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
 
       {/* pointer-events-none zodat hover op de sterren achter de tekst blijft werken */}
-      <div className="pointer-events-none relative mx-auto flex min-h-[88vh] max-w-6xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
+      <div className="pointer-events-none relative mx-auto flex min-h-[78vh] max-w-6xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
         <p
           className="rijs-in mb-6 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
           style={{ animationDelay: "0.1s" }}

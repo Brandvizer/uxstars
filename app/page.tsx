@@ -85,7 +85,7 @@ export default async function Home() {
     <>
       <Hero />
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6">
         <h2 className="max-w-2xl">Waarom opdrachtgevers en designers hier samenkomen</h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {beloften.map((belofte) => (
