@@ -96,17 +96,25 @@ export default function WordEenStarPagina() {
           </div>
         </div>
 
-        <div className="mx-auto mt-16 max-w-2xl">
+        <div className="mt-20 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="max-w-md">
+            <h2>Vraag een vouch aan</h2>
+            <p className="mt-5 text-lg text-tekst-secundair">
+              UXSTARS is invite-only — je komt binnen via een vouch van een
+              bestaand lid. Ken je nog niemand in het stelsel? Zet jezelf op de
+              radar, dan kijken een lid of wij wie je werk kent.
+            </p>
+            <p className="mt-6 text-sm text-tekst-secundair">
+              Al een ster in het stelsel?{" "}
+              <a
+                href="/account/login"
+                className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+              >
+                Inloggen
+              </a>
+            </p>
+          </div>
           <VouchAanvraagForm />
-          <p className="mt-6 text-center text-sm text-tekst-secundair">
-            Al een ster in het stelsel?{" "}
-            <a
-              href="/account/login"
-              className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
-            >
-              Inloggen
-            </a>
-          </p>
         </div>
       </div>
     </div>

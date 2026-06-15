@@ -50,12 +50,7 @@ export default function VouchAanvraagForm() {
       onSubmit={verstuur}
       className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
     >
-      <h3>Vraag een vouch aan</h3>
-      <p className="mt-2 text-tekst-secundair">
-        Ken je nog niemand in het stelsel? Zet jezelf op de radar — een lid of
-        wij kunnen je vouchen.
-      </p>
-      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         <Input label="Naam" name="naam" autoComplete="name" required />
         <Input
           label="E-mailadres"
