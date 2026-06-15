@@ -1,10 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 /**
- * Bepaalt waar iemand na het inloggen heen gaat. Eén inlogscherm voor iedereen:
- * staat het adres op de admin-allowlist, dan naar de missiecontrole (/admin);
- * anders naar het sterportaal (/account). Een expliciete `next` (bijv. /welkom)
- * heeft altijd voorrang.
+ * Bepaalt waar iemand na het inloggen heen gaat. Eén inlogscherm voor iedereen,
+ * drie rollen: admin → missiecontrole (/admin), bedrijf → bedrijfsportaal
+ * (/bedrijf), ster → sterportaal (/account). Een expliciete `next` (bijv.
+ * /welkom of /bedrijf/welkom) heeft altijd voorrang.
  */
 export async function bepaalBestemming(
   supabase: SupabaseClient,
@@ -22,6 +22,10 @@ export async function bepaalBestemming(
     .select("email")
     .eq("email", user.email)
     .maybeSingle();
+  if (adminRij) return "/admin";
 
-  return adminRij ? "/admin" : next;
+  const { data: bedrijven } = await supabase.rpc("mijn_bedrijf");
+  if (bedrijven && bedrijven.length > 0) return "/bedrijf";
+
+  return next;
 }

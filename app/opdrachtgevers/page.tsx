@@ -58,9 +58,12 @@ export default function OpdrachtgeversPagina() {
             UX-professionals die elkaar kennen, aanvullen en aanbevelen. Jouw
             missie komt direct bij de juiste sterren terecht.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <Button href="/missie-plaatsen" size="lg">
               Plaats een missie
+            </Button>
+            <Button href="/bedrijf/login" variant="secundair" size="lg">
+              Maak een bedrijfsaccount
             </Button>
           </div>
         </div>

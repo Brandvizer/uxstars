@@ -21,9 +21,9 @@ export default async function AccountPage() {
   const { data: profielen } = await supabase.rpc("mijn_profiel");
   const profiel = profielen?.[0];
 
-  // Admins zonder ster-profiel horen in de missiecontrole, niet in het
-  // (voor hen lege) sterportaal — zo kom je via "Mijn account" altijd bij je
-  // beheer-settings uit.
+  // Geen ster-profiel? Stuur door naar de juiste plek: admins naar de
+  // missiecontrole, bedrijven naar het bedrijfsportaal. Zo kom je via "Mijn
+  // account" altijd bij je eigen omgeving uit.
   if (!profiel && user.email) {
     const { data: adminRij } = await supabase
       .from("admins")
@@ -31,6 +31,9 @@ export default async function AccountPage() {
       .eq("email", user.email)
       .maybeSingle();
     if (adminRij) redirect("/admin");
+
+    const { data: bedrijven } = await supabase.rpc("mijn_bedrijf");
+    if (bedrijven && bedrijven.length > 0) redirect("/bedrijf");
   }
 
   // Ingelogd, maar (nog) geen ster — je hebt een uitnodiging nodig.
