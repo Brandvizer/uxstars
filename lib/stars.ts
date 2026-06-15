@@ -1,5 +1,6 @@
 import { getSupabase, supabaseGeconfigureerd } from "./supabase";
 import { sterren as mockSterren } from "./mock-data";
+import { wijsGezichtenToe } from "./gezichten";
 import type { Ster } from "./mock-data";
 
 /**
@@ -12,6 +13,11 @@ import type { Ster } from "./mock-data";
  * gevuld (lokaal ontwikkelen, de build, en vóór het seeden).
  */
 export async function getActieveSterren(): Promise<Ster[]> {
+  // Toont altijd een vast aantal gezichten (echt + placeholders), zie gezichten.ts
+  return wijsGezichtenToe(await haalActieveSterren());
+}
+
+async function haalActieveSterren(): Promise<Ster[]> {
   if (!supabaseGeconfigureerd) return mockSterren;
 
   const db = getSupabase();
