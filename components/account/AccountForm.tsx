@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import { werkProfielBij, uitloggenStar } from "@/app/account/actions";
+import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import type { Database } from "@/lib/database.types";
 
 type Star = Database["public"]["Tables"]["stars"]["Row"];
@@ -22,15 +23,38 @@ export default function AccountForm({
   profiel,
   uitnodiging,
   email,
+  userId,
 }: {
   profiel: Star;
   uitnodiging: { token: string; status: string } | null;
   email: string | undefined;
+  userId: string;
 }) {
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
   const [gekopieerd, setGekopieerd] = useState(false);
   const [beschikbaar, setBeschikbaar] = useState(profiel.beschikbaar);
+  const [fotoUrl, setFotoUrl] = useState(profiel.foto_url);
+  const [toestemming, setToestemming] = useState(profiel.foto_toestemming);
+  const [uploadt, setUploadt] = useState(false);
+  const fotoInput = useRef<HTMLInputElement>(null);
+
+  const uploadFoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadt(true);
+    const supabase = getSupabaseBrowser();
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const pad = `${userId}/avatar.${ext}`;
+    const { error } = await supabase.storage
+      .from("profielfotos")
+      .upload(pad, file, { upsert: true, cacheControl: "3600" });
+    if (!error) {
+      const { data } = supabase.storage.from("profielfotos").getPublicUrl(pad);
+      setFotoUrl(`${data.publicUrl}?v=${Date.now()}`);
+    }
+    setUploadt(false);
+  };
 
   const opslaan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,6 +70,8 @@ export default function AccountForm({
       portfolio_url: f.get("portfolio_url"),
       linkedin_url: f.get("linkedin_url"),
       beschikbaar,
+      foto_url: fotoUrl ?? "",
+      foto_toestemming: toestemming,
     });
     setBezig(false);
     setOpgeslagen(resultaat.ok);
@@ -74,6 +100,53 @@ export default function AccountForm({
           </button>
         </form>
       </div>
+
+      {/* Profielfoto */}
+      <div className="mt-8 flex items-center gap-5">
+        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-lijn bg-paneel">
+          {fotoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={fotoUrl} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-2xl text-tekst-secundair">
+              {profiel.naam.charAt(0)}
+            </div>
+          )}
+        </div>
+        <div>
+          <input
+            ref={fotoInput}
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            className="hidden"
+            onChange={uploadFoto}
+          />
+          <button
+            type="button"
+            onClick={() => fotoInput.current?.click()}
+            disabled={uploadt}
+            className="rounded-full border border-lijn bg-paneel px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+          >
+            {uploadt ? "Uploaden…" : fotoUrl ? "Foto vervangen" : "Foto uploaden"}
+          </button>
+          <p className="mt-2 text-xs text-tekst-secundair">
+            PNG, JPG of WEBP — max 3 MB.
+          </p>
+        </div>
+      </div>
+
+      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-lijn bg-paneel p-4">
+        <input
+          type="checkbox"
+          checked={toestemming}
+          onChange={(e) => setToestemming(e.target.checked)}
+          className="mt-1 h-4 w-4 accent-accent"
+        />
+        <span className="text-sm text-tekst-secundair">
+          UXSTARS mag mijn foto ook elders op de site tonen — bijvoorbeeld als
+          ster in het stelsel.
+        </span>
+      </label>
 
       {/* Beschikbaarheid — de gloed in het stelsel */}
       <button

@@ -47,6 +47,7 @@ export default async function AccountPage() {
         uitnodiging as { token: string; status: string } | null
       }
       email={user.email}
+      userId={user.id}
     />
   );
 }

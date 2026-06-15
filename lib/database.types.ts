@@ -74,6 +74,8 @@ export type Database = {
           user_id: string | null;
           portfolio_url: string | null;
           linkedin_url: string | null;
+          foto_url: string | null;
+          foto_toestemming: boolean;
           created_at: string;
           updated_at: string;
         };
@@ -90,6 +92,8 @@ export type Database = {
           user_id?: string | null;
           portfolio_url?: string | null;
           linkedin_url?: string | null;
+          foto_url?: string | null;
+          foto_toestemming?: boolean;
           created_at?: string;
           updated_at?: string;
         };
