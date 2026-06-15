@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Logo from "@/components/ui/Logo";
+import { getSupabaseBrowser } from "@/lib/supabase-browser";
 
 const links = [
   { href: "/missies", label: "Missies" },
@@ -14,7 +15,22 @@ const links = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [ingelogd, setIngelogd] = useState<boolean | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowser();
+    supabase.auth.getSession().then(({ data }) => setIngelogd(!!data.session));
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_e, session) =>
+      setIngelogd(!!session),
+    );
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const accountHref = ingelogd ? "/account" : "/account/login";
+  const accountLabel = ingelogd ? "Mijn account" : "Inloggen";
 
   return (
     <header className="sticky top-0 z-50 border-b border-lijn bg-achtergrond/80 backdrop-blur-md">
@@ -42,6 +58,14 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+          {ingelogd !== null && (
+            <Link
+              href={accountHref}
+              className="text-base text-tekst-secundair transition-colors duration-200 hover:text-tekst"
+            >
+              {accountLabel}
+            </Link>
+          )}
           <Button href="/missie-plaatsen" size="sm">
             Plaats een missie
           </Button>
@@ -82,6 +106,15 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
+          {ingelogd !== null && (
+            <Link
+              href={accountHref}
+              className="block py-3 text-tekst-secundair transition-colors duration-200 hover:text-tekst"
+              onClick={() => setOpen(false)}
+            >
+              {accountLabel}
+            </Link>
+          )}
           <div className="pt-3">
             <Button href="/missie-plaatsen" onClick={() => setOpen(false)}>
               Plaats een missie
