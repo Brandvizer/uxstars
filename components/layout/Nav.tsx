@@ -59,12 +59,9 @@ export default function Nav() {
             </Link>
           ))}
           {ingelogd !== null && (
-            <Link
-              href={accountHref}
-              className="text-base text-tekst-secundair transition-colors duration-200 hover:text-tekst"
-            >
+            <Button href={accountHref} variant="secundair" size="sm">
               {accountLabel}
-            </Link>
+            </Button>
           )}
           <Button href="/missie-plaatsen" size="sm">
             Plaats een missie
@@ -106,16 +103,16 @@ export default function Nav() {
               {link.label}
             </Link>
           ))}
-          {ingelogd !== null && (
-            <Link
-              href={accountHref}
-              className="block py-3 text-tekst-secundair transition-colors duration-200 hover:text-tekst"
-              onClick={() => setOpen(false)}
-            >
-              {accountLabel}
-            </Link>
-          )}
-          <div className="pt-3">
+          <div className="flex flex-col gap-3 pt-3">
+            {ingelogd !== null && (
+              <Button
+                href={accountHref}
+                variant="secundair"
+                onClick={() => setOpen(false)}
+              >
+                {accountLabel}
+              </Button>
+            )}
             <Button href="/missie-plaatsen" onClick={() => setOpen(false)}>
               Plaats een missie
             </Button>
