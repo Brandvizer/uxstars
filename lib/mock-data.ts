@@ -7,6 +7,8 @@ export type Ster = {
   specialisme: string;
   seniority: string;
   beschikbaar: boolean;
+  /** Publiek tonbare profielfoto (alleen met toestemming) */
+  foto_url?: string | null;
   /**
    * Ids van sterren waarmee deze ster een (vouch)verbinding heeft.
    * Posities worden niet opgeslagen: StarField seedt ze stabiel op de id.

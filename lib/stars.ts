@@ -17,23 +17,22 @@ export async function getActieveSterren(): Promise<Ster[]> {
   const db = getSupabase();
   if (!db) return mockSterren;
 
-  const [starsRes, vouchesRes] = await Promise.all([
-    db
-      .from("stars")
-      .select("id, naam, specialisme, seniority, beschikbaar")
-      .eq("status", "actief"),
+  // publieke_sterren() levert de actieve sterren incl. foto_url (alleen mét
+  // toestemming); vouches geven de verbindingen (lijnen).
+  const [sterrenRes, vouchesRes] = await Promise.all([
+    db.rpc("publieke_sterren"),
     db.from("vouches").select("van_star_id, naar_star_id"),
   ]);
 
-  if (starsRes.error || vouchesRes.error) {
+  if (sterrenRes.error || vouchesRes.error) {
     console.error(
       "Supabase-fout, terugval op mockdata:",
-      starsRes.error?.message ?? vouchesRes.error?.message,
+      sterrenRes.error?.message ?? vouchesRes.error?.message,
     );
     return mockSterren;
   }
 
-  const rijen = starsRes.data ?? [];
+  const rijen = (sterrenRes.data as Omit<Ster, "verbindingen">[] | null) ?? [];
   if (rijen.length === 0) return mockSterren;
 
   // Vouches groeperen per bron-ster → verbindingen.
@@ -45,11 +44,7 @@ export async function getActieveSterren(): Promise<Ster[]> {
   }
 
   return rijen.map((r) => ({
-    id: r.id,
-    naam: r.naam,
-    specialisme: r.specialisme,
-    seniority: r.seniority,
-    beschikbaar: r.beschikbaar,
+    ...r,
     verbindingen: verbindingenVoor.get(r.id),
   }));
 }

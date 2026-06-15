@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { positieVoorId, tekenSter, KLEUREN } from "./Star";
+import { positieVoorId, tekenSter, tekenAvatar, KLEUREN } from "./Star";
 import type { Ster } from "@/lib/mock-data";
 
 const MAX_STERREN = 60;
@@ -66,6 +66,24 @@ export default function StarField({
       }
     }
 
+    // Avatar-beelden laden voor sterren met (toegestane) foto.
+    const AVATAR_STRAAL = 16;
+    const beelden = new Map<string, HTMLImageElement>();
+    // Bij reduced motion draait er geen lus → hertekenen zodra een foto laadt.
+    let herteken = () => {};
+    for (const s of veldSterren) {
+      if (s.foto_url) {
+        const img = new Image();
+        img.onload = () => herteken();
+        img.src = s.foto_url;
+        beelden.set(s.id, img);
+      }
+    }
+    const avatarVan = (s: VeldSter) => {
+      const img = beelden.get(s.id);
+      return img && img.complete && img.naturalWidth > 0 ? img : null;
+    };
+
     let breedte = 0;
     let hoogte = 0;
     let frame = 0;
@@ -98,20 +116,26 @@ export default function StarField({
         ctx.stroke();
       }
 
-      // De sterren zelf — twinkelen uitsluitend via opacity
+      // De sterren zelf — leden met foto als avatar, de rest als twinkelend stipje
       for (const s of veldSterren) {
-        const alpha = reducedMotion
-          ? 0.9
-          : 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(tijd * 0.0009 + s.fase));
-        tekenSter(
-          ctx,
-          px(s),
-          py(s),
-          s.grootte,
-          alpha,
-          s.beschikbaar,
-          s.id === tooltipIdRef.current,
-        );
+        const actief = s.id === tooltipIdRef.current;
+        const img = avatarVan(s);
+        if (img) {
+          tekenAvatar(
+            ctx,
+            img,
+            px(s),
+            py(s),
+            AVATAR_STRAAL * (actief ? 1.12 : 1),
+            s.beschikbaar,
+            actief,
+          );
+        } else {
+          const alpha = reducedMotion
+            ? 0.9
+            : 0.65 + 0.35 * (0.5 + 0.5 * Math.sin(tijd * 0.0009 + s.fase));
+          tekenSter(ctx, px(s), py(s), s.grootte, alpha, s.beschikbaar, actief);
+        }
       }
     };
 
@@ -125,6 +149,11 @@ export default function StarField({
       }
       if (zichtbaar) teken(tijd);
       frame = requestAnimationFrame(lus);
+    };
+
+    // Nu teken bestaat: laat geladen avatars in reduced-motion een herteken doen.
+    herteken = () => {
+      if (reducedMotion && zichtbaar) teken(0);
     };
 
     resize();
@@ -152,7 +181,8 @@ export default function StarField({
       const my = clientY - rect.top;
       for (const s of veldSterren) {
         const afstand = Math.hypot(mx - px(s), my - py(s));
-        if (afstand < Math.max(18, s.grootte * 6)) return s;
+        const raak = avatarVan(s) ? AVATAR_STRAAL + 4 : Math.max(18, s.grootte * 6);
+        if (afstand < raak) return s;
       }
       return null;
     };

@@ -92,3 +92,45 @@ export function tekenSter(
   ctx.fill();
   ctx.globalAlpha = 1;
 }
+
+/**
+ * Tekent een ster als ronde avatar (member met foto + toestemming). Beschikbare
+ * leden gloeien groen; de actieve (hover) krijgt een gouden ring.
+ */
+export function tekenAvatar(
+  ctx: CanvasRenderingContext2D,
+  img: CanvasImageSource,
+  px: number,
+  py: number,
+  straal: number,
+  beschikbaar: boolean,
+  actief: boolean,
+) {
+  if (beschikbaar) {
+    const gloed = ctx.createRadialGradient(px, py, straal * 0.8, px, py, straal * 2);
+    gloed.addColorStop(0, "rgba(74, 222, 128, 0.4)");
+    gloed.addColorStop(1, "rgba(74, 222, 128, 0)");
+    ctx.fillStyle = gloed;
+    ctx.beginPath();
+    ctx.arc(px, py, straal * 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(px, py, straal, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(img, px - straal, py - straal, straal * 2, straal * 2);
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.arc(px, py, straal, 0, Math.PI * 2);
+  ctx.lineWidth = actief ? 2 : 1.5;
+  ctx.strokeStyle = actief
+    ? "#FFD166"
+    : beschikbaar
+      ? KLEUREN.beschikbaar
+      : "rgba(242, 244, 248, 0.35)";
+  ctx.stroke();
+}

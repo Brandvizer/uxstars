@@ -282,6 +282,10 @@ export type Database = {
         Args: { p_reactie_id: string };
         Returns: undefined;
       };
+      publieke_sterren: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
