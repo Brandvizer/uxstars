@@ -32,7 +32,7 @@ export async function meldNieuweVouchAanvraag(
     voorkop: "Nieuwe vouch-aanvraag",
     kop: "Iemand wil het stelsel in",
     alineas: [
-      `<strong style="color:#f2f4f8;">${esc(naam)}</strong> vroeg zojuist een vouch aan.`,
+      `<strong style="color:#0a0e1a;">${esc(naam)}</strong> vroeg zojuist een vouch aan.`,
       `E-mail: ${esc(email)}`,
       "Bekijk de aanvraag in je kandidatenpool — geef je vouch of wijs af.",
     ],

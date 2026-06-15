@@ -149,13 +149,13 @@ export async function stelVoor(
     voorkop: "Een ster reageerde",
     kop: `Een ster voor "${esc(r.missie_titel)}"`,
     alineas: [
-      `<strong style="color:#f2f4f8;">${esc(r.star.naam)}</strong> — ${esc(r.star.specialisme)}, ${esc(r.star.seniority)}`,
+      `<strong style="color:#0a0e1a;">${esc(r.star.naam)}</strong> — ${esc(r.star.specialisme)}, ${esc(r.star.seniority)}`,
       r.motivatie ? `&ldquo;${esc(r.motivatie)}&rdquo;` : "",
       r.star.portfolio_url
-        ? `Portfolio: <a href="${encodeURI(r.star.portfolio_url)}" style="color:#f5b941;">${esc(r.star.portfolio_url)}</a>`
+        ? `Portfolio: <a href="${encodeURI(r.star.portfolio_url)}" style="color:#a8740f;font-weight:600;">${esc(r.star.portfolio_url)}</a>`
         : "",
       r.star.linkedin_url
-        ? `LinkedIn: <a href="${encodeURI(r.star.linkedin_url)}" style="color:#f5b941;">bekijk profiel</a>`
+        ? `LinkedIn: <a href="${encodeURI(r.star.linkedin_url)}" style="color:#a8740f;font-weight:600;">bekijk profiel</a>`
         : "",
       "Wil je kennismaken? Reageer op deze mail, dan brengen we je in contact.",
     ],

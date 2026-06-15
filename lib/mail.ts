@@ -52,7 +52,7 @@ const FONT =
 
 // Absolute URL naar het gehoste logo (e-mailclients laden geen lokale/SVG-assets).
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uxstars.vercel.app";
-const LOGO_URL = `${SITE_URL}/email-logo.png`;
+const LOGO_URL = `${SITE_URL}/email-logo-light.png`;
 
 /** Escapet door gebruikers aangeleverde tekst voor in HTML. */
 export function esc(s: string): string {
@@ -74,14 +74,14 @@ export function emailHtml(opts: {
   knop?: { label: string; url: string };
 }): string {
   const voorkop = opts.voorkop
-    ? `<p class="accent" style="margin:0 0 12px;font:600 12px ${FONT};letter-spacing:0.15em;text-transform:uppercase;color:#f5b941;">${opts.voorkop}</p>`
+    ? `<p class="accent" style="margin:0 0 12px;font:600 12px ${FONT};letter-spacing:0.15em;text-transform:uppercase;color:#a8740f;">${opts.voorkop}</p>`
     : "";
 
   const alineas = opts.alineas
     .filter(Boolean)
     .map(
       (a) =>
-        `<p class="t-muted" style="margin:0 0 14px;font:400 15px/1.65 ${FONT};color:#8b93a7;">${a}</p>`,
+        `<p class="t-muted" style="margin:0 0 14px;font:400 15px/1.65 ${FONT};color:#56607a;">${a}</p>`,
     )
     .join("");
 
@@ -100,36 +100,30 @@ export function emailHtml(opts: {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="color-scheme" content="dark">
-<meta name="supported-color-schemes" content="dark">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <!--[if mso]><style>*{font-family:Arial,sans-serif !important;}</style><![endif]-->
 <style>
-  :root{color-scheme:dark;supported-color-schemes:dark;}
-  body{margin:0;padding:0;width:100% !important;background-color:#0a0e1a;}
+  :root{color-scheme:light dark;supported-color-schemes:light dark;}
+  body{margin:0;padding:0;width:100% !important;background-color:#f4f5f7;}
   a{text-decoration:none;}
-  [data-ogsc] .bg,[data-ogsb] .bg{background-color:#0a0e1a !important;}
-  [data-ogsc] .card,[data-ogsb] .card{background-color:#111729 !important;}
-  [data-ogsc] .t-light{color:#f2f4f8 !important;}
-  [data-ogsc] .t-muted{color:#8b93a7 !important;}
-  [data-ogsc] .t-faint{color:#5b6478 !important;}
-  [data-ogsc] .accent{color:#f5b941 !important;}
 </style>
 </head>
-<body class="bg" style="margin:0;padding:0;background-color:#0a0e1a;">
-<table role="presentation" class="bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0a0e1a" style="background-color:#0a0e1a;">
+<body class="bg" style="margin:0;padding:0;background-color:#f4f5f7;">
+<table role="presentation" class="bg" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f5f7" style="background-color:#f4f5f7;">
   <tr><td align="center" style="padding:32px 16px;">
     <!--[if mso]><table role="presentation" width="520" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;margin:0 auto;">
       <tr><td style="padding:0 4px 22px;">
         <img src="${LOGO_URL}" width="150" height="60" alt="UXSTARS" style="display:block;border:0;outline:none;text-decoration:none;height:60px;width:150px;" />
       </td></tr>
-      <tr><td class="card" bgcolor="#111729" style="background-color:#111729;border:1px solid #2a3350;border-radius:16px;padding:30px;">
+      <tr><td class="card" bgcolor="#ffffff" style="background-color:#ffffff;border:1px solid #e6e8ec;border-radius:16px;padding:30px;">
         ${voorkop}
-        <h1 class="t-light" style="margin:0 0 14px;font:600 23px/1.3 ${FONT};color:#f2f4f8;">${opts.kop}</h1>
+        <h1 class="t-head" style="margin:0 0 14px;font:600 23px/1.3 ${FONT};color:#0a0e1a;">${opts.kop}</h1>
         ${alineas}
         ${knop}
       </td></tr>
-      <tr><td class="t-muted" style="padding:22px 4px 0;font:400 12px/1.5 ${FONT};color:#8b93a7;">
+      <tr><td class="t-muted" style="padding:22px 4px 0;font:400 12px/1.5 ${FONT};color:#8a92a4;">
         UXSTARS — het sterrenstelsel van UX-talent
       </td></tr>
     </table>
