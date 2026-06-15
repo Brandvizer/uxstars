@@ -4,6 +4,7 @@ import BelofteKaart from "@/components/home/BelofteKaart";
 import LogoRij from "@/components/home/LogoRij";
 import SplitsBlok from "@/components/home/SplitsBlok";
 import MissieKaart from "@/components/missie/MissieKaart";
+import Onthul from "@/components/ui/Onthul";
 import { getMissies } from "@/lib/missies";
 
 // Sterrenveld én missies komen uit Supabase: periodiek hervalideren (ISR)
@@ -86,34 +87,46 @@ export default async function Home() {
       <Hero />
 
       <section className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6">
-        <h2 className="max-w-2xl">Waarom opdrachtgevers en designers hier samenkomen</h2>
+        <Onthul>
+          <h2 className="max-w-2xl">Waarom opdrachtgevers en designers hier samenkomen</h2>
+        </Onthul>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {beloften.map((belofte) => (
-            <BelofteKaart key={belofte.titel} {...belofte} />
+          {beloften.map((belofte, i) => (
+            <Onthul key={belofte.titel} delay={i * 80}>
+              <BelofteKaart {...belofte} />
+            </Onthul>
           ))}
         </div>
       </section>
 
-      <LogoRij />
+      <Onthul>
+        <LogoRij />
+      </Onthul>
 
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2>Open missies</h2>
-          <Link
-            href="/missies"
-            className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
-          >
-            Alle missies →
-          </Link>
-        </div>
+        <Onthul>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2>Open missies</h2>
+            <Link
+              href="/missies"
+              className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+            >
+              Alle missies →
+            </Link>
+          </div>
+        </Onthul>
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {openMissies.map((missie) => (
-            <MissieKaart key={missie.slug} missie={missie} />
+          {openMissies.map((missie, i) => (
+            <Onthul key={missie.slug} delay={i * 80}>
+              <MissieKaart missie={missie} />
+            </Onthul>
           ))}
         </div>
       </section>
 
-      <SplitsBlok />
+      <Onthul>
+        <SplitsBlok />
+      </Onthul>
     </>
   );
 }
