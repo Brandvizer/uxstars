@@ -62,12 +62,58 @@ h3 {
   color: var(--achtergrond);
 }
 
+/* ── Entree-motion ─────────────────────────────────────────────── */
+@keyframes rijs-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes veld-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zacht-zweven {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.rijs-in {
+  animation: rijs-in 0.7s var(--ease-uit) both;
+}
+
+.veld-in {
+  animation: veld-in 1.6s var(--ease-uit) both;
+}
+
+.zweef {
+  animation: zacht-zweven 2.2s ease-in-out infinite;
+}
+
 /* Subtiele motion: 200–400ms, ease-out. Bij reduced motion: niets. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
