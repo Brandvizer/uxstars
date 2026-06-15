@@ -266,6 +266,18 @@ export type Database = {
         Args: { p_missie_id: string };
         Returns: Json;
       };
+      admin_reacties: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      markeer_voorgesteld: {
+        Args: { p_reactie_id: string };
+        Returns: undefined;
+      };
+      bevestig_plaatsing: {
+        Args: { p_reactie_id: string };
+        Returns: undefined;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
