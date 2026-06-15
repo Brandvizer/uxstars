@@ -12,10 +12,14 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
   const fout = searchParams.get("error");
 
+  // Waar naartoe na inloggen — alleen lokale paden toegestaan.
+  const nextParam = searchParams.get("next");
+  const next = nextParam && nextParam.startsWith("/") ? nextParam : "/account";
+
   if (fout) {
     const omschrijving = searchParams.get("error_description") ?? fout;
     return NextResponse.redirect(
-      `${origin}/admin/login?fout=${encodeURIComponent(omschrijving)}`,
+      `${origin}/account/login?fout=${encodeURIComponent(omschrijving)}`,
     );
   }
 
@@ -23,10 +27,10 @@ export async function GET(request: NextRequest) {
     const supabase = await getSupabaseServer();
     if (supabase) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (!error) return NextResponse.redirect(`${origin}/admin`);
+      if (!error) return NextResponse.redirect(`${origin}${next}`);
       console.error("exchangeCodeForSession:", error.message);
     }
   }
 
-  return NextResponse.redirect(`${origin}/admin/login?fout=1`);
+  return NextResponse.redirect(`${origin}/account/login?fout=1`);
 }

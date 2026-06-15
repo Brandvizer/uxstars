@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const tabs = [
   { href: "/admin", label: "Missies in review" },
   { href: "/admin/reacties", label: "Reacties" },
-  { href: "/admin/aanvragen", label: "Star-aanvragen" },
+  { href: "/admin/uitnodigingen", label: "Uitnodigingen" },
 ];
 
 export default function Tabs() {

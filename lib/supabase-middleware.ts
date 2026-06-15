@@ -38,13 +38,20 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
-  const beveiligd =
-    pathname.startsWith("/admin") && !pathname.startsWith("/admin/login");
 
-  if (beveiligd && !user) {
+  if (!user) {
     const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/admin/login";
-    return NextResponse.redirect(loginUrl);
+    if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+      loginUrl.pathname = "/admin/login";
+      return NextResponse.redirect(loginUrl);
+    }
+    if (
+      pathname.startsWith("/account") &&
+      !pathname.startsWith("/account/login")
+    ) {
+      loginUrl.pathname = "/account/login";
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
   return response;

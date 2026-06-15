@@ -34,3 +34,25 @@ export async function keurMissieGoed(id: string) {
   revalidatePath("/missies");
   revalidatePath("/");
 }
+
+/**
+ * Maakt een bootstrap-uitnodiging (zonder uitgevende ster) voor de eerste
+ * designers. Geeft het token terug om er een uitnodigingslink van te maken.
+ */
+export async function maakBootstrapUitnodiging(): Promise<{
+  ok: boolean;
+  token?: string;
+}> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { data, error } = await supabase.rpc("maak_bootstrap_uitnodiging");
+  if (error) {
+    console.error("maak_bootstrap_uitnodiging:", error.message);
+    return { ok: false };
+  }
+  return { ok: true, token: data };
+}
