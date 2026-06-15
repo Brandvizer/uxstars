@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { bepaalBestemming } from "@/lib/auth-bestemming";
 
 /**
  * Auth-callback voor de PKCE-flow (@supabase/ssr). De magic link komt terug met
@@ -28,23 +29,7 @@ export async function GET(request: NextRequest) {
     if (supabase) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
       if (!error) {
-        // Eén inlogscherm voor iedereen: staat dit adres op de admin-allowlist,
-        // dan landt 'ie in de missiecontrole — anders in het sterportaal. Een
-        // expliciete `next` (bijv. /welkom) heeft altijd voorrang.
-        let bestemming = next;
-        if (next === "/account") {
-          const {
-            data: { user },
-          } = await supabase.auth.getUser();
-          if (user?.email) {
-            const { data: adminRij } = await supabase
-              .from("admins")
-              .select("email")
-              .eq("email", user.email)
-              .maybeSingle();
-            if (adminRij) bestemming = "/admin";
-          }
-        }
+        const bestemming = await bepaalBestemming(supabase, next);
         return NextResponse.redirect(`${origin}${bestemming}`);
       }
       console.error("exchangeCodeForSession:", error.message);

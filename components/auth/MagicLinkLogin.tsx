@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { stuurInloglink } from "@/app/auth/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -26,6 +27,18 @@ export default function MagicLinkLogin({
   const verstuur = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("bezig");
+
+    // Eerst onze eigen Resend (mooie, Outlook-proof mail). Geen key? Dan valt
+    // 'viaResend' op false en gebruiken we de gewone signInWithOtp-flow.
+    const eigen = await stuurInloglink(email, next).catch(() => ({
+      ok: false,
+      viaResend: false,
+    }));
+    if (eigen.viaResend) {
+      setStatus(eigen.ok ? "verzonden" : "fout");
+      return;
+    }
+
     const supabase = getSupabaseBrowser();
     const { error } = await supabase.auth.signInWithOtp({
       email,

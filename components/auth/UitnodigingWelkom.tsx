@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { stuurInloglink } from "@/app/auth/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -37,6 +38,17 @@ export default function UitnodigingWelkom({
     e.preventDefault();
     setStatus("bezig");
     localStorage.setItem("uxstars_uitnodiging", token);
+
+    // Eerst onze eigen Resend; terugvallen op signInWithOtp als er geen key is.
+    const eigen = await stuurInloglink(email, "/welkom").catch(() => ({
+      ok: false,
+      viaResend: false,
+    }));
+    if (eigen.viaResend) {
+      setStatus(eigen.ok ? "verzonden" : "fout");
+      return;
+    }
+
     const supabase = getSupabaseBrowser();
     const { error } = await supabase.auth.signInWithOtp({
       email,
