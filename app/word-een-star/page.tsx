@@ -77,8 +77,12 @@ export default function WordEenStarPagina() {
         </div>
 
         <div className="relative mt-20 overflow-hidden rounded-2xl border border-lijn">
-          <SterrenVeld interactief={false} className="absolute inset-0" />
-          <div className="pointer-events-none relative bg-gradient-to-t from-achtergrond/90 via-transparent p-8 sm:p-12">
+          <SterrenVeld
+            interactief={false}
+            className="absolute inset-0 opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-achtergrond via-achtergrond/85 to-achtergrond/65" />
+          <div className="pointer-events-none relative p-8 sm:p-12">
             <h2 className="max-w-xl">Zo word je een ster in het stelsel</h2>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
               {stappen.map((stapItem, i) => (
