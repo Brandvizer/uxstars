@@ -375,9 +375,17 @@ export type Database = {
           p_bedrijf_id: string;
           p_status: string;
           p_tier: string;
-          p_tot: string;
+          p_tot: string | null;
         };
         Returns: undefined;
+      };
+      plaats_missie_als_bedrijf: {
+        Args: { payload: Json };
+        Returns: string;
+      };
+      mijn_missies: {
+        Args: Record<string, never>;
+        Returns: Json;
       };
     };
     Enums: Record<string, never>;

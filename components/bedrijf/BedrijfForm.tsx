@@ -3,8 +3,16 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import Badge from "@/components/ui/Badge";
 import { werkBedrijfBij, uitloggenBedrijf } from "@/app/bedrijf/actions";
-import type { Bedrijf } from "@/lib/bedrijf-data";
+import type { Bedrijf, MijnMissie } from "@/lib/bedrijf-data";
+
+function missieBadge(status: string) {
+  if (status === "open") return <Badge kleur="succes">Open</Badge>;
+  if (status === "gevuld") return <Badge kleur="succes">Gevuld</Badge>;
+  if (status === "in_review") return <Badge kleur="accent">In review</Badge>;
+  return <Badge>{status}</Badge>;
+}
 
 const STATUS: Record<string, { tekst: string; klasse: string }> = {
   actief: {
@@ -29,10 +37,12 @@ export default function BedrijfForm({
   bedrijf,
   email,
   actief,
+  missies,
 }: {
   bedrijf: Bedrijf;
   email: string | undefined;
   actief: boolean;
+  missies: MijnMissie[];
 }) {
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
@@ -108,6 +118,41 @@ export default function BedrijfForm({
             </a>{" "}
             om te activeren.
           </p>
+        )}
+      </div>
+
+      {/* Jouw missies */}
+      <div className="mt-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xl font-semibold">Jouw missies</h2>
+          {actief && (
+            <Button href="/bedrijf/missie" size="sm">
+              Plaats een missie
+            </Button>
+          )}
+        </div>
+        {missies.length === 0 ? (
+          <p className="mt-3 text-tekst-secundair">
+            Nog geen missies.{" "}
+            {actief
+              ? "Plaats je eerste missie."
+              : "Activeer je membership om te plaatsen."}
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-3">
+            {missies.map((m) => (
+              <li
+                key={m.id}
+                className="flex items-center justify-between gap-3 rounded-xl border border-lijn bg-paneel p-4"
+              >
+                <div className="min-w-0">
+                  <p className="truncate font-semibold">{m.titel}</p>
+                  <p className="text-sm text-tekst-secundair">{m.rol}</p>
+                </div>
+                {missieBadge(m.status)}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 

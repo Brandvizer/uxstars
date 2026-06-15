@@ -30,6 +30,32 @@ export type VouchAanvraag = {
   created_at: string;
 };
 
+export type AdminBedrijf = {
+  id: string;
+  naam: string;
+  email: string;
+  contactpersoon: string | null;
+  website: string | null;
+  membership_status: string;
+  membership_tier: string | null;
+  membership_tot: string | null;
+  heeft_account: boolean;
+  aantal_missies: number;
+  created_at: string;
+};
+
+/** Alle bedrijven met membership-status (voor de admin). */
+export async function getAdminBedrijven(): Promise<AdminBedrijf[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_bedrijven");
+  if (error) {
+    console.error("admin_bedrijven:", error.message);
+    return [];
+  }
+  return (data as AdminBedrijf[] | null) ?? [];
+}
+
 /** Vouch-aanvragen (kandidatenpool) voor de admin. */
 export async function getVouchAanvragen(): Promise<VouchAanvraag[]> {
   const supabase = await getSupabaseServer();

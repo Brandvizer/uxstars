@@ -104,6 +104,33 @@ export async function nodigKandidaatUit(
   return { ok: true, link, gemaild: mail.ok };
 }
 
+/** Admin zet (handmatig) de membership-status van een bedrijf. */
+export async function zetMembership(
+  bedrijfId: string,
+  status: string,
+  tier: string,
+  tot: string | null,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("zet_membership", {
+    p_bedrijf_id: bedrijfId,
+    p_status: status,
+    p_tier: tier,
+    p_tot: tot,
+  });
+  if (error) {
+    console.error("zet_membership:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/bedrijven");
+  return { ok: true };
+}
+
 export async function wijsKandidaatAf(
   aanvraagId: string,
 ): Promise<{ ok: boolean }> {

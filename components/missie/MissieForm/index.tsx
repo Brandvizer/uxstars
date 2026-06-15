@@ -16,8 +16,9 @@ import StapContact, { stapContactVelden } from "./StapContact";
 import { missieFormSchema } from "@/lib/validaties";
 import type { MissieFormData } from "@/lib/validaties";
 import { plaatsMissie } from "@/app/missie-plaatsen/actions";
+import { plaatsMissieAlsBedrijf } from "@/app/bedrijf/actions";
 
-const stappen = [
+const alleStappen = [
   { Component: StapRol, velden: stapRolVelden },
   { Component: StapMissie, velden: stapMissieVelden },
   { Component: StapOmvang, velden: stapOmvangVelden },
@@ -27,7 +28,19 @@ const stappen = [
   { Component: StapContact, velden: stapContactVelden },
 ] as const;
 
-export default function MissieForm() {
+export default function MissieForm({
+  alsBedrijf = false,
+  bedrijfNaam = "",
+  contactEmail = "",
+}: {
+  alsBedrijf?: boolean;
+  bedrijfNaam?: string;
+  contactEmail?: string;
+} = {}) {
+  // In bedrijfsmodus slaan we de contact-stap over — die gegevens komen uit het
+  // ingelogde account.
+  const stappen = alsBedrijf ? alleStappen.slice(0, -1) : alleStappen;
+
   const [stap, setStap] = useState(0);
   const [verzonden, setVerzonden] = useState<MissieFormData | null>(null);
   const [bezig, setBezig] = useState(false);
@@ -36,6 +49,9 @@ export default function MissieForm() {
   const form = useForm<MissieFormData>({
     resolver: zodResolver(missieFormSchema),
     mode: "onTouched",
+    defaultValues: alsBedrijf
+      ? { naam: bedrijfNaam, bedrijf: bedrijfNaam, email: contactEmail }
+      : undefined,
   });
 
   const laatste = stap === stappen.length - 1;
@@ -51,7 +67,9 @@ export default function MissieForm() {
   const verstuur = form.handleSubmit(async (data) => {
     setBezig(true);
     setFout(null);
-    const resultaat = await plaatsMissie(data);
+    const resultaat = alsBedrijf
+      ? await plaatsMissieAlsBedrijf(data)
+      : await plaatsMissie(data);
     setBezig(false);
     if (resultaat.ok) {
       setVerzonden(data);

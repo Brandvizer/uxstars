@@ -7,6 +7,7 @@ const tabs = [
   { href: "/admin", label: "Missies in review" },
   { href: "/admin/reacties", label: "Reacties" },
   { href: "/admin/uitnodigingen", label: "Uitnodigingen" },
+  { href: "/admin/bedrijven", label: "Bedrijven" },
 ];
 
 export default function Tabs({ tellingen }: { tellingen: Record<string, number> }) {

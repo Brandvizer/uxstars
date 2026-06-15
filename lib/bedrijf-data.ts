@@ -24,3 +24,24 @@ export function membershipActief(bedrijf: Bedrijf | null): boolean {
   if (!bedrijf.membership_tot) return true;
   return new Date(bedrijf.membership_tot).getTime() > Date.now();
 }
+
+export type MijnMissie = {
+  id: string;
+  slug: string;
+  titel: string;
+  rol: string;
+  status: string;
+  created_at: string;
+};
+
+/** De missies van het ingelogde bedrijf (alle statussen). */
+export async function getMijnMissies(): Promise<MijnMissie[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("mijn_missies");
+  if (error) {
+    console.error("mijn_missies:", error.message);
+    return [];
+  }
+  return (data as MijnMissie[] | null) ?? [];
+}

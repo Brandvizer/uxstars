@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getSupabaseServer } from "@/lib/supabase-server";
-import { getMijnBedrijf, membershipActief } from "@/lib/bedrijf-data";
+import {
+  getMijnBedrijf,
+  getMijnMissies,
+  membershipActief,
+} from "@/lib/bedrijf-data";
 import BedrijfForm from "@/components/bedrijf/BedrijfForm";
 
 export const metadata: Metadata = {
@@ -21,11 +25,14 @@ export default async function BedrijfPage() {
   const bedrijf = await getMijnBedrijf();
   if (!bedrijf) redirect("/bedrijf/welkom");
 
+  const missies = await getMijnMissies();
+
   return (
     <BedrijfForm
       bedrijf={bedrijf}
       email={user.email}
       actief={membershipActief(bedrijf)}
+      missies={missies}
     />
   );
 }
