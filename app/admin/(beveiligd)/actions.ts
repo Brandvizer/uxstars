@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getSupabaseServer } from "@/lib/supabase-server";
 import { getAdminStatus } from "@/lib/admin";
-import { stuurMail } from "@/lib/mail";
+import { stuurMail, emailHtml, esc } from "@/lib/mail";
 import type { AdminReactie } from "@/lib/admin-data";
 
 export async function uitloggen() {
@@ -88,13 +88,16 @@ export async function nodigKandidaatUit(
   const mail = await stuurMail({
     naar: res.email,
     onderwerp: "Je bent gevouched voor UXSTARS",
-    html: `
-      <p>Hoi ${res.naam},</p>
-      <p>Goed nieuws — je bent uitgenodigd voor UXSTARS, het invite-only netwerk
-        van gevouchte designers.</p>
-      <p><a href="${link}">Maak je ster aan →</a></p>
-      <p>Deze uitnodiging is eenmalig en persoonlijk.</p>
-    `,
+    html: emailHtml({
+      voorkop: "Je bent gevouched",
+      kop: "Welkom in het stelsel",
+      alineas: [
+        `Hoi ${esc(res.naam)},`,
+        "Je bent uitgenodigd voor UXSTARS — het invite-only netwerk van gevouchte designers. Alleen de beste designers krijgen toegang, en iemand vond dat jij eruit springt.",
+        "Deze uitnodiging is eenmalig en persoonlijk.",
+      ],
+      knop: { label: "Maak je ster aan", url: link },
+    }),
   });
 
   revalidatePath("/admin/uitnodigingen");
@@ -142,15 +145,21 @@ export async function stelVoor(
   if (!r.opdrachtgever_email)
     return { ok: false, fout: "Geen e-mailadres van de opdrachtgever" };
 
-  const html = `
-    <p>Een ster uit het UXSTARS-netwerk heeft gereageerd op je missie
-      <strong>${r.missie_titel}</strong>.</p>
-    <p><strong>${r.star.naam}</strong> — ${r.star.specialisme}, ${r.star.seniority}</p>
-    ${r.motivatie ? `<p><em>"${r.motivatie}"</em></p>` : ""}
-    ${r.star.portfolio_url ? `<p>Portfolio: <a href="${r.star.portfolio_url}">${r.star.portfolio_url}</a></p>` : ""}
-    ${r.star.linkedin_url ? `<p>LinkedIn: <a href="${r.star.linkedin_url}">${r.star.linkedin_url}</a></p>` : ""}
-    <p>Wil je kennismaken? Reageer op deze mail, dan brengen we je in contact.</p>
-  `;
+  const html = emailHtml({
+    voorkop: "Een ster reageerde",
+    kop: `Een ster voor "${esc(r.missie_titel)}"`,
+    alineas: [
+      `<strong style="color:#f2f4f8;">${esc(r.star.naam)}</strong> — ${esc(r.star.specialisme)}, ${esc(r.star.seniority)}`,
+      r.motivatie ? `&ldquo;${esc(r.motivatie)}&rdquo;` : "",
+      r.star.portfolio_url
+        ? `Portfolio: <a href="${encodeURI(r.star.portfolio_url)}" style="color:#f5b941;">${esc(r.star.portfolio_url)}</a>`
+        : "",
+      r.star.linkedin_url
+        ? `LinkedIn: <a href="${encodeURI(r.star.linkedin_url)}" style="color:#f5b941;">bekijk profiel</a>`
+        : "",
+      "Wil je kennismaken? Reageer op deze mail, dan brengen we je in contact.",
+    ],
+  });
 
   const mail = await stuurMail({
     naar: r.opdrachtgever_email,
