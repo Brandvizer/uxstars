@@ -50,6 +50,10 @@ export async function stuurMail({
 const FONT =
   "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
 
+// Absolute URL naar het gehoste logo (e-mailclients laden geen lokale/SVG-assets).
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uxstars.vercel.app";
+const LOGO_URL = `${SITE_URL}/email-logo.png`;
+
 /** Escapet door gebruikers aangeleverde tekst voor in HTML. */
 export function esc(s: string): string {
   return s.replace(
@@ -88,13 +92,13 @@ export function emailHtml(opts: {
         </td></tr></table>`
     : "";
 
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
 <body style="margin:0;padding:0;background:#0a0e1a;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0a0e1a" style="background:#0a0e1a;">
   <tr><td align="center" style="padding:32px 16px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;">
       <tr><td style="padding:0 4px 22px;">
-        <span style="font:600 20px ${FONT};letter-spacing:-0.01em;color:#f2f4f8;">UXST<span style="color:#f5b941;">&#9733;</span>RS</span>
+        <img src="${LOGO_URL}" width="150" height="60" alt="UXSTARS" style="display:block;border:0;outline:none;text-decoration:none;height:60px;width:150px;" />
       </td></tr>
       <tr><td style="background:#111729;border:1px solid #2a3350;border-radius:16px;padding:30px;">
         ${voorkop}
