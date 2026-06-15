@@ -71,6 +71,9 @@ export type Database = {
           email: string | null;
           tarief_uur: number | null;
           status: StarStatus;
+          user_id: string | null;
+          portfolio_url: string | null;
+          linkedin_url: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -84,10 +87,35 @@ export type Database = {
           email?: string | null;
           tarief_uur?: number | null;
           status?: StarStatus;
+          user_id?: string | null;
+          portfolio_url?: string | null;
+          linkedin_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["stars"]["Insert"]>;
+        Relationships: [];
+      };
+      uitnodigingen: {
+        Row: {
+          id: string;
+          token: string;
+          uitgever_star_id: string | null;
+          gebruikt_door_star_id: string | null;
+          status: "open" | "gebruikt" | "ingetrokken";
+          created_at: string;
+          gebruikt_op: string | null;
+        };
+        Insert: {
+          id?: string;
+          token: string;
+          uitgever_star_id?: string | null;
+          gebruikt_door_star_id?: string | null;
+          status?: "open" | "gebruikt" | "ingetrokken";
+          created_at?: string;
+          gebruikt_op?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["uitnodigingen"]["Insert"]>;
         Relationships: [];
       };
       missies: {
@@ -199,6 +227,35 @@ export type Database = {
     Functions: {
       plaats_missie: {
         Args: { payload: Json };
+        Returns: string;
+      };
+      uitnodiging_info: {
+        Args: { p_token: string };
+        Returns: Json;
+      };
+      gebruik_uitnodiging: {
+        Args: {
+          p_token: string;
+          p_naam: string;
+          p_specialisme: string;
+          p_seniority: string;
+        };
+        Returns: string;
+      };
+      mijn_profiel: {
+        Args: Record<string, never>;
+        Returns: Database["public"]["Tables"]["stars"]["Row"][];
+      };
+      werk_profiel_bij: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
+      mijn_uitnodiging: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      maak_bootstrap_uitnodiging: {
+        Args: Record<string, never>;
         Returns: string;
       };
     };
