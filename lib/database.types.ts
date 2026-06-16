@@ -286,6 +286,30 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["admins"]["Insert"]>;
         Relationships: [];
       };
+      bedrijf_leads: {
+        Row: {
+          id: string;
+          ster_id: string | null;
+          bedrijf_naam: string;
+          contact_naam: string | null;
+          contact_email: string | null;
+          toelichting: string | null;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          ster_id?: string | null;
+          bedrijf_naam: string;
+          contact_naam?: string | null;
+          contact_email?: string | null;
+          toelichting?: string | null;
+          status?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["bedrijf_leads"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -415,6 +439,22 @@ export type Database = {
       mijn_stelsel: {
         Args: Record<string, never>;
         Returns: Json;
+      };
+      beveel_bedrijf_aan: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
+      mijn_aanbevelingen: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      admin_bedrijf_leads: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      zet_lead_status: {
+        Args: { p_id: string; p_status: string };
+        Returns: undefined;
       };
     };
     Enums: Record<string, never>;

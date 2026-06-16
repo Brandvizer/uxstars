@@ -5,6 +5,9 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import { werkProfielBij, uitloggenStar } from "@/app/account/actions";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import BrengOpdrachtgever, {
+  type Aanbeveling,
+} from "@/components/account/BrengOpdrachtgever";
 import type { Database } from "@/lib/database.types";
 
 type Star = Database["public"]["Tables"]["stars"]["Row"];
@@ -35,12 +38,14 @@ export default function AccountForm({
   profiel,
   uitnodiging,
   stelsel,
+  aanbevelingen,
   email,
   userId,
 }: {
   profiel: Star;
   uitnodiging: { token: string; status: string } | null;
   stelsel: Stelsel | null;
+  aanbevelingen: Aanbeveling[];
   email: string | undefined;
   userId: string;
 }) {
@@ -358,6 +363,8 @@ export default function AccountForm({
           </div>
         </div>
       )}
+
+      <BrengOpdrachtgever aanbevelingen={aanbevelingen} />
     </div>
   );
 }

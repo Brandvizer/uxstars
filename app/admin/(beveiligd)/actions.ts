@@ -169,6 +169,29 @@ export async function nodigKandidaatUit(
   return { ok: true, link, gemaild: mail.ok };
 }
 
+/** Admin werkt de status van een opdrachtgever-lead bij. */
+export async function zetLeadStatus(
+  id: string,
+  status: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("zet_lead_status", {
+    p_id: id,
+    p_status: status,
+  });
+  if (error) {
+    console.error("zet_lead_status:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/leads");
+  return { ok: true };
+}
+
 /** Admin werkt de contractstatus van een plaatsing bij. */
 export async function zetContractStatus(
   plaatsingId: string,

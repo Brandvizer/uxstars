@@ -7,6 +7,7 @@ import {
   getVouchAanvragen,
   getAdminBedrijven,
   getAdminPlaatsingen,
+  getAdminBedrijfLeads,
 } from "@/lib/admin-data";
 import { uitloggen } from "./actions";
 import Tabs from "./Tabs";
@@ -50,13 +51,14 @@ export default async function BeveiligdeAdminLayout({
   }
 
   // Tellingen voor de tab-badges: alleen wat nog actie vraagt.
-  const [missies, reacties, aanvragen, bedrijven, plaatsingen] =
+  const [missies, reacties, aanvragen, bedrijven, plaatsingen, leads] =
     await Promise.all([
       getReviewMissies(),
       getAdminReacties(),
       getVouchAanvragen(),
       getAdminBedrijven(),
       getAdminPlaatsingen(),
+      getAdminBedrijfLeads(),
     ]);
   const tellingen: Record<string, number> = {
     "/admin": missies.length,
@@ -67,6 +69,7 @@ export default async function BeveiligdeAdminLayout({
         b.heeft_account &&
         (b.membership_status === "geen" || b.membership_status === "verlopen"),
     ).length,
+    "/admin/leads": leads.filter((l) => l.status === "nieuw").length,
     "/admin/plaatsingen": plaatsingen.filter(
       (p) => p.deal_type === "via_uxstars" && p.contract_status !== "afgerond",
     ).length,

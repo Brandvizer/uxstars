@@ -83,6 +83,29 @@ export async function getAdminPlaatsingen(): Promise<AdminPlaatsing[]> {
   return (data as AdminPlaatsing[] | null) ?? [];
 }
 
+export type AdminLead = {
+  id: string;
+  bedrijf_naam: string;
+  contact_naam: string | null;
+  contact_email: string | null;
+  toelichting: string | null;
+  status: string;
+  ster_naam: string | null;
+  created_at: string;
+};
+
+/** Aanbevolen opdrachtgevers (leads) door sterren, voor de admin. */
+export async function getAdminBedrijfLeads(): Promise<AdminLead[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_bedrijf_leads");
+  if (error) {
+    console.error("admin_bedrijf_leads:", error.message);
+    return [];
+  }
+  return (data as AdminLead[] | null) ?? [];
+}
+
 /** Vouch-aanvragen (kandidatenpool) voor de admin. */
 export async function getVouchAanvragen(): Promise<VouchAanvraag[]> {
   const supabase = await getSupabaseServer();

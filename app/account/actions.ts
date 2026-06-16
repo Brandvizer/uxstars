@@ -25,6 +25,23 @@ export async function werkProfielBij(
   return { ok: true };
 }
 
+/** Ster beveelt een opdrachtgever aan (lead naar de admin-pool). */
+export async function beveelBedrijfAan(
+  payload: Record<string, unknown>,
+): Promise<{ ok: boolean }> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const { error } = await supabase.rpc("beveel_bedrijf_aan", {
+    payload: payload as Json,
+  });
+  if (error) {
+    console.error("beveel_bedrijf_aan:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/account");
+  return { ok: true };
+}
+
 export async function uitloggenStar() {
   const supabase = await getSupabaseServer();
   if (supabase) await supabase.auth.signOut();

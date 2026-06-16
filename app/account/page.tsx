@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getSupabaseServer } from "@/lib/supabase-server";
 import AccountForm, { type Stelsel } from "@/components/account/AccountForm";
+import { type Aanbeveling } from "@/components/account/BrengOpdrachtgever";
 import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
@@ -55,6 +56,7 @@ export default async function AccountPage() {
 
   const { data: uitnodiging } = await supabase.rpc("mijn_uitnodiging");
   const { data: stelsel } = await supabase.rpc("mijn_stelsel");
+  const { data: aanbevelingen } = await supabase.rpc("mijn_aanbevelingen");
 
   return (
     <AccountForm
@@ -63,6 +65,7 @@ export default async function AccountPage() {
         uitnodiging as { token: string; status: string } | null
       }
       stelsel={stelsel as Stelsel | null}
+      aanbevelingen={(aanbevelingen as Aanbeveling[] | null) ?? []}
       email={user.email}
       userId={user.id}
     />
