@@ -11,6 +11,7 @@ import BrengOpdrachtgever, {
 import type { Database } from "@/lib/database.types";
 
 type Star = Database["public"]["Tables"]["stars"]["Row"];
+type TabId = "profiel" | "stelsel" | "opdrachtgever";
 
 export type Stelsel = {
   gevouched_door: string | null;
@@ -49,6 +50,7 @@ export default function AccountForm({
   email: string | undefined;
   userId: string;
 }) {
+  const [tab, setTab] = useState<TabId>("profiel");
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
   const [gekopieerd, setGekopieerd] = useState(false);
@@ -101,6 +103,12 @@ export default function AccountForm({
       ? `${window.location.origin}/uitnodiging/${uitnodiging.token}`
       : null;
 
+  const tabs: { id: TabId; label: string; badge?: number }[] = [
+    { id: "profiel", label: "Profiel" },
+    { id: "stelsel", label: "Jouw stelsel", badge: stelsel?.aantal_afstammelingen },
+    { id: "opdrachtgever", label: "Opdrachtgever", badge: aanbevelingen.length },
+  ];
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
@@ -120,7 +128,34 @@ export default function AccountForm({
         </form>
       </div>
 
-      {/* Je profiel — alles in één card */}
+      {/* Tabs */}
+      <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-lijn [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {tabs.map((t) => {
+          const a = tab === t.id;
+          return (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => setTab(t.id)}
+              className={`-mb-px flex flex-1 items-center justify-center gap-2 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-semibold transition-colors duration-200 sm:flex-none sm:justify-start sm:px-4 ${
+                a
+                  ? "border-accent text-tekst"
+                  : "border-transparent text-tekst-secundair hover:text-tekst"
+              }`}
+            >
+              {t.label}
+              {typeof t.badge === "number" && t.badge > 0 && (
+                <span className="inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-accent/15 px-1.5 py-0.5 text-xs font-semibold text-accent">
+                  {t.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Profiel */}
+      {tab === "profiel" && (
       <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
         <h2 className="text-xl font-semibold">Je profiel</h2>
 
@@ -264,9 +299,12 @@ export default function AccountForm({
         </div>
       </form>
       </div>
+      )}
 
-      {/* Jouw vouch */}
-      <div className="mt-12 rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-8">
+      {/* Jouw stelsel — vouch + tak */}
+      {tab === "stelsel" && (
+        <>
+      <div className="mt-8 rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-8">
         <h2 className="text-xl font-semibold">Jouw vouch</h2>
         {inviteUrl ? (
           <>
@@ -369,8 +407,12 @@ export default function AccountForm({
           </div>
         </div>
       )}
+        </>
+      )}
 
-      <BrengOpdrachtgever aanbevelingen={aanbevelingen} />
+      {tab === "opdrachtgever" && (
+        <BrengOpdrachtgever aanbevelingen={aanbevelingen} />
+      )}
     </div>
   );
 }
