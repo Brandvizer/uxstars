@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Button from "@/components/ui/Button";
 import LogoRij from "@/components/home/LogoRij";
+import MembershipKaart from "@/components/opdrachtgevers/MembershipKaart";
 
 export const metadata: Metadata = {
   title: "Voor opdrachtgevers",
@@ -117,6 +118,20 @@ export default function OpdrachtgeversPagina() {
                 </ul>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="mt-24">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2>Eén membership, geen verrassingen</h2>
+            <p className="mt-3 text-tekst-secundair">
+              Een vast lidmaatschap om missies te plaatsen en het netwerk te
+              bereiken. De echte waarde — de juiste match — regelen wij per
+              missie.
+            </p>
+          </div>
+          <div className="mt-10">
+            <MembershipKaart />
           </div>
         </div>
       </div>

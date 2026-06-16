@@ -5,7 +5,9 @@ import LogoRij from "@/components/home/LogoRij";
 import SplitsBlok from "@/components/home/SplitsBlok";
 import MissieKaart from "@/components/missie/MissieKaart";
 import Onthul from "@/components/ui/Onthul";
+import Button from "@/components/ui/Button";
 import { getMissies } from "@/lib/missies";
+import { MEMBERSHIP, euro } from "@/lib/membership";
 
 // Sterrenveld én missies komen uit Supabase: periodiek hervalideren (ISR)
 // i.p.v. statisch vastgepind, zodat nieuwe data na uiterlijk 5 minuten verschijnt.
@@ -123,6 +125,29 @@ export default async function Home() {
           ))}
         </div>
       </section>
+
+      <Onthul>
+        <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6">
+          <div className="rounded-2xl border border-lijn bg-paneel p-8 text-center sm:p-12">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+              Voor opdrachtgevers
+            </p>
+            <h2 className="mt-3">
+              Lid worden vanaf {euro(MEMBERSHIP.maand.prijs)} per maand
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-tekst-secundair">
+              Eén transparant membership om missies te plaatsen en het gevouchte
+              netwerk te bereiken — {MEMBERSHIP.trialDagen} dagen gratis
+              proberen, geen verrassingen.
+            </p>
+            <div className="mt-7">
+              <Button href="/opdrachtgevers" size="lg">
+                Bekijk het membership
+              </Button>
+            </div>
+          </div>
+        </section>
+      </Onthul>
 
       <Onthul>
         <SplitsBlok />
