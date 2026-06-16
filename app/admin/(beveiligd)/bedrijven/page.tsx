@@ -16,7 +16,9 @@ export default async function BedrijvenTab() {
         <span className="text-tekst-secundair">({bedrijven.length})</span>
       </h2>
       <p className="mt-2 text-tekst-secundair">
-        Beheer membership — handmatig activeren tot Mollie eraan zit.
+        Overzicht van bedrijven — klik een bedrijf open voor details. Membership
+        gaat straks automatisch (Stripe); hier kun je het overschrijven of een
+        bedrijf verwijderen.
         {wachtend > 0 && ` ${wachtend} met account wachten op activatie.`}
       </p>
       <div className="mt-6">

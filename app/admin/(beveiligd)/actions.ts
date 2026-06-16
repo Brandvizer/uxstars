@@ -265,6 +265,25 @@ export async function zetContractStatus(
   return { ok: true };
 }
 
+/** Verwijdert een bedrijf (opdrachtgever). Missies blijven (opdrachtgever wordt null). */
+export async function verwijderBedrijf(
+  bedrijfId: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const svc = getSupabaseService();
+  if (!svc) return { ok: false };
+
+  const { error } = await svc.from("opdrachtgevers").delete().eq("id", bedrijfId);
+  if (error) {
+    console.error("verwijderBedrijf:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/bedrijven");
+  return { ok: true };
+}
+
 /** Admin zet (handmatig) de membership-status van een bedrijf. */
 export async function zetMembership(
   bedrijfId: string,
