@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Badge from "@/components/ui/Badge";
-import { werkBedrijfBij, uitloggenBedrijf } from "@/app/bedrijf/actions";
+import { werkBedrijfBij, uitloggenBedrijf, startPortal } from "@/app/bedrijf/actions";
 import type { Bedrijf, MijnMissie } from "@/lib/bedrijf-data";
 
 function missieBadge(status: string) {
@@ -46,6 +46,17 @@ export default function BedrijfForm({
 }) {
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
+  const [portaalBezig, setPortaalBezig] = useState(false);
+
+  const naarPortaal = async () => {
+    setPortaalBezig(true);
+    const r = await startPortal();
+    if (r.url) {
+      window.location.href = r.url;
+      return;
+    }
+    setPortaalBezig(false);
+  };
 
   const opslaan = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -118,6 +129,16 @@ export default function BedrijfForm({
             </a>{" "}
             om te activeren.
           </p>
+        )}
+        {bedrijf.stripe_customer_id && (
+          <button
+            type="button"
+            onClick={naarPortaal}
+            disabled={portaalBezig}
+            className="mt-4 rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+          >
+            {portaalBezig ? "Even geduld…" : "Beheer abonnement →"}
+          </button>
         )}
       </div>
 

@@ -53,6 +53,8 @@ export type Database = {
           membership_status: string;
           membership_tier: string | null;
           membership_tot: string | null;
+          stripe_customer_id: string | null;
+          stripe_subscription_id: string | null;
           created_at: string;
         };
         Insert: {
@@ -67,6 +69,8 @@ export type Database = {
           membership_status?: string;
           membership_tier?: string | null;
           membership_tot?: string | null;
+          stripe_customer_id?: string | null;
+          stripe_subscription_id?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["opdrachtgevers"]["Insert"]>;

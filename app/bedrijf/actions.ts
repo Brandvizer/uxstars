@@ -2,9 +2,21 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { getSupabaseService } from "@/lib/supabase";
+import { stripe } from "@/lib/stripe";
+import { MEMBERSHIP } from "@/lib/membership";
 import { missieFormSchema } from "@/lib/validaties";
 import type { Json } from "@/lib/database.types";
+
+async function origin(): Promise<string> {
+  const h = await headers();
+  const host = h.get("host") ?? "";
+  const proto =
+    h.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
+  return host ? `${proto}://${host}` : "https://uxstars.vercel.app";
+}
 
 function slugify(tekst: string): string {
   return tekst
@@ -110,6 +122,89 @@ export async function startMembershipTrial(
   }
   revalidatePath("/bedrijf");
   return { ok: true };
+}
+
+/** Start een Stripe Checkout (abonnement met 30 dagen trial) voor het bedrijf. */
+export async function startCheckout(
+  ritme: "maand" | "jaar",
+): Promise<{ ok: boolean; url?: string }> {
+  if (!stripe) return { ok: false };
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false };
+
+  const svc = getSupabaseService();
+  if (!svc) return { ok: false };
+  const { data: bedrijf } = await svc
+    .from("opdrachtgevers")
+    .select("id, naam, email, stripe_customer_id")
+    .eq("user_id", user.id)
+    .single();
+  if (!bedrijf) return { ok: false };
+
+  let customerId = bedrijf.stripe_customer_id;
+  if (!customerId) {
+    const c = await stripe.customers.create({
+      email: bedrijf.email || user.email || undefined,
+      name: bedrijf.naam,
+      metadata: { bedrijf_id: bedrijf.id },
+    });
+    customerId = c.id;
+    await svc
+      .from("opdrachtgevers")
+      .update({ stripe_customer_id: customerId })
+      .eq("id", bedrijf.id);
+  }
+
+  const price =
+    ritme === "jaar"
+      ? process.env.STRIPE_PRICE_PARTNER_JAAR
+      : process.env.STRIPE_PRICE_PARTNER_MAAND;
+  if (!price) return { ok: false };
+
+  const base = await origin();
+  const session = await stripe.checkout.sessions.create({
+    mode: "subscription",
+    customer: customerId,
+    line_items: [{ price, quantity: 1 }],
+    subscription_data: {
+      trial_period_days: MEMBERSHIP.trialDagen,
+      metadata: { bedrijf_id: bedrijf.id },
+    },
+    metadata: { bedrijf_id: bedrijf.id },
+    success_url: `${base}/bedrijf/welkom?succes=1`,
+    cancel_url: `${base}/bedrijf/welkom`,
+  });
+  return { ok: true, url: session.url ?? undefined };
+}
+
+/** Opent de Stripe Customer Portal (abonnement beheren/opzeggen). */
+export async function startPortal(): Promise<{ ok: boolean; url?: string }> {
+  if (!stripe) return { ok: false };
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false };
+
+  const svc = getSupabaseService();
+  if (!svc) return { ok: false };
+  const { data: bedrijf } = await svc
+    .from("opdrachtgevers")
+    .select("stripe_customer_id")
+    .eq("user_id", user.id)
+    .single();
+  if (!bedrijf?.stripe_customer_id) return { ok: false };
+
+  const session = await stripe.billingPortal.sessions.create({
+    customer: bedrijf.stripe_customer_id,
+    return_url: `${await origin()}/bedrijf`,
+  });
+  return { ok: true, url: session.url };
 }
 
 export async function uitloggenBedrijf() {

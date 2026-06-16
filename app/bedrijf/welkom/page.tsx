@@ -7,6 +7,7 @@ import {
   maakBedrijf,
   werkBedrijfBij,
   startMembershipTrial,
+  startCheckout,
 } from "@/app/bedrijf/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -37,6 +38,10 @@ export default function BedrijfWelkom() {
         return;
       }
       setUserId(data.user.id);
+      // Terug van Stripe Checkout → toon de viering.
+      if (new URLSearchParams(window.location.search).get("succes") === "1") {
+        setStap(3);
+      }
       setKlaar(true);
     });
   }, [router]);
@@ -80,6 +85,12 @@ export default function BedrijfWelkom() {
 
   const kiesPlan = async () => {
     setBezig(true);
+    // Stripe Checkout proberen; geen Stripe geconfigureerd? Dan direct de trial.
+    const checkout = await startCheckout(ritme);
+    if (checkout.url) {
+      window.location.href = checkout.url;
+      return;
+    }
     const tier =
       ritme === "jaar" ? MEMBERSHIP.jaar.tier : MEMBERSHIP.maand.tier;
     await startMembershipTrial(tier);
