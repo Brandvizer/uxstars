@@ -159,9 +159,12 @@ export default function BedrijfWelkom() {
             Vul je gegevens in — deze gebruiken we voor je missies.
           </p>
 
-          <form onSubmit={verstuurStap1} className="mt-8 space-y-5">
+          <form
+            onSubmit={verstuurStap1}
+            className="mt-8 space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
+          >
             <div className="flex items-center gap-5">
-              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-lijn bg-paneel">
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-lijn bg-achtergrond">
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={logoUrl} alt="" className="h-full w-full object-cover" />
@@ -183,7 +186,7 @@ export default function BedrijfWelkom() {
                   type="button"
                   onClick={() => logoInput.current?.click()}
                   disabled={uploadt}
-                  className="rounded-full border border-lijn bg-paneel px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+                  className="rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
                 >
                   {uploadt ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
                 </button>

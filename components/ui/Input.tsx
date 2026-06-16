@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import type { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 const veldKlassen =
-  "w-full rounded-xl border border-lijn bg-paneel px-4 py-3 text-base text-tekst placeholder:text-tekst-secundair/60 transition-colors duration-200 focus:border-accent focus:outline-none";
+  "w-full rounded-xl border border-lijn bg-achtergrond px-4 py-3 text-base text-tekst placeholder:text-tekst-secundair/60 transition-colors duration-200 focus:border-accent focus:outline-none";
 
 type InputProps = {
   label: string;

@@ -51,20 +51,21 @@ export default function MagicLinkLogin({
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16 sm:px-6">
-      <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">{titel}</h1>
-      <p className="mt-3 text-tekst-secundair">{intro}</p>
+      <div className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+        <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">{titel}</h1>
+        <p className="mt-3 text-tekst-secundair">{intro}</p>
 
-      {status === "verzonden" ? (
-        <div className="mt-8 rounded-2xl border border-succes/40 bg-paneel p-6">
-          <p className="font-semibold text-succes">Check je inbox ✉️</p>
-          <p className="mt-2 text-tekst-secundair">
-            We hebben een inloglink gestuurd naar{" "}
-            <span className="text-tekst">{email}</span>. Klik erop — in dezelfde
-            browser — om verder te gaan.
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={verstuur} className="mt-8 space-y-5">
+        {status === "verzonden" ? (
+          <div className="mt-8 rounded-2xl border border-succes/40 bg-achtergrond p-6">
+            <p className="font-semibold text-succes">Check je inbox ✉️</p>
+            <p className="mt-2 text-tekst-secundair">
+              We hebben een inloglink gestuurd naar{" "}
+              <span className="text-tekst">{email}</span>. Klik erop — in dezelfde
+              browser — om verder te gaan.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={verstuur} className="mt-8 space-y-5">
           <Input
             label="E-mailadres"
             type="email"
@@ -84,7 +85,8 @@ export default function MagicLinkLogin({
             </p>
           )}
         </form>
-      )}
+        )}
+      </div>
     </div>
   );
 }

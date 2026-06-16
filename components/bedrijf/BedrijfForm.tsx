@@ -167,7 +167,10 @@ export default function BedrijfForm({
       </div>
 
       {/* Bedrijfsprofiel */}
-      <form onSubmit={opslaan} className="mt-12 max-w-2xl space-y-5">
+      <form
+        onSubmit={opslaan}
+        className="mt-12 max-w-2xl space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
+      >
         <h2 className="text-xl font-semibold">Bedrijfsprofiel</h2>
         <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
         <div className="grid gap-5 sm:grid-cols-2">
