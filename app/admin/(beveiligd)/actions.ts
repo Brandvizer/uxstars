@@ -169,6 +169,56 @@ export async function nodigKandidaatUit(
   return { ok: true, link, gemaild: mail.ok };
 }
 
+/**
+ * Verwijdert een account volledig (auth-user + gekoppelde ster/bedrijf en hun
+ * afhankelijke rijen). Voor het opschonen van test-accounts. Beveiligd: niet je
+ * eigen account, en geen admin-accounts.
+ */
+export async function verwijderAccount(
+  userId: string,
+): Promise<{ ok: boolean; fout?: string }> {
+  const { isAdmin, user } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+  if (user?.id === userId)
+    return { ok: false, fout: "Je eigen account kun je hier niet verwijderen" };
+
+  const svc = getSupabaseService();
+  if (!svc) return { ok: false };
+
+  // Geen admin-accounts verwijderen.
+  const { data: udata } = await svc.auth.admin.getUserById(userId);
+  const email = udata?.user?.email;
+  if (email) {
+    const { data: adminRow } = await svc
+      .from("admins")
+      .select("email")
+      .eq("email", email)
+      .maybeSingle();
+    if (adminRow) return { ok: false, fout: "Admin-account; niet verwijderbaar" };
+  }
+
+  // Ster + afhankelijke rijen opruimen.
+  const { data: star } = await svc
+    .from("stars")
+    .select("id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (star) {
+    await svc.from("reacties").delete().eq("star_id", star.id);
+    await svc.from("plaatsingen").delete().eq("star_id", star.id);
+    await svc.from("stars").delete().eq("id", star.id);
+  }
+  await svc.from("opdrachtgevers").delete().eq("user_id", userId);
+
+  const { error } = await svc.auth.admin.deleteUser(userId);
+  if (error) {
+    console.error("verwijderAccount:", error.message);
+    return { ok: false, fout: error.message };
+  }
+  revalidatePath("/admin/accounts");
+  return { ok: true };
+}
+
 /** Admin werkt de status van een opdrachtgever-lead bij. */
 export async function zetLeadStatus(
   id: string,

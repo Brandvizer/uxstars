@@ -10,6 +10,7 @@ const tabs = [
   { href: "/admin/bedrijven", label: "Bedrijven" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/plaatsingen", label: "Plaatsingen" },
+  { href: "/admin/accounts", label: "Accounts" },
 ];
 
 export default function Tabs({ tellingen }: { tellingen: Record<string, number> }) {
