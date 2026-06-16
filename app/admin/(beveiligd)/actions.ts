@@ -104,6 +104,29 @@ export async function nodigKandidaatUit(
   return { ok: true, link, gemaild: mail.ok };
 }
 
+/** Admin werkt de contractstatus van een plaatsing bij. */
+export async function zetContractStatus(
+  plaatsingId: string,
+  status: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("zet_contract_status", {
+    p_plaatsing_id: plaatsingId,
+    p_status: status,
+  });
+  if (error) {
+    console.error("zet_contract_status:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/plaatsingen");
+  return { ok: true };
+}
+
 /** Admin zet (handmatig) de membership-status van een bedrijf. */
 export async function zetMembership(
   bedrijfId: string,
@@ -204,6 +227,9 @@ export async function stelVoor(
 
 export async function bevestigPlaatsing(
   reactieId: string,
+  dealType: "direct" | "via_uxstars" = "direct",
+  sterTarief?: number,
+  klantTarief?: number,
 ): Promise<{ ok: boolean }> {
   const { isAdmin } = await getAdminStatus();
   if (!isAdmin) return { ok: false };
@@ -213,6 +239,9 @@ export async function bevestigPlaatsing(
 
   const { error } = await supabase.rpc("bevestig_plaatsing", {
     p_reactie_id: reactieId,
+    p_deal_type: dealType,
+    p_ster_tarief: sterTarief,
+    p_klant_tarief: klantTarief,
   });
   if (error) {
     console.error("bevestig_plaatsing:", error.message);
