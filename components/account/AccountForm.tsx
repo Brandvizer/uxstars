@@ -9,6 +9,18 @@ import type { Database } from "@/lib/database.types";
 
 type Star = Database["public"]["Tables"]["stars"]["Row"];
 
+export type Stelsel = {
+  gevouched_door: string | null;
+  directe: {
+    id: string;
+    naam: string;
+    specialisme: string;
+    beschikbaar: boolean;
+    foto_url: string | null;
+  }[];
+  aantal_afstammelingen: number;
+};
+
 const specialismen = [
   "UX Design", "Product Design", "UX Research", "Service Design", "UX Writing",
   "Interaction Design", "Design Systems", "UX Strategy", "Content Design",
@@ -22,11 +34,13 @@ const veld =
 export default function AccountForm({
   profiel,
   uitnodiging,
+  stelsel,
   email,
   userId,
 }: {
   profiel: Star;
   uitnodiging: { token: string; status: string } | null;
+  stelsel: Stelsel | null;
   email: string | undefined;
   userId: string;
 }) {
@@ -278,6 +292,72 @@ export default function AccountForm({
           </p>
         )}
       </div>
+
+      {/* Jouw tak van het stelsel */}
+      {stelsel && (
+        <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+          <div className="flex items-end justify-between gap-4">
+            <h2 className="text-xl font-semibold">Jouw tak van het stelsel</h2>
+            <div className="text-right">
+              <div className="text-3xl font-bold leading-none text-accent">
+                {stelsel.aantal_afstammelingen}
+              </div>
+              <div className="mt-1 text-xs text-tekst-secundair">
+                {stelsel.aantal_afstammelingen === 1 ? "ster stamt" : "sterren stammen"} van jou af
+              </div>
+            </div>
+          </div>
+
+          {stelsel.gevouched_door && (
+            <p className="mt-3 text-tekst-secundair">
+              Gevouched door{" "}
+              <span className="text-tekst">{stelsel.gevouched_door}</span>
+            </p>
+          )}
+
+          <div className="mt-5">
+            {stelsel.directe.length === 0 ? (
+              <p className="text-tekst-secundair">
+                Je hebt nog niemand gevouched.{" "}
+                {inviteUrl
+                  ? "Geef je vouch en zie je tak oplichten."
+                  : ""}
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-tekst-secundair">Jij vouchte:</p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {stelsel.directe.map((s) => (
+                    <div
+                      key={s.id}
+                      className="flex items-center gap-2 rounded-full border border-lijn bg-achtergrond py-1.5 pl-1.5 pr-4"
+                    >
+                      <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-paneel">
+                        {s.foto_url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={s.foto_url}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-sm text-tekst-secundair">
+                            {s.naam.charAt(0)}
+                          </div>
+                        )}
+                        {s.beschikbaar && (
+                          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-achtergrond bg-succes" />
+                        )}
+                      </div>
+                      <span className="text-sm">{s.naam}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

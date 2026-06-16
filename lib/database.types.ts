@@ -412,6 +412,10 @@ export type Database = {
         Args: Record<string, never>;
         Returns: Json;
       };
+      mijn_stelsel: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getSupabaseServer } from "@/lib/supabase-server";
-import AccountForm from "@/components/account/AccountForm";
+import AccountForm, { type Stelsel } from "@/components/account/AccountForm";
 import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
@@ -54,6 +54,7 @@ export default async function AccountPage() {
   }
 
   const { data: uitnodiging } = await supabase.rpc("mijn_uitnodiging");
+  const { data: stelsel } = await supabase.rpc("mijn_stelsel");
 
   return (
     <AccountForm
@@ -61,6 +62,7 @@ export default async function AccountPage() {
       uitnodiging={
         uitnodiging as { token: string; status: string } | null
       }
+      stelsel={stelsel as Stelsel | null}
       email={user.email}
       userId={user.id}
     />
