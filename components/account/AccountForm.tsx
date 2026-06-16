@@ -102,7 +102,7 @@ export default function AccountForm({
       : null;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
@@ -226,21 +226,22 @@ export default function AccountForm({
           placeholder="Waar ben je goed in, wat voor werk zoek je?"
         />
 
-        <Input
-          label="Uurtarief (€, privé)"
-          name="tarief_uur"
-          type="number"
-          defaultValue={profiel.tarief_uur ?? ""}
-          placeholder="95"
-        />
-
-        <Input
-          label="Portfolio-link"
-          name="portfolio_url"
-          type="url"
-          defaultValue={profiel.portfolio_url ?? ""}
-          placeholder="https://"
-        />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Input
+            label="Uurtarief (€, privé)"
+            name="tarief_uur"
+            type="number"
+            defaultValue={profiel.tarief_uur ?? ""}
+            placeholder="95"
+          />
+          <Input
+            label="Portfolio-link"
+            name="portfolio_url"
+            type="url"
+            defaultValue={profiel.portfolio_url ?? ""}
+            placeholder="https://"
+          />
+        </div>
         <Input
           label="LinkedIn"
           name="linkedin_url"
