@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import MissieKaart from "@/components/bedrijf/MissieKaart";
+import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import { werkBedrijfBij, uitloggenBedrijf, startPortal } from "@/app/bedrijf/actions";
 import type { Bedrijf, MijnMissie } from "@/lib/bedrijf-data";
 
@@ -100,6 +101,32 @@ export default function BedrijfForm({
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
   const [portaalBezig, setPortaalBezig] = useState(false);
+  const [logoUrl, setLogoUrl] = useState(bedrijf.logo_url);
+  const [logoBezig, setLogoBezig] = useState(false);
+  const logoInput = useRef<HTMLInputElement>(null);
+
+  const uploadLogo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !bedrijf.user_id) return;
+    setLogoBezig(true);
+    const supabase = getSupabaseBrowser();
+    const ext = (file.name.split(".").pop() || "png").toLowerCase();
+    const pad = `${bedrijf.user_id}/logo.${ext}`;
+    const { error } = await supabase.storage
+      .from("profielfotos")
+      .upload(pad, file, { upsert: true, cacheControl: "3600" });
+    if (!error) {
+      const { data } = supabase.storage.from("profielfotos").getPublicUrl(pad);
+      const url = `${data.publicUrl}?v=${Date.now()}`;
+      setLogoUrl(url);
+      await werkBedrijfBij({ logo_url: url });
+    }
+    setLogoBezig(false);
+  };
+
+  const schoneWebsite = bedrijf.website
+    ? bedrijf.website.replace(/^https?:\/\//, "").replace(/\/$/, "")
+    : null;
 
   const naarPortaal = async () => {
     setPortaalBezig(true);
@@ -260,41 +287,92 @@ export default function BedrijfForm({
 
         {/* Bedrijfsprofiel */}
         {tab === "profiel" && (
-          <form
-            onSubmit={opslaan}
-            className="max-w-2xl space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
-          >
-            <h2 className="text-xl font-semibold">Bedrijfsprofiel</h2>
-            <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
-            <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
+            <form
+              onSubmit={opslaan}
+              className="space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8 lg:col-span-2"
+            >
+              <h2 className="text-xl font-semibold">Bedrijfsprofiel</h2>
+              <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Input
+                  label="Contactpersoon"
+                  name="contactpersoon"
+                  defaultValue={bedrijf.contactpersoon ?? ""}
+                  placeholder="Voor- en achternaam"
+                />
+                <Input
+                  label="Telefoon"
+                  name="telefoon"
+                  type="tel"
+                  defaultValue={bedrijf.telefoon ?? ""}
+                  placeholder="06…"
+                />
+              </div>
               <Input
-                label="Contactpersoon"
-                name="contactpersoon"
-                defaultValue={bedrijf.contactpersoon ?? ""}
-                placeholder="Voor- en achternaam"
+                label="Website"
+                name="website"
+                type="url"
+                defaultValue={bedrijf.website ?? ""}
+                placeholder="https://"
               />
-              <Input
-                label="Telefoon"
-                name="telefoon"
-                type="tel"
-                defaultValue={bedrijf.telefoon ?? ""}
-                placeholder="06…"
+              <div className="flex items-center gap-4">
+                <Button type="submit" disabled={bezig}>
+                  {bezig ? "Opslaan…" : "Opslaan"}
+                </Button>
+                {opgeslagen && <span className="text-sm text-succes">Opgeslagen ✓</span>}
+              </div>
+            </form>
+
+            {/* Visitekaartje — zo word je getoond */}
+            <div className="rounded-2xl border border-lijn bg-paneel p-6 text-center">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-tekst-secundair">
+                Je visitekaartje
+              </h2>
+
+              <div className="mx-auto mt-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border border-lijn bg-achtergrond">
+                {logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={logoUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <span className="text-3xl font-bold text-tekst-secundair">
+                    {bedrijf.naam.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+
+              <p className="mt-4 font-semibold">{bedrijf.naam}</p>
+              {schoneWebsite && (
+                <a
+                  href={bedrijf.website ?? "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 block truncate text-sm text-accent transition-colors duration-200 hover:text-accent-actief"
+                >
+                  {schoneWebsite}
+                </a>
+              )}
+
+              <input
+                ref={logoInput}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                className="hidden"
+                onChange={uploadLogo}
               />
+              <button
+                type="button"
+                onClick={() => logoInput.current?.click()}
+                disabled={logoBezig}
+                className="mt-6 w-full rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+              >
+                {logoBezig ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
+              </button>
+              <p className="mt-3 text-xs text-tekst-secundair">
+                Een herkenbaar logo maakt je missies aantrekkelijker.
+              </p>
             </div>
-            <Input
-              label="Website"
-              name="website"
-              type="url"
-              defaultValue={bedrijf.website ?? ""}
-              placeholder="https://"
-            />
-            <div className="flex items-center gap-4">
-              <Button type="submit" disabled={bezig}>
-                {bezig ? "Opslaan…" : "Opslaan"}
-              </Button>
-              {opgeslagen && <span className="text-sm text-succes">Opgeslagen ✓</span>}
-            </div>
-          </form>
+          </div>
         )}
       </div>
     </div>
