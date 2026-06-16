@@ -186,7 +186,7 @@ export default function BedrijfForm({
       </div>
 
       {/* Tabs */}
-      <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-lijn">
+      <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-lijn [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {tabs.map((t) => {
           const a = tab === t.id;
           return (
@@ -194,7 +194,7 @@ export default function BedrijfForm({
               key={t.id}
               type="button"
               onClick={() => setTab(t.id)}
-              className={`-mb-px flex items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-semibold transition-colors duration-200 ${
+              className={`-mb-px flex flex-1 items-center justify-center gap-2 whitespace-nowrap border-b-2 px-3 py-3 text-sm font-semibold transition-colors duration-200 sm:flex-none sm:justify-start sm:px-4 ${
                 a
                   ? "border-accent text-tekst"
                   : "border-transparent text-tekst-secundair hover:text-tekst"
@@ -326,9 +326,9 @@ export default function BedrijfForm({
 
             {/* Visitekaartje — zo word je getoond */}
             <div className="rounded-2xl border border-lijn bg-paneel p-6 text-center">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-tekst-secundair">
+              <p className="text-sm font-semibold uppercase tracking-[0.15em] text-tekst-secundair">
                 Je visitekaartje
-              </h2>
+              </p>
 
               <div className="mx-auto mt-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border border-lijn bg-achtergrond">
                 {logoUrl ? (
