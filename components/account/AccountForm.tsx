@@ -32,7 +32,7 @@ const specialismen = [
 const seniorityNiveaus = ["Junior", "Medior", "Senior", "Lead", "Principal"];
 
 const veld =
-  "w-full rounded-xl border border-lijn bg-paneel px-4 py-3 text-base text-tekst focus:border-accent focus:outline-none";
+  "w-full rounded-xl border border-lijn bg-achtergrond px-4 py-3 text-base text-tekst focus:border-accent focus:outline-none";
 
 export default function AccountForm({
   profiel,
@@ -120,9 +120,13 @@ export default function AccountForm({
         </form>
       </div>
 
-      {/* Profielfoto */}
-      <div className="mt-8 flex items-center gap-5">
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-lijn bg-paneel">
+      {/* Je profiel — alles in één card */}
+      <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+        <h2 className="text-xl font-semibold">Je profiel</h2>
+
+        {/* Profielfoto */}
+        <div className="mt-6 flex items-center gap-5">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-lijn bg-achtergrond">
           {fotoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={fotoUrl} alt="" className="h-full w-full object-cover" />
@@ -144,7 +148,7 @@ export default function AccountForm({
             type="button"
             onClick={() => fotoInput.current?.click()}
             disabled={uploadt}
-            className="rounded-full border border-lijn bg-paneel px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+            className="rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
           >
             {uploadt ? "Uploaden…" : fotoUrl ? "Foto vervangen" : "Foto uploaden"}
           </button>
@@ -154,7 +158,7 @@ export default function AccountForm({
         </div>
       </div>
 
-      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-lijn bg-paneel p-4">
+      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-lijn bg-achtergrond p-4">
         <input
           type="checkbox"
           checked={toestemming}
@@ -172,7 +176,7 @@ export default function AccountForm({
         type="button"
         onClick={() => setBeschikbaar((b) => !b)}
         className={`mt-8 flex w-full items-center justify-between rounded-2xl border p-5 text-left transition-colors duration-200 ${
-          beschikbaar ? "border-succes/50 bg-succes/5" : "border-lijn bg-paneel"
+          beschikbaar ? "border-succes/50 bg-succes/5" : "border-lijn bg-achtergrond"
         }`}
       >
         <span>
@@ -259,6 +263,7 @@ export default function AccountForm({
           )}
         </div>
       </form>
+      </div>
 
       {/* Jouw vouch */}
       <div className="mt-12 rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-8">
