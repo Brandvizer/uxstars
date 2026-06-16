@@ -2,10 +2,20 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { getSupabaseService } from "@/lib/supabase";
 import { getAdminStatus } from "@/lib/admin";
 import { stuurMail, emailHtml, esc } from "@/lib/mail";
 import type { AdminReactie } from "@/lib/admin-data";
+
+async function huidigeOrigin(): Promise<string> {
+  const h = await headers();
+  const host = h.get("host") ?? "";
+  const proto =
+    h.get("x-forwarded-proto") ?? (host.includes("localhost") ? "http" : "https");
+  return host ? `${proto}://${host}` : "https://uxstars.vercel.app";
+}
 
 export async function uitloggen() {
   const supabase = await getSupabaseServer();
@@ -35,6 +45,61 @@ export async function keurMissieGoed(id: string) {
   revalidatePath("/admin");
   revalidatePath("/missies");
   revalidatePath("/");
+
+  // Trigger: seintje naar beschikbare sterren die qua seniority passen.
+  await meldPassendeMissie(id);
+}
+
+/**
+ * Mailt beschikbare sterren met een account dat qua seniority bij de missie
+ * past ("een missie die bij je past licht op"). Leest de privé-mailadressen via
+ * de service-role; faalt stil (notificatie, geen blokkade).
+ */
+async function meldPassendeMissie(missieId: string): Promise<void> {
+  const svc = getSupabaseService();
+  if (!svc) return;
+
+  const { data: m } = await svc
+    .from("missies")
+    .select("titel, slug, seniority")
+    .eq("id", missieId)
+    .single();
+  if (!m) return;
+
+  let q = svc
+    .from("stars")
+    .select("naam, email, seniority")
+    .eq("beschikbaar", true)
+    .eq("status", "actief")
+    .not("user_id", "is", null)
+    .not("email", "is", null);
+  if (m.seniority) q = q.eq("seniority", m.seniority);
+
+  const { data: sterren } = await q;
+  if (!sterren || sterren.length === 0) return;
+
+  const origin = await huidigeOrigin();
+  const link = `${origin}/missies/${m.slug}`;
+
+  await Promise.all(
+    sterren
+      .filter((s) => s.email)
+      .map((s) =>
+        stuurMail({
+          naar: s.email as string,
+          onderwerp: `Een missie die bij je past: ${m.titel}`,
+          html: emailHtml({
+            voorkop: "Nieuwe missie",
+            kop: "Een missie die bij je past",
+            alineas: [
+              `Hoi ${esc((s.naam ?? "").split(" ")[0])}, er is een nieuwe missie in het stelsel die past bij jouw niveau: <strong style="color:#0a0e1a;">${esc(m.titel)}</strong>.`,
+              "Beschikbaar en interesse? Bekijk de missie en laat van je horen.",
+            ],
+            knop: { label: "Bekijk de missie", url: link },
+          }),
+        }),
+      ),
+  );
 }
 
 /**
@@ -220,6 +285,22 @@ export async function stelVoor(
   if (!mail.ok)
     return { ok: false, fout: "Mail versturen mislukte (Resend-key?)" };
 
+  // Trigger A: de ster ook een seintje dat 'ie is voorgesteld.
+  if (r.star.email) {
+    await stuurMail({
+      naar: r.star.email,
+      onderwerp: `Je bent voorgesteld voor: ${r.missie_titel}`,
+      html: emailHtml({
+        voorkop: "Voorgesteld",
+        kop: "Je bent voorgesteld",
+        alineas: [
+          `Goed nieuws, ${esc(r.star.naam.split(" ")[0])} — we hebben je voorgesteld aan de opdrachtgever van <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>.`,
+          "Is er een match, dan brengen we jullie in contact. We houden je op de hoogte.",
+        ],
+      }),
+    });
+  }
+
   await supabase.rpc("markeer_voorgesteld", { p_reactie_id: reactieId });
   revalidatePath("/admin/reacties");
   return { ok: true };
@@ -237,6 +318,12 @@ export async function bevestigPlaatsing(
   const supabase = await getSupabaseServer();
   if (!supabase) return { ok: false };
 
+  // Star-gegevens vooraf ophalen (voor de felicitatie-mail na het plaatsen).
+  const { data: reacties } = await supabase.rpc("admin_reacties");
+  const r = ((reacties as AdminReactie[] | null) ?? []).find(
+    (x) => x.reactie_id === reactieId,
+  );
+
   const { error } = await supabase.rpc("bevestig_plaatsing", {
     p_reactie_id: reactieId,
     p_deal_type: dealType,
@@ -247,6 +334,23 @@ export async function bevestigPlaatsing(
     console.error("bevestig_plaatsing:", error.message);
     return { ok: false };
   }
+
+  // Trigger B: felicitatie naar de geplaatste ster.
+  if (r?.star.email) {
+    await stuurMail({
+      naar: r.star.email,
+      onderwerp: `Je bent geplaatst op: ${r.missie_titel}`,
+      html: emailHtml({
+        voorkop: "Geplaatst",
+        kop: "Gefeliciteerd — je bent geplaatst",
+        alineas: [
+          `${esc(r.star.naam.split(" ")[0])}, je bent geplaatst op <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>. Mooi werk! ✦`,
+          "We nemen contact op over de praktische afspraken.",
+        ],
+      }),
+    });
+  }
+
   revalidatePath("/admin/reacties");
   revalidatePath("/missies");
   revalidatePath("/");
