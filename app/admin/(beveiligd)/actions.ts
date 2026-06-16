@@ -292,6 +292,27 @@ export async function zetMembership(
   return { ok: true };
 }
 
+/** Verwijdert een vouch-aanvraag (opschonen van de kandidatenpool). */
+export async function verwijderAanvraag(
+  aanvraagId: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("verwijder_vouch_aanvraag", {
+    p_id: aanvraagId,
+  });
+  if (error) {
+    console.error("verwijder_vouch_aanvraag:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/uitnodigingen");
+  return { ok: true };
+}
+
 export async function wijsKandidaatAf(
   aanvraagId: string,
 ): Promise<{ ok: boolean }> {

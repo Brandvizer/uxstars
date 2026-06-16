@@ -456,6 +456,10 @@ export type Database = {
         Args: { p_id: string; p_status: string };
         Returns: undefined;
       };
+      verwijder_vouch_aanvraag: {
+        Args: { p_id: string };
+        Returns: undefined;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

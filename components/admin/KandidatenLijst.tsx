@@ -5,6 +5,7 @@ import Badge from "@/components/ui/Badge";
 import {
   nodigKandidaatUit,
   wijsKandidaatAf,
+  verwijderAanvraag,
 } from "@/app/admin/(beveiligd)/actions";
 import type { VouchAanvraag } from "@/lib/admin-data";
 
@@ -13,6 +14,19 @@ function Kaart({ aanvraag }: { aanvraag: VouchAanvraag }) {
   const [link, setLink] = useState<string | null>(null);
   const [status, setStatus] = useState(aanvraag.status);
   const [melding, setMelding] = useState<string | null>(null);
+  const [bevestigWeg, setBevestigWeg] = useState(false);
+  const [weg, setWeg] = useState(false);
+  const [verwijderBezig, setVerwijderBezig] = useState(false);
+
+  const verwijder = async () => {
+    setVerwijderBezig(true);
+    const r = await verwijderAanvraag(aanvraag.id);
+    setVerwijderBezig(false);
+    if (r.ok) setWeg(true);
+    else setBevestigWeg(false);
+  };
+
+  if (weg) return null;
 
   const uitnodigen = async () => {
     setBezig("uitnodigen");
@@ -89,6 +103,37 @@ function Kaart({ aanvraag }: { aanvraag: VouchAanvraag }) {
           className="mt-2 w-full rounded-xl border border-lijn bg-achtergrond px-4 py-2.5 font-mono text-xs text-tekst"
         />
       )}
+
+      <div className="mt-4 flex justify-end border-t border-lijn/60 pt-3 text-sm">
+        {!bevestigWeg ? (
+          <button
+            type="button"
+            onClick={() => setBevestigWeg(true)}
+            className="text-tekst-secundair transition-colors duration-200 hover:text-red-400"
+          >
+            Verwijderen
+          </button>
+        ) : (
+          <span className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={verwijder}
+              disabled={verwijderBezig}
+              className="rounded-full bg-red-500 px-4 py-1.5 font-semibold text-white transition-colors duration-200 hover:bg-red-600 disabled:opacity-50"
+            >
+              {verwijderBezig ? "Bezig…" : "Zeker weten?"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setBevestigWeg(false)}
+              disabled={verwijderBezig}
+              className="text-tekst-secundair transition-colors duration-200 hover:text-tekst"
+            >
+              Annuleren
+            </button>
+          </span>
+        )}
+      </div>
     </article>
   );
 }
