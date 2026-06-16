@@ -249,6 +249,10 @@ export type Database = {
           einddatum: string | null;
           tarief_uur: number | null;
           status: PlaatsingStatus;
+          deal_type: string;
+          klant_tarief_uur: number | null;
+          marge_uur: number | null;
+          contract_status: string;
           created_at: string;
         };
         Insert: {
@@ -259,6 +263,10 @@ export type Database = {
           einddatum?: string | null;
           tarief_uur?: number | null;
           status?: PlaatsingStatus;
+          deal_type?: string;
+          klant_tarief_uur?: number | null;
+          marge_uur?: number | null;
+          contract_status?: string;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["plaatsingen"]["Insert"]>;
@@ -331,7 +339,20 @@ export type Database = {
         Returns: undefined;
       };
       bevestig_plaatsing: {
-        Args: { p_reactie_id: string };
+        Args: {
+          p_reactie_id: string;
+          p_deal_type?: string;
+          p_ster_tarief?: number;
+          p_klant_tarief?: number;
+        };
+        Returns: undefined;
+      };
+      admin_plaatsingen: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      zet_contract_status: {
+        Args: { p_plaatsing_id: string; p_status: string };
         Returns: undefined;
       };
       publieke_sterren: {
