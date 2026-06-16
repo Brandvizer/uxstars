@@ -13,6 +13,29 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { MEMBERSHIP, euro } from "@/lib/membership";
 
+const VOORDELEN = [
+  {
+    titel: "Onbeperkt missies plaatsen",
+    tekst: "Geen kosten per vacature — plaats zoveel opdrachten als je wilt.",
+  },
+  {
+    titel: "Het gevouchte netwerk",
+    tekst: "Alleen designers die door hun peers zijn aanbevolen. Geen ruis.",
+  },
+  {
+    titel: "Direct contact met je designer",
+    tekst: "Praat rechtstreeks, zonder tussenpersoon of recruiter.",
+  },
+  {
+    titel: "Keuze per opdracht",
+    tekst: "Direct of Via UXSTARS — zonder Wet-DBA-risico, zonder gedoe.",
+  },
+  {
+    titel: "Persoonlijke matching",
+    tekst: "We denken mee welke ster het beste bij je missie past.",
+  },
+];
+
 export default function BedrijfWelkom() {
   const router = useRouter();
   const [klaar, setKlaar] = useState(false);
@@ -109,7 +132,7 @@ export default function BedrijfWelkom() {
   const plan = ritme === "jaar" ? MEMBERSHIP.jaar : MEMBERSHIP.maand;
 
   return (
-    <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
+    <div className={`mx-auto px-4 py-16 sm:px-6 ${stap === 2 ? "max-w-4xl" : "max-w-xl"}`}>
       {stap < 3 && (
         <div className="mb-8 flex items-center gap-2">
           {[1, 2, 3].map((n) => (
@@ -201,57 +224,97 @@ export default function BedrijfWelkom() {
 
       {/* Stap 2 — membership */}
       {stap === 2 && (
-        <>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
-            Stap 2 van 3
-          </p>
-          <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
-            Kies je membership
-          </h1>
-          <p className="mt-3 text-tekst-secundair">
-            Start met <span className="text-tekst">{MEMBERSHIP.trialDagen} dagen gratis</span> — je betaalt pas daarna, en je kunt altijd opzeggen.
-          </p>
-
-          <div className="mt-6 inline-flex rounded-full border border-lijn p-1">
-            {(["maand", "jaar"] as const).map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => setRitme(r)}
-                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors duration-200 ${
-                  ritme === r ? "bg-accent text-achtergrond" : "text-tekst-secundair hover:text-tekst"
-                }`}
-              >
-                {r === "maand" ? "Maandelijks" : "Jaarlijks"}
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-accent/40 bg-paneel p-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
-              {MEMBERSHIP.naam}
+        <div className="grid gap-10 lg:grid-cols-5 lg:items-start">
+          {/* Links — waarde */}
+          <div className="lg:col-span-3">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+              Stap 2 van 3
             </p>
-            <p className="mt-3">
-              <span className="text-4xl font-bold">{euro(plan.prijs)}</span>{" "}
-              <span className="text-tekst-secundair">{plan.periode}</span>
+            <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+              Kies je membership
+            </h1>
+            <p className="mt-3 text-tekst-secundair">
+              Eén lidmaatschap, alles inbegrepen. Start met{" "}
+              <span className="text-tekst">{MEMBERSHIP.trialDagen} dagen gratis</span> —
+              je betaalt pas daarna en je kunt altijd opzeggen.
             </p>
-            {ritme === "jaar" && (
-              <p className="mt-1 text-sm text-succes">≈ 2 maanden gratis t.o.v. maandelijks</p>
-            )}
-            <ul className="mt-5 space-y-2 text-sm text-tekst-secundair">
-              <li>✦ Onbeperkt missies plaatsen</li>
-              <li>✦ Bereik het gevouchte netwerk</li>
-              <li>✦ Direct contact met je designer</li>
+
+            <ul className="mt-8 space-y-5">
+              {VOORDELEN.map((v) => (
+                <li key={v.titel} className="flex gap-4">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-3.5 w-3.5 fill-current"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+                    </svg>
+                  </span>
+                  <div>
+                    <p className="font-semibold">{v.titel}</p>
+                    <p className="text-sm text-tekst-secundair">{v.tekst}</p>
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <Button onClick={kiesPlan} disabled={bezig} className="mt-6 w-full">
-            {bezig ? "Bezig…" : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
-          </Button>
-          <p className="mt-3 text-center text-xs text-tekst-secundair">
-            Geen verplichtingen tijdens de proefperiode. Betaling volgt later.
-          </p>
-        </>
+          {/* Rechts — keuze + prijs */}
+          <div className="lg:col-span-2 lg:sticky lg:top-28">
+            <div className="rounded-3xl border border-accent/40 bg-paneel p-6 shadow-[0_0_60px_rgba(245,185,65,0.06)]">
+              <div className="inline-flex rounded-full border border-lijn p-1">
+                {(["maand", "jaar"] as const).map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setRitme(r)}
+                    className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors duration-200 ${
+                      ritme === r
+                        ? "bg-accent text-achtergrond"
+                        : "text-tekst-secundair hover:text-tekst"
+                    }`}
+                  >
+                    {r === "maand" ? "Maandelijks" : "Jaarlijks"}
+                  </button>
+                ))}
+              </div>
+
+              <p className="mt-6 text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+                {MEMBERSHIP.naam}
+              </p>
+              <p className="mt-2">
+                <span className="text-4xl font-bold">{euro(plan.prijs)}</span>{" "}
+                <span className="text-tekst-secundair">{plan.periode}</span>
+              </p>
+              {ritme === "jaar" && (
+                <p className="mt-1 text-sm text-succes">
+                  ≈ 2 maanden gratis t.o.v. maandelijks
+                </p>
+              )}
+
+              <Button onClick={kiesPlan} disabled={bezig} className="mt-6 w-full">
+                {bezig ? "Bezig…" : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
+              </Button>
+              <p className="mt-3 text-center text-xs text-tekst-secundair">
+                Geen verplichtingen tijdens de proefperiode.
+              </p>
+
+              <div className="mt-6 space-y-2 border-t border-lijn pt-5 text-sm text-tekst-secundair">
+                <p className="flex items-center gap-2">
+                  <span className="text-succes">✓</span> {MEMBERSHIP.trialDagen} dagen
+                  gratis proberen
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="text-succes">✓</span> Maandelijks opzegbaar
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="text-succes">✓</span> Geen setup-kosten
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Stap 3 — klaar */}
