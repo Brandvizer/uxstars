@@ -21,6 +21,7 @@ export default function Welkom() {
   const [token, setToken] = useState<string | null>(null);
   const [bezig, setBezig] = useState(false);
   const [fout, setFout] = useState<string | null>(null);
+  const [geactiveerd, setGeactiveerd] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = getSupabaseBrowser();
@@ -40,10 +41,11 @@ export default function Welkom() {
     setBezig(true);
     setFout(null);
     const f = new FormData(e.currentTarget);
+    const naam = String(f.get("naam"));
     const supabase = getSupabaseBrowser();
     const { error } = await supabase.rpc("gebruik_uitnodiging", {
       p_token: token,
-      p_naam: String(f.get("naam")),
+      p_naam: naam,
       p_specialisme: String(f.get("specialisme")),
       p_seniority: String(f.get("seniority")),
     });
@@ -59,8 +61,40 @@ export default function Welkom() {
       return;
     }
     localStorage.removeItem("uxstars_uitnodiging");
-    router.replace("/account");
+    setGeactiveerd(naam);
   };
+
+  if (geactiveerd) {
+    return (
+      <div className="mx-auto flex min-h-[82vh] max-w-md flex-col items-center justify-center px-4 text-center sm:px-6">
+        <svg
+          viewBox="0 0 24 24"
+          className="ster-ontvlam h-24 w-24 fill-accent"
+          aria-hidden="true"
+        >
+          <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+        </svg>
+        <h1
+          className="rijs-in mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
+          style={{ animationDelay: "0.3s" }}
+        >
+          Je ster staat aan
+        </h1>
+        <p
+          className="rijs-in mt-4 text-lg text-tekst-secundair"
+          style={{ animationDelay: "0.5s" }}
+        >
+          Welkom in het stelsel, {geactiveerd.split(" ")[0]}. Vanaf nu vinden
+          missies jou.
+        </p>
+        <div className="rijs-in mt-8" style={{ animationDelay: "0.7s" }}>
+          <Button onClick={() => router.replace("/account")}>
+            Naar je profiel ✦
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (!klaar) {
     return (
