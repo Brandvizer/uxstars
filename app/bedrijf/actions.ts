@@ -95,6 +95,23 @@ export async function werkBedrijfBij(
   return { ok: true };
 }
 
+/** Bedrijf start de membership-proefperiode + legt de plankeuze vast. */
+export async function startMembershipTrial(
+  tier: string,
+): Promise<{ ok: boolean }> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const { error } = await supabase.rpc("start_membership_trial", {
+    p_tier: tier,
+  });
+  if (error) {
+    console.error("start_membership_trial:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/bedrijf");
+  return { ok: true };
+}
+
 export async function uitloggenBedrijf() {
   const supabase = await getSupabaseServer();
   if (supabase) await supabase.auth.signOut();

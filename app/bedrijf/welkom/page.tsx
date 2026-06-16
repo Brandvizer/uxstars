@@ -1,17 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
-import { maakBedrijf } from "@/app/bedrijf/actions";
+import {
+  maakBedrijf,
+  werkBedrijfBij,
+  startMembershipTrial,
+} from "@/app/bedrijf/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { MEMBERSHIP, euro } from "@/lib/membership";
 
 export default function BedrijfWelkom() {
   const router = useRouter();
   const [klaar, setKlaar] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [stap, setStap] = useState(1);
   const [bezig, setBezig] = useState(false);
   const [fout, setFout] = useState(false);
+
+  const [naam, setNaam] = useState("");
+  const [contact, setContact] = useState("");
+  const [website, setWebsite] = useState("");
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [uploadt, setUploadt] = useState(false);
+  const logoInput = useRef<HTMLInputElement>(null);
+
+  const [ritme, setRitme] = useState<"maand" | "jaar">("jaar");
 
   useEffect(() => {
     const supabase = getSupabaseBrowser();
@@ -20,22 +36,55 @@ export default function BedrijfWelkom() {
         router.replace("/bedrijf/login");
         return;
       }
+      setUserId(data.user.id);
       setKlaar(true);
     });
   }, [router]);
 
-  const aanmaken = async (e: React.FormEvent<HTMLFormElement>) => {
+  const uploadLogo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !userId) return;
+    setUploadt(true);
+    const supabase = getSupabaseBrowser();
+    const ext = (file.name.split(".").pop() || "png").toLowerCase();
+    const pad = `${userId}/logo.${ext}`;
+    const { error } = await supabase.storage
+      .from("profielfotos")
+      .upload(pad, file, { upsert: true, cacheControl: "3600" });
+    if (!error) {
+      const { data } = supabase.storage.from("profielfotos").getPublicUrl(pad);
+      setLogoUrl(`${data.publicUrl}?v=${Date.now()}`);
+    }
+    setUploadt(false);
+  };
+
+  const verstuurStap1 = async (e: React.FormEvent) => {
     e.preventDefault();
     setBezig(true);
     setFout(false);
-    const f = new FormData(e.currentTarget);
-    const r = await maakBedrijf(String(f.get("naam") ?? ""));
-    if (r.ok) {
-      router.replace("/bedrijf");
-    } else {
+    const r = await maakBedrijf(naam);
+    if (!r.ok) {
       setBezig(false);
       setFout(true);
+      return;
     }
+    await werkBedrijfBij({
+      naam,
+      contactpersoon: contact,
+      website,
+      logo_url: logoUrl ?? "",
+    });
+    setBezig(false);
+    setStap(2);
+  };
+
+  const kiesPlan = async () => {
+    setBezig(true);
+    const tier =
+      ritme === "jaar" ? MEMBERSHIP.jaar.tier : MEMBERSHIP.maand.tier;
+    await startMembershipTrial(tier);
+    setBezig(false);
+    setStap(3);
   };
 
   if (!klaar) {
@@ -46,30 +95,177 @@ export default function BedrijfWelkom() {
     );
   }
 
+  const plan = ritme === "jaar" ? MEMBERSHIP.jaar : MEMBERSHIP.maand;
+
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
-        Welkom bij UXSTARS
-      </p>
-      <h1 className="mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
-        Maak je bedrijfsaccount
-      </h1>
-      <p className="mt-3 text-tekst-secundair">
-        Nog even de naam van je organisatie — de rest beheer je daarna in je
-        bedrijfsportaal.
-      </p>
+      {stap < 3 && (
+        <div className="mb-8 flex items-center gap-2">
+          {[1, 2, 3].map((n) => (
+            <span
+              key={n}
+              className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                n <= stap ? "bg-accent" : "bg-lijn"
+              }`}
+            />
+          ))}
+        </div>
+      )}
 
-      <form onSubmit={aanmaken} className="mt-8 space-y-5">
-        <Input label="Bedrijfsnaam" name="naam" placeholder="Acme Studio" required />
-        <Button type="submit" disabled={bezig} className="w-full">
-          {bezig ? "Account aanmaken…" : "Account aanmaken"}
-        </Button>
-        {fout && (
-          <p className="text-sm text-accent-actief" role="alert">
-            Er ging iets mis. Probeer het opnieuw.
+      {/* Stap 1 — gegevens + logo */}
+      {stap === 1 && (
+        <>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+            Stap 1 van 3
           </p>
-        )}
-      </form>
+          <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+            Je bedrijfsgegevens
+          </h1>
+          <p className="mt-3 text-tekst-secundair">
+            Vul je gegevens in — deze gebruiken we voor je missies.
+          </p>
+
+          <form onSubmit={verstuurStap1} className="mt-8 space-y-5">
+            <div className="flex items-center gap-5">
+              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-lijn bg-paneel">
+                {logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={logoUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-xs text-tekst-secundair">
+                    Logo
+                  </div>
+                )}
+              </div>
+              <div>
+                <input
+                  ref={logoInput}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                  className="hidden"
+                  onChange={uploadLogo}
+                />
+                <button
+                  type="button"
+                  onClick={() => logoInput.current?.click()}
+                  disabled={uploadt}
+                  className="rounded-full border border-lijn bg-paneel px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+                >
+                  {uploadt ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
+                </button>
+                <p className="mt-2 text-xs text-tekst-secundair">Optioneel.</p>
+              </div>
+            </div>
+
+            <Input
+              label="Bedrijfsnaam"
+              value={naam}
+              onChange={(e) => setNaam(e.target.value)}
+              required
+            />
+            <Input
+              label="Contactpersoon"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+              placeholder="Voor- en achternaam"
+            />
+            <Input
+              label="Website"
+              type="url"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              placeholder="https://"
+            />
+            <Button type="submit" disabled={bezig} className="w-full">
+              {bezig ? "Bezig…" : "Volgende →"}
+            </Button>
+            {fout && (
+              <p className="text-sm text-accent-actief" role="alert">
+                Er ging iets mis. Probeer het opnieuw.
+              </p>
+            )}
+          </form>
+        </>
+      )}
+
+      {/* Stap 2 — membership */}
+      {stap === 2 && (
+        <>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+            Stap 2 van 3
+          </p>
+          <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+            Kies je membership
+          </h1>
+          <p className="mt-3 text-tekst-secundair">
+            Start met <span className="text-tekst">{MEMBERSHIP.trialDagen} dagen gratis</span> — je betaalt pas daarna, en je kunt altijd opzeggen.
+          </p>
+
+          <div className="mt-6 inline-flex rounded-full border border-lijn p-1">
+            {(["maand", "jaar"] as const).map((r) => (
+              <button
+                key={r}
+                type="button"
+                onClick={() => setRitme(r)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors duration-200 ${
+                  ritme === r ? "bg-accent text-achtergrond" : "text-tekst-secundair hover:text-tekst"
+                }`}
+              >
+                {r === "maand" ? "Maandelijks" : "Jaarlijks"}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-accent/40 bg-paneel p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+              {MEMBERSHIP.naam}
+            </p>
+            <p className="mt-3">
+              <span className="text-4xl font-bold">{euro(plan.prijs)}</span>{" "}
+              <span className="text-tekst-secundair">{plan.periode}</span>
+            </p>
+            {ritme === "jaar" && (
+              <p className="mt-1 text-sm text-succes">≈ 2 maanden gratis t.o.v. maandelijks</p>
+            )}
+            <ul className="mt-5 space-y-2 text-sm text-tekst-secundair">
+              <li>✦ Onbeperkt missies plaatsen</li>
+              <li>✦ Bereik het gevouchte netwerk</li>
+              <li>✦ Direct contact met je designer</li>
+            </ul>
+          </div>
+
+          <Button onClick={kiesPlan} disabled={bezig} className="mt-6 w-full">
+            {bezig ? "Bezig…" : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
+          </Button>
+          <p className="mt-3 text-center text-xs text-tekst-secundair">
+            Geen verplichtingen tijdens de proefperiode. Betaling volgt later.
+          </p>
+        </>
+      )}
+
+      {/* Stap 3 — klaar */}
+      {stap === 3 && (
+        <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
+          <svg
+            viewBox="0 0 24 24"
+            className="ster-ontvlam h-20 w-20 fill-accent"
+            aria-hidden="true"
+          >
+            <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+          </svg>
+          <h1 className="rijs-in mt-8 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]" style={{ animationDelay: "0.2s" }}>
+            Account aangemaakt
+          </h1>
+          <p className="rijs-in mt-3 text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
+            Je proefperiode loopt — je kunt nu je eerste missie plaatsen.
+          </p>
+          <div className="rijs-in mt-8" style={{ animationDelay: "0.6s" }}>
+            <Button onClick={() => router.replace("/bedrijf")}>
+              Naar je portaal ✦
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

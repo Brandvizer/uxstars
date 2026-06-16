@@ -20,7 +20,9 @@ export async function getMijnBedrijf(): Promise<Bedrijf | null> {
  * Bepaalt of een bedrijf missies mag plaatsen (gating in 1C).
  */
 export function membershipActief(bedrijf: Bedrijf | null): boolean {
-  if (!bedrijf || bedrijf.membership_status !== "actief") return false;
+  if (!bedrijf) return false;
+  if (bedrijf.membership_status !== "actief" && bedrijf.membership_status !== "trial")
+    return false;
   if (!bedrijf.membership_tot) return true;
   return new Date(bedrijf.membership_tot).getTime() > Date.now();
 }

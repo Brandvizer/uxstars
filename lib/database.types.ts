@@ -460,6 +460,10 @@ export type Database = {
         Args: { p_id: string };
         Returns: undefined;
       };
+      start_membership_trial: {
+        Args: { p_tier: string };
+        Returns: undefined;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
