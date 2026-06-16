@@ -468,6 +468,10 @@ export type Database = {
         Args: { p_tier: string };
         Returns: undefined;
       };
+      werk_missie_bij: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

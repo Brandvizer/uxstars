@@ -3,16 +3,9 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import Badge from "@/components/ui/Badge";
+import MissieKaart from "@/components/bedrijf/MissieKaart";
 import { werkBedrijfBij, uitloggenBedrijf, startPortal } from "@/app/bedrijf/actions";
 import type { Bedrijf, MijnMissie } from "@/lib/bedrijf-data";
-
-function missieBadge(status: string) {
-  if (status === "open") return <Badge kleur="succes">Open</Badge>;
-  if (status === "gevuld") return <Badge kleur="succes">Gevuld</Badge>;
-  if (status === "in_review") return <Badge kleur="accent">In review</Badge>;
-  return <Badge>{status}</Badge>;
-}
 
 const STATUS: Record<string, { tekst: string; klasse: string }> = {
   actief: {
@@ -83,7 +76,7 @@ export default function BedrijfForm({
     : null;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6">
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
@@ -160,25 +153,22 @@ export default function BedrijfForm({
               : "Activeer je membership om te plaatsen."}
           </p>
         ) : (
-          <ul className="mt-4 space-y-3">
-            {missies.map((m) => (
-              <li
-                key={m.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-lijn bg-paneel p-4"
-              >
-                <div className="min-w-0">
-                  <p className="truncate font-semibold">{m.titel}</p>
-                  <p className="text-sm text-tekst-secundair">{m.rol}</p>
-                </div>
-                {missieBadge(m.status)}
-              </li>
-            ))}
-          </ul>
+          <>
+            <p className="mt-2 text-sm text-tekst-secundair">
+              Klik op een missie om de details aan te passen.
+            </p>
+            <ul className="mt-4 space-y-3">
+              {missies.map((m) => (
+                <MissieKaart key={m.id} missie={m} />
+              ))}
+            </ul>
+          </>
         )}
       </div>
 
       {/* Bedrijfsprofiel */}
-      <form onSubmit={opslaan} className="mt-8 space-y-5">
+      <form onSubmit={opslaan} className="mt-12 max-w-2xl space-y-5">
+        <h2 className="text-xl font-semibold">Bedrijfsprofiel</h2>
         <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
         <div className="grid gap-5 sm:grid-cols-2">
           <Input

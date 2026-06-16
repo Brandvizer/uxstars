@@ -78,6 +78,46 @@ export async function plaatsMissieAlsBedrijf(
   return { ok: true, slug };
 }
 
+/** Bewerkt een bestaande missie van het ingelogde bedrijf (gated in de RPC). */
+export async function werkMissieBij(invoer: {
+  id: string;
+  titel: string;
+  rol: string;
+  locatie: string;
+  uren_per_week: string;
+  duur: string;
+  tarief_indicatie: string;
+  start_indicatie: string;
+  omschrijving: string;
+}): Promise<{ ok: boolean }> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const oms = invoer.omschrijving.trim();
+  const intro = oms.length > 180 ? `${oms.slice(0, 180).trimEnd()}…` : oms;
+
+  const { error } = await supabase.rpc("werk_missie_bij", {
+    payload: {
+      id: invoer.id,
+      titel: invoer.titel,
+      rol: invoer.rol,
+      locatie: invoer.locatie,
+      uren_per_week: invoer.uren_per_week,
+      duur: invoer.duur,
+      tarief_indicatie: invoer.tarief_indicatie,
+      start_indicatie: invoer.start_indicatie,
+      intro,
+      omschrijving: oms ? [oms] : [],
+    } as Json,
+  });
+  if (error) {
+    console.error("werk_missie_bij:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/bedrijf");
+  return { ok: true };
+}
+
 /** Maakt (of koppelt) het bedrijfsaccount bij eerste login. Idempotent. */
 export async function maakBedrijf(naam: string): Promise<{ ok: boolean }> {
   const supabase = await getSupabaseServer();

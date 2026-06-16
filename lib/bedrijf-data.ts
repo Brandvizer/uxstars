@@ -33,6 +33,13 @@ export type MijnMissie = {
   titel: string;
   rol: string;
   status: string;
+  locatie: string | null;
+  uren_per_week: string | null;
+  duur: string | null;
+  tarief_indicatie: string | null;
+  start_indicatie: string | null;
+  intro: string | null;
+  omschrijving: string[] | null;
   created_at: string;
 };
 
