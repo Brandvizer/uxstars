@@ -121,18 +121,21 @@ export default function OpdrachtgeversPagina() {
           </div>
         </div>
 
-        <div className="mt-24">
-          <div className="mx-auto max-w-2xl text-center">
+        <div className="mt-20 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="max-w-md">
             <h2>Eén membership, geen verrassingen</h2>
-            <p className="mt-3 text-tekst-secundair">
-              Een vast lidmaatschap om missies te plaatsen en het netwerk te
-              bereiken. De echte waarde — de juiste match — regelen wij per
-              missie.
+            <p className="mt-4 text-lg text-tekst-secundair">
+              Een vast lidmaatschap om missies te plaatsen en het gevouchte
+              netwerk te bereiken. De echte waarde — de juiste match — regelen
+              wij per missie.
+            </p>
+            <p className="mt-5 text-tekst-secundair">
+              Start met <span className="text-tekst">30 dagen gratis</span>.
+              Daarna kies je maandelijks of jaarlijks, en je zegt op wanneer je
+              wilt.
             </p>
           </div>
-          <div className="mt-10">
-            <MembershipKaart />
-          </div>
+          <MembershipKaart />
         </div>
       </div>
 

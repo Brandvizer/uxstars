@@ -16,8 +16,8 @@ export default function MembershipKaart() {
   const plan = ritme === "jaar" ? MEMBERSHIP.jaar : MEMBERSHIP.maand;
 
   return (
-    <div className="mx-auto max-w-md">
-      <div className="mb-6 flex justify-center">
+    <div className="w-full">
+      <div className="mb-6 flex justify-start">
         <div className="inline-flex rounded-full border border-lijn p-1">
           {(["maand", "jaar"] as const).map((r) => (
             <button
