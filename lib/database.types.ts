@@ -92,6 +92,8 @@ export type Database = {
           linkedin_url: string | null;
           foto_url: string | null;
           foto_toestemming: boolean;
+          vouch_herinnerd_op: string | null;
+          beschikbaarheid_gepingd_op: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -110,6 +112,8 @@ export type Database = {
           linkedin_url?: string | null;
           foto_url?: string | null;
           foto_toestemming?: boolean;
+          vouch_herinnerd_op?: string | null;
+          beschikbaarheid_gepingd_op?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -470,6 +474,22 @@ export type Database = {
       };
       werk_missie_bij: {
         Args: { payload: Json };
+        Returns: undefined;
+      };
+      cron_vouch_kandidaten: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      cron_beschikbaarheid_kandidaten: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      cron_markeer_vouch_nudge: {
+        Args: { p_id: string };
+        Returns: undefined;
+      };
+      cron_markeer_beschikbaarheid_nudge: {
+        Args: { p_id: string };
         Returns: undefined;
       };
     };
