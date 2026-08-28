@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { verstuurSterWelkom } from "@/app/welkom/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -61,33 +62,51 @@ export default function Welkom() {
       return;
     }
     localStorage.removeItem("uxstars_uitnodiging");
+    // Feestelijke welkomstmail — fire-and-forget, blokkeert de viering niet.
+    void verstuurSterWelkom(naam).catch(() => {});
     setGeactiveerd(naam);
   };
 
   if (geactiveerd) {
     return (
-      <div className="mx-auto flex min-h-[82vh] max-w-md flex-col items-center justify-center px-4 text-center sm:px-6">
+      <div className="relative mx-auto flex min-h-[82vh] max-w-lg flex-col items-center justify-center px-4 text-center sm:px-6">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/4 h-72 w-72 -translate-x-1/2 rounded-full bg-accent/10 blur-3xl"
+        />
         <svg
           viewBox="0 0 24 24"
-          className="ster-ontvlam h-24 w-24 fill-accent"
+          className="ster-ontvlam relative h-24 w-24 fill-accent"
           aria-hidden="true"
         >
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
         <h1
-          className="rijs-in mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
+          className="rijs-in relative mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
           style={{ animationDelay: "0.3s" }}
         >
           Je ster staat aan
         </h1>
         <p
-          className="rijs-in mt-4 text-lg text-tekst-secundair"
+          className="rijs-in relative mt-4 text-lg text-tekst-secundair"
           style={{ animationDelay: "0.5s" }}
         >
-          Welkom in het stelsel, {geactiveerd.split(" ")[0]}. Vanaf nu vinden
-          missies jou.
+          Welkom in het stelsel, {geactiveerd.split(" ")[0]}. Vanaf nu heb je{" "}
+          <span className="text-tekst">je eigen plek</span> én{" "}
+          <span className="text-tekst">één vouch</span> om iemand binnen te halen.
         </p>
-        <div className="rijs-in mt-8" style={{ animationDelay: "0.7s" }}>
+        <div
+          className="rijs-in relative mt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-tekst-secundair"
+          style={{ animationDelay: "0.6s" }}
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
+            ✦ Reageer op exclusieve missies
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
+            ✦ Breng één designer binnen
+          </span>
+        </div>
+        <div className="rijs-in relative mt-8" style={{ animationDelay: "0.75s" }}>
           <Button onClick={() => router.replace("/account")}>
             Naar je profiel ✦
           </Button>
