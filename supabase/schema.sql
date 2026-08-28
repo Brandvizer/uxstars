@@ -1782,6 +1782,9 @@ as $$
     join public.uitnodigingen u
       on u.uitgever_star_id = s.id and u.status = 'open'
     where s.email is not null
+      and s.email not ilike '%.example'
+      and s.email not ilike '%.test'
+      and s.email not ilike '%.invalid'
       and s.status in ('actief', 'gevouched')
       and s.created_at < now() - interval '3 days'
       and (s.vouch_herinnerd_op is null or s.vouch_herinnerd_op < now() - interval '21 days')
@@ -1803,6 +1806,9 @@ as $$
   )
   from public.stars s
   where s.email is not null
+    and s.email not ilike '%.example'
+    and s.email not ilike '%.test'
+    and s.email not ilike '%.invalid'
     and s.status = 'actief'
     and s.updated_at < now() - interval '30 days'
     and (s.beschikbaarheid_gepingd_op is null or s.beschikbaarheid_gepingd_op < now() - interval '30 days')
