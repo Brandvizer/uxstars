@@ -1833,3 +1833,70 @@ grant execute on function public.cron_vouch_kandidaten() to service_role;
 grant execute on function public.cron_beschikbaarheid_kandidaten() to service_role;
 grant execute on function public.cron_markeer_vouch_nudge(uuid) to service_role;
 grant execute on function public.cron_markeer_beschikbaarheid_nudge(uuid) to service_role;
+
+
+-- ============================================================
+-- 20250612120030_vouch_vangnet.sql
+-- ============================================================
+-- Vouch-vangnet: nette melding bij gelijktijdige dubbel-signup (race).
+
+create or replace function public.gebruik_uitnodiging(
+  p_token       text,
+  p_naam        text,
+  p_specialisme text,
+  p_seniority   text
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_invite   public.uitnodigingen;
+  v_email    text := auth.jwt() ->> 'email';
+  v_star_id  uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'Niet ingelogd';
+  end if;
+
+  if exists (select 1 from public.stars where user_id = auth.uid()) then
+    raise exception 'Je hebt al een ster-account';
+  end if;
+
+  select * into v_invite
+  from public.uitnodigingen
+  where token = p_token and status = 'open'
+  for update;
+
+  if v_invite.id is null then
+    raise exception 'Uitnodiging ongeldig of al gebruikt';
+  end if;
+
+  begin
+    insert into public.stars (naam, specialisme, seniority, beschikbaar, status, email, user_id)
+    values (p_naam, p_specialisme, p_seniority, false, 'actief', v_email, auth.uid())
+    returning id into v_star_id;
+  exception when unique_violation then
+    raise exception 'Je hebt al een ster-account';
+  end;
+
+  if v_invite.uitgever_star_id is not null then
+    insert into public.vouches (van_star_id, naar_star_id)
+    values (v_invite.uitgever_star_id, v_star_id)
+    on conflict do nothing;
+  end if;
+
+  update public.uitnodigingen
+  set status = 'gebruikt', gebruikt_door_star_id = v_star_id, gebruikt_op = now()
+  where id = v_invite.id;
+
+  insert into public.uitnodigingen (token, uitgever_star_id)
+  values (gen_random_uuid()::text, v_star_id);
+
+  return v_star_id;
+end;
+$$;
+
+revoke all on function public.gebruik_uitnodiging(text, text, text, text) from public;
+grant execute on function public.gebruik_uitnodiging(text, text, text, text) to authenticated;
