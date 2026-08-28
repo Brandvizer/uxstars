@@ -3,7 +3,60 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { stuurMail, emailHtml, esc } from "@/lib/mail";
 import type { Json } from "@/lib/database.types";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uxstars.vercel.app";
+
+/**
+ * Stuurt je eigen vouch als mail naar één ontvanger. Haalt je uitnodiging +
+ * naam server-side op (niet te vertrouwen vanaf de client) en weigert als je
+ * vouch al is gebruikt.
+ */
+export async function verstuurVouchNaar(
+  naarEmail: string,
+  bericht?: string,
+): Promise<{ ok: boolean; fout?: string }> {
+  const email = naarEmail.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    return { ok: false, fout: "ongeldig-adres" };
+  }
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false, fout: "geen-db" };
+
+  const { data: uitnodiging } = await supabase.rpc("mijn_uitnodiging");
+  const u = uitnodiging as
+    | { token: string; code: string | null; status: string }
+    | null;
+  if (!u || u.status !== "open") {
+    return { ok: false, fout: "geen-open-vouch" };
+  }
+
+  const { data: profiel } = await supabase.rpc("mijn_profiel");
+  const naam = (profiel as { naam: string }[] | null)?.[0]?.naam ?? "Een ster";
+  const voornaam = naam.split(" ")[0] || naam;
+  const schoonBericht = (bericht ?? "").trim().slice(0, 500);
+
+  const { ok } = await stuurMail({
+    naar: email,
+    onderwerp: `${voornaam} vouchte jou voor UXSTARS ✦`,
+    html: emailHtml({
+      voorkop: "Je bent gevouched",
+      kop: `${esc(voornaam)} vouchte jou voor UXSTARS ✦`,
+      alineas: [
+        schoonBericht ? `&ldquo;${esc(schoonBericht)}&rdquo;` : "",
+        `${esc(naam)} geeft jou een plek in UXSTARS — een besloten netwerk van gevouchte UX-designers. Alleen wie een vouch krijgt, komt binnen.`,
+        u.code
+          ? `Je vouch-code is <strong>${esc(u.code)}</strong>. Wissel 'm in via de knop, of tik 'm op uxstars.nl/uitnodiging.`
+          : "Wissel je vouch in via de knop hieronder.",
+      ],
+      knop: { label: "Word een ster ✦", url: `${SITE_URL}/uitnodiging/${u.token}` },
+    }),
+  });
+
+  return ok ? { ok: true } : { ok: false, fout: "mail" };
+}
 
 export async function werkProfielBij(
   payload: Record<string, unknown>,

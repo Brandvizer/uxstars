@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { verstuurVouchNaar } from "@/app/account/actions";
 
 /**
  * Kras-vouch: een gouden folie over je unieke vouch-code die je met je muis of
@@ -21,6 +22,19 @@ export default function KrasVouch({
   const [onthuld, setOnthuld] = useState(false);
   const [codeGekopieerd, setCodeGekopieerd] = useState(false);
   const [linkGekopieerd, setLinkGekopieerd] = useState(false);
+  const [naarEmail, setNaarEmail] = useState("");
+  const [bericht, setBericht] = useState("");
+  const [mailStatus, setMailStatus] = useState<
+    "idle" | "bezig" | "verzonden" | "fout"
+  >("idle");
+
+  const verstuurMail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!naarEmail.trim()) return;
+    setMailStatus("bezig");
+    const r = await verstuurVouchNaar(naarEmail, bericht);
+    setMailStatus(r.ok ? "verzonden" : "fout");
+  };
 
   const bewaarSleutel = `uxstars_vouch_onthuld_${code}`;
 
@@ -171,6 +185,50 @@ export default function KrasVouch({
             <span className="text-tekst">uxstars.nl/uitnodiging</span>. Je kunt je
             vouch éénmaal weggeven.
           </p>
+
+          {/* Direct per mail versturen */}
+          <div className="rounded-2xl border border-lijn bg-achtergrond p-4">
+            <p className="text-sm font-semibold">Of stuur je vouch direct per mail</p>
+            {mailStatus === "verzonden" ? (
+              <p className="mt-2 text-sm text-succes">
+                Verstuurd naar <span className="text-tekst">{naarEmail}</span> ✦ Ze
+                vinden jouw vouch in hun inbox.
+              </p>
+            ) : (
+              <form onSubmit={verstuurMail} className="mt-3 space-y-3">
+                <input
+                  type="email"
+                  required
+                  value={naarEmail}
+                  onChange={(e) => {
+                    setNaarEmail(e.target.value);
+                    if (mailStatus === "fout") setMailStatus("idle");
+                  }}
+                  placeholder="naam@voorbeeld.nl"
+                  className="w-full rounded-xl border border-lijn bg-paneel px-4 py-2.5 text-sm text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none"
+                />
+                <textarea
+                  value={bericht}
+                  onChange={(e) => setBericht(e.target.value)}
+                  rows={2}
+                  placeholder="Persoonlijk bericht (optioneel)"
+                  className="w-full resize-y rounded-xl border border-lijn bg-paneel px-4 py-2.5 text-sm text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={mailStatus === "bezig" || !naarEmail.trim()}
+                  className="rounded-full bg-accent px-5 py-2 text-sm font-semibold text-achtergrond transition-colors duration-200 hover:bg-accent-actief disabled:opacity-50"
+                >
+                  {mailStatus === "bezig" ? "Versturen…" : "Verstuur vouch ✦"}
+                </button>
+                {mailStatus === "fout" && (
+                  <p className="text-sm text-accent-actief" role="alert">
+                    Versturen lukte niet. Check het adres en probeer het opnieuw.
+                  </p>
+                )}
+              </form>
+            )}
+          </div>
         </div>
       ) : (
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
