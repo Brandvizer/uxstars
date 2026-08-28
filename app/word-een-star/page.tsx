@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import VouchAanvraagForm from "@/components/auth/VouchAanvraagForm";
 
@@ -110,21 +111,21 @@ export default function WordEenStarPagina() {
             </p>
             <p className="mt-6 text-sm text-tekst-secundair">
               Heb je een vouch-code gekregen?{" "}
-              <a
+              <Link
                 href="/uitnodiging"
                 className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
               >
-                Wissel 'm in ✦
-              </a>
+                Wissel &apos;m in ✦
+              </Link>
             </p>
             <p className="mt-2 text-sm text-tekst-secundair">
               Al een ster in het stelsel?{" "}
-              <a
+              <Link
                 href="/account/login"
                 className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
               >
                 Inloggen
-              </a>
+              </Link>
             </p>
           </div>
           <VouchAanvraagForm />

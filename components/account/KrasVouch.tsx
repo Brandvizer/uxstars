@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Button from "@/components/ui/Button";
 
 /**
  * Kras-vouch: een gouden folie over je unieke vouch-code die je met je muis of
@@ -168,7 +167,7 @@ export default function KrasVouch({
             )}
           </div>
           <p className="text-sm text-tekst-secundair">
-            Geef de code of de link aan één designer. Zij wisselen 'm in op{" "}
+            Geef de code of de link aan één designer. Zij wisselen &apos;m in op{" "}
             <span className="text-tekst">uxstars.nl/uitnodiging</span>. Je kunt je
             vouch éénmaal weggeven.
           </p>

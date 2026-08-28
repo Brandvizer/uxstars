@@ -311,7 +311,7 @@ export default function AccountForm({
           <>
             <p className="mt-3 text-tekst-secundair">
               Alleen de beste designers krijgen toegang. Jij weet wie in jouw
-              netwerk eruit springt — kras je vouch vrij en geef 'm door.
+              netwerk eruit springt — kras je vouch vrij en geef &apos;m door.
             </p>
             <div className="mt-5">
               {uitnodiging?.code ? (

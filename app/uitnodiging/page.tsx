@@ -111,8 +111,8 @@ export default function VouchInwisselen() {
             </Button>
             {status === "ongeldig" && (
               <p className="text-sm text-accent-actief" role="alert">
-                Deze code bestaat niet of is al gebruikt. Check 'm even bij degene
-                die je vouchte.
+                Deze code bestaat niet of is al gebruikt. Check &apos;m even bij
+                degene die je vouchte.
               </p>
             )}
           </form>
