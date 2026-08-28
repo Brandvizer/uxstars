@@ -32,13 +32,13 @@ function beschikbaarheidMail(naam: string, link: string): string {
 }
 
 export async function GET(req: Request) {
-  // Vercel Cron stuurt 'Authorization: Bearer <CRON_SECRET>' mee als die env is gezet.
+  // Altijd een geldige CRON_SECRET vereisen. Zonder gezette secret draait er
+  // niets — voorkomt dat de endpoint ooit ongeauthenticeerd mails verstuurt.
+  // Vercel Cron stuurt automatisch 'Authorization: Bearer <CRON_SECRET>' mee.
   const secret = process.env.CRON_SECRET;
-  if (secret) {
-    const auth = req.headers.get("authorization");
-    if (auth !== `Bearer ${secret}`) {
-      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    }
+  const auth = req.headers.get("authorization");
+  if (!secret || auth !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
   const svc = getSupabaseService();
