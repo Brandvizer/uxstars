@@ -173,9 +173,18 @@ export default function KrasVouch({
           </p>
         </div>
       ) : (
-        <p className="mt-3 text-sm text-tekst-secundair">
-          Sleep met je muis over het gouden vlak om je code vrij te krassen.
-        </p>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm text-tekst-secundair">
+            Sleep met je muis over het gouden vlak om je code vrij te krassen.
+          </p>
+          <button
+            type="button"
+            onClick={onthul}
+            className="text-sm font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+          >
+            Onthul direct →
+          </button>
+        </div>
       )}
     </div>
   );
