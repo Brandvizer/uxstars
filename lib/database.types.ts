@@ -150,6 +150,7 @@ export type Database = {
         Row: {
           id: string;
           token: string;
+          code: string | null;
           uitgever_star_id: string | null;
           gebruikt_door_star_id: string | null;
           status: "open" | "gebruikt" | "ingetrokken";
@@ -159,6 +160,7 @@ export type Database = {
         Insert: {
           id?: string;
           token: string;
+          code?: string | null;
           uitgever_star_id?: string | null;
           gebruikt_door_star_id?: string | null;
           status?: "open" | "gebruikt" | "ingetrokken";
@@ -348,6 +350,10 @@ export type Database = {
       };
       mijn_uitnodiging: {
         Args: Record<string, never>;
+        Returns: Json;
+      };
+      uitnodiging_via_code: {
+        Args: { p_code: string };
         Returns: Json;
       };
       maak_bootstrap_uitnodiging: {

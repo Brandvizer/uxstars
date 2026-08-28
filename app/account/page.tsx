@@ -62,7 +62,11 @@ export default async function AccountPage() {
     <AccountForm
       profiel={profiel}
       uitnodiging={
-        uitnodiging as { token: string; status: string } | null
+        uitnodiging as {
+          token: string;
+          code?: string | null;
+          status: string;
+        } | null
       }
       stelsel={stelsel as Stelsel | null}
       aanbevelingen={(aanbevelingen as Aanbeveling[] | null) ?? []}

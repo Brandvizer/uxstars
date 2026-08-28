@@ -109,6 +109,15 @@ export default function WordEenStarPagina() {
               radar, dan kijken een lid of wij wie je werk kent.
             </p>
             <p className="mt-6 text-sm text-tekst-secundair">
+              Heb je een vouch-code gekregen?{" "}
+              <a
+                href="/uitnodiging"
+                className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+              >
+                Wissel 'm in ✦
+              </a>
+            </p>
+            <p className="mt-2 text-sm text-tekst-secundair">
               Al een ster in het stelsel?{" "}
               <a
                 href="/account/login"
