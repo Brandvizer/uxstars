@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import { stuurInloglink } from "@/app/auth/actions";
 import Button from "@/components/ui/Button";
@@ -23,6 +23,13 @@ export default function UitnodigingWelkom({
   const [fase, setFase] = useState<"kras" | "aanmelden">("kras");
   const [gevalideerd, setGevalideerd] = useState(false);
   const [email, setEmail] = useState(bedoeldVoor ?? "");
+
+  // Al eerder gekrast? Sla de kras-stap over zodat je niet vastloopt.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(`uxstars_kras_${token}`)) setFase("aanmelden");
+    } catch {}
+  }, [token]);
   const [status, setStatus] = useState<
     "idle" | "bezig" | "verzonden" | "fout"
   >("idle");
