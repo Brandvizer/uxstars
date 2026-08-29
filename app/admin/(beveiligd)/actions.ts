@@ -469,3 +469,80 @@ export async function bevestigPlaatsing(
   revalidatePath("/");
   return { ok: true };
 }
+
+/** Keurt een wachtende (gevouchte) aanmelding goed → actief + welkomstmail + eigen vouch. */
+export async function keurSterGoed(starId: string): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { data, error } = await supabase.rpc("keur_ster_goed", { p_star_id: starId });
+  if (error) {
+    console.error("keur_ster_goed:", error.message);
+    return { ok: false };
+  }
+
+  const r = data as { email: string | null; naam: string } | null;
+  if (r?.email) {
+    const base = await huidigeOrigin();
+    await stuurMail({
+      naar: r.email,
+      onderwerp: "Welkom bij UXSTARS ✦",
+      html: emailHtml({
+        voorkop: "Welkom in het stelsel",
+        kop: `${esc(r.naam.split(" ")[0])}, je bent toegelaten ✦`,
+        alineas: [
+          "Goed nieuws — je aanmelding is goedgekeurd. Je bent nu een volwaardige ster in het stelsel.",
+          "<strong>Je eigen profiel</strong> — log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
+          "<strong>Je eigen vouch</strong> — jij mag nu zelf één designer binnenhalen. Kies met zorg; het stelsel groeit door wie jij kiest.",
+        ],
+        knop: { label: "Naar je profiel", url: `${base}/account` },
+      }),
+    });
+  }
+
+  revalidatePath("/admin/aanmeldingen");
+  return { ok: true };
+}
+
+/** Wijst een wachtende aanmelding af → afgewezen + nette motivatie-mail (nazorg). */
+export async function wijsSterAf(
+  starId: string,
+  motivatie: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { data, error } = await supabase.rpc("wijs_ster_af", { p_star_id: starId });
+  if (error) {
+    console.error("wijs_ster_af:", error.message);
+    return { ok: false };
+  }
+
+  const r = data as { email: string | null; naam: string } | null;
+  const reden = motivatie.trim().slice(0, 1000);
+  if (r?.email) {
+    await stuurMail({
+      naar: r.email,
+      onderwerp: "Over je aanmelding bij UXSTARS",
+      html: emailHtml({
+        voorkop: "Je aanmelding",
+        kop: `${esc(r.naam.split(" ")[0])}, bedankt voor je aanmelding`,
+        alineas: [
+          "We hebben je aanmelding zorgvuldig bekeken. Deze keer kunnen we je nog geen plek in het stelsel geven.",
+          reden ? `<strong>Onze toelichting:</strong> ${esc(reden)}` : "",
+          "Dit is geen oordeel over je als designer — het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
+          "Vragen? Reageer gerust op deze mail.",
+        ],
+      }),
+    });
+  }
+
+  revalidatePath("/admin/aanmeldingen");
+  return { ok: true };
+}

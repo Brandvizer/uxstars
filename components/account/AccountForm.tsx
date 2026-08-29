@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import { werkProfielBij, uitloggenStar } from "@/app/account/actions";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
-import KrasVouch from "@/components/account/KrasVouch";
+import NodigUit from "@/components/account/NodigUit";
 import BrengOpdrachtgever, {
   type Aanbeveling,
 } from "@/components/account/BrengOpdrachtgever";
@@ -54,7 +54,6 @@ export default function AccountForm({
   const [tab, setTab] = useState<TabId>("profiel");
   const [bezig, setBezig] = useState(false);
   const [opgeslagen, setOpgeslagen] = useState(false);
-  const [gekopieerd, setGekopieerd] = useState(false);
   const [beschikbaar, setBeschikbaar] = useState(profiel.beschikbaar);
   const [fotoUrl, setFotoUrl] = useState(profiel.foto_url);
   const [toestemming, setToestemming] = useState(profiel.foto_toestemming);
@@ -306,38 +305,16 @@ export default function AccountForm({
       {tab === "stelsel" && (
         <>
       <div className="mt-8 rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-8">
-        <h2 className="text-xl font-semibold">Jouw vouch</h2>
+        <h2 className="text-xl font-semibold">Nodig iemand uit</h2>
         {inviteUrl && uitnodiging?.status === "open" ? (
           <>
             <p className="mt-3 text-tekst-secundair">
-              Alleen de beste designers krijgen toegang. Jij weet wie in jouw
-              netwerk eruit springt — kras je vouch vrij en geef &apos;m door.
+              Jij weet wie in jouw netwerk eruit springt — nodig één designer uit.
+              Zij krijgen een vouch in hun inbox en kunnen die openkrassen. Elke
+              aanmelding beoordelen wij kort.
             </p>
             <div className="mt-5">
-              {uitnodiging?.code ? (
-                <KrasVouch code={uitnodiging.code} inviteUrl={inviteUrl} />
-              ) : (
-                // Terugval als er (nog) geen code is: gewoon de link.
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <input
-                    readOnly
-                    value={inviteUrl}
-                    className={`${veld} font-mono text-sm`}
-                    onFocus={(e) => e.currentTarget.select()}
-                  />
-                  <Button
-                    type="button"
-                    variant="secundair"
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(inviteUrl);
-                      setGekopieerd(true);
-                      setTimeout(() => setGekopieerd(false), 2000);
-                    }}
-                  >
-                    {gekopieerd ? "Gekopieerd ✓" : "Kopieer"}
-                  </Button>
-                </div>
-              )}
+              <NodigUit inviteUrl={inviteUrl} />
             </div>
           </>
         ) : (

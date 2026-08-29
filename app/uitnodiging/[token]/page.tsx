@@ -16,16 +16,27 @@ export default async function UitnodigingPage({
 
   let geldig = false;
   let uitnodiger: string | null = null;
+  let code: string | null = null;
 
   const db = getSupabase();
   if (db) {
     const { data } = await db.rpc("uitnodiging_info", { p_token: token });
-    const info = data as { geldig: boolean; uitnodiger: string | null } | null;
+    const info = data as {
+      geldig: boolean;
+      uitnodiger: string | null;
+      code: string | null;
+    } | null;
     geldig = info?.geldig ?? false;
     uitnodiger = info?.uitnodiger ?? null;
+    code = info?.code ?? null;
   }
 
   return (
-    <UitnodigingWelkom token={token} geldig={geldig} uitnodiger={uitnodiger} />
+    <UitnodigingWelkom
+      token={token}
+      geldig={geldig}
+      uitnodiger={uitnodiger}
+      code={code}
+    />
   );
 }

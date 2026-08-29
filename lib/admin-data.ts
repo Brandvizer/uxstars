@@ -106,6 +106,28 @@ export async function getAdminBedrijfLeads(): Promise<AdminLead[]> {
   return (data as AdminLead[] | null) ?? [];
 }
 
+export type WachtendeSter = {
+  id: string;
+  naam: string;
+  specialisme: string;
+  seniority: string;
+  email: string | null;
+  uitnodiger: string | null;
+  created_at: string;
+};
+
+/** Gevouchte aanmeldingen die op admin-goedkeuring wachten. */
+export async function getWachtendeSterren(): Promise<WachtendeSter[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_wachtende_sterren");
+  if (error) {
+    console.error("getWachtendeSterren:", error.message);
+    return [];
+  }
+  return (data as WachtendeSter[] | null) ?? [];
+}
+
 /** Vouch-aanvragen (kandidatenpool) voor de admin. */
 export async function getVouchAanvragen(): Promise<VouchAanvraag[]> {
   const supabase = await getSupabaseServer();

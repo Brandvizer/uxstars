@@ -27,7 +27,8 @@ export type StarStatus =
   | "aangevraagd"
   | "gevouched"
   | "actief"
-  | "gepauzeerd";
+  | "gepauzeerd"
+  | "afgewezen";
 
 export type ReactieStatus =
   | "nieuw"
@@ -354,6 +355,18 @@ export type Database = {
       };
       uitnodiging_via_code: {
         Args: { p_code: string };
+        Returns: Json;
+      };
+      admin_wachtende_sterren: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      keur_ster_goed: {
+        Args: { p_star_id: string };
+        Returns: Json;
+      };
+      wijs_ster_af: {
+        Args: { p_star_id: string };
         Returns: Json;
       };
       maak_bootstrap_uitnodiging: {

@@ -42,16 +42,14 @@ export async function verstuurVouchNaar(
     naar: email,
     onderwerp: `${voornaam} vouchte jou voor UXSTARS ✦`,
     html: emailHtml({
-      voorkop: "Je bent gevouched",
+      voorkop: "Je hebt een vouch ontvangen",
       kop: `${esc(voornaam)} vouchte jou voor UXSTARS ✦`,
       alineas: [
         schoonBericht ? `&ldquo;${esc(schoonBericht)}&rdquo;` : "",
         `${esc(naam)} geeft jou een plek in UXSTARS — een besloten netwerk van gevouchte UX-designers. Alleen wie een vouch krijgt, komt binnen.`,
-        u.code
-          ? `Je vouch-code is <strong>${esc(u.code)}</strong>. Wissel 'm in via de knop, of tik 'm op uxstars.nl/uitnodiging.`
-          : "Wissel je vouch in via de knop hieronder.",
+        "Open de link hieronder en <strong>kras je vouch open</strong>. Daarna maak je je account aan en beoordelen wij je aanmelding kort.",
       ],
-      knop: { label: "Word een ster ✦", url: `${SITE_URL}/uitnodiging/${u.token}` },
+      knop: { label: "Kras je vouch open ✦", url: `${SITE_URL}/uitnodiging/${u.token}` },
     }),
   });
 

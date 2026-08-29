@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
-import { verstuurSterWelkom } from "@/app/welkom/actions";
+import { meldNieuweAanmelding } from "@/app/welkom/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -62,8 +62,8 @@ export default function Welkom() {
       return;
     }
     localStorage.removeItem("uxstars_uitnodiging");
-    // Feestelijke welkomstmail — fire-and-forget, blokkeert de viering niet.
-    void verstuurSterWelkom(naam).catch(() => {});
+    // Meld de aanmelding aan het team voor beoordeling — fire-and-forget.
+    void meldNieuweAanmelding(naam).catch(() => {});
     setGeactiveerd(naam);
   };
 
@@ -85,30 +85,30 @@ export default function Welkom() {
           className="rijs-in relative mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
           style={{ animationDelay: "0.3s" }}
         >
-          Je ster staat aan
+          Je aanmelding is binnen ✦
         </h1>
         <p
           className="rijs-in relative mt-4 text-lg text-tekst-secundair"
           style={{ animationDelay: "0.5s" }}
         >
-          Welkom in het stelsel, {geactiveerd.split(" ")[0]}. Vanaf nu heb je{" "}
-          <span className="text-tekst">je eigen plek</span> én{" "}
-          <span className="text-tekst">één vouch</span> om iemand binnen te halen.
+          Bedankt, {geactiveerd.split(" ")[0]}. Ons team bekijkt je aanmelding
+          kort — een menselijke check hoort bij een gevoucht netwerk. Je krijgt
+          zo snel mogelijk bericht per mail.
         </p>
         <div
           className="rijs-in relative mt-6 flex flex-wrap items-center justify-center gap-3 text-sm text-tekst-secundair"
           style={{ animationDelay: "0.6s" }}
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
-            ✦ Reageer op exclusieve missies
+            ✦ We beoordelen je aanmelding
           </span>
           <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
-            ✦ Breng één designer binnen
+            ✦ Je hoort het per mail
           </span>
         </div>
         <div className="rijs-in relative mt-8" style={{ animationDelay: "0.75s" }}>
           <Button onClick={() => router.replace("/account")}>
-            Naar je profiel ✦
+            Bekijk je status ✦
           </Button>
         </div>
       </div>

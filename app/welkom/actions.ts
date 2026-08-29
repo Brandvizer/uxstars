@@ -1,38 +1,33 @@
 "use server";
 
 import { getSupabaseServer } from "@/lib/supabase-server";
-import { stuurMail, emailHtml } from "@/lib/mail";
+import { stuurMail, emailHtml, esc } from "@/lib/mail";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uxstars.vercel.app";
 
 /**
- * Feestelijke welkomstmail zodra iemand een ster wordt. Maakt de twee
- * superkrachten glashelder: je eigen profiel + je eigen vouch. Faalt stil
- * (mail is bijzaak, de onboarding zelf is al gelukt).
+ * Meldt een nieuwe (gevouchte) aanmelding aan het team, zodat de admin 'm kan
+ * beoordelen. Faalt stil — de aanmelding zelf is al vastgelegd.
  */
-export async function verstuurSterWelkom(naam: string): Promise<void> {
+export async function meldNieuweAanmelding(naam: string): Promise<void> {
   const supabase = await getSupabaseServer();
   if (!supabase) return;
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const email = user?.email;
-  if (!email) return;
-
-  const voornaam = naam.split(" ")[0] || naam;
+  const email = user?.email ?? "onbekend";
 
   await stuurMail({
-    naar: email,
-    onderwerp: "Je bent nu een ster ✦",
+    naar: "hallo@uxstars.nl",
+    onderwerp: `Nieuwe aanmelding: ${naam}`,
     html: emailHtml({
-      voorkop: "Welkom in het stelsel",
-      kop: `${voornaam}, je bent nu een ster ✦`,
+      voorkop: "Aanmelding",
+      kop: "Nieuwe gevouchte aanmelding",
       alineas: [
-        "Vanaf nu heb je een vaste plek tussen de sterren. Twee dingen zijn nu van jou:",
-        "<strong>Je eigen profiel</strong> — log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers te zien krijgen.",
-        "<strong>Je eigen vouch</strong> — jij mag nu één designer binnenhalen. Kies met zorg: het stelsel groeit door wie jij kiest.",
+        `<strong>${esc(naam)}</strong> (${esc(email)}) heeft een vouch ingewisseld en wacht op goedkeuring.`,
+        "Bekijk en beoordeel de aanmelding in het admin-paneel.",
       ],
-      knop: { label: "Naar je profiel", url: `${SITE_URL}/account` },
+      knop: { label: "Naar aanmeldingen", url: `${SITE_URL}/admin/aanmeldingen` },
     }),
   });
 }
