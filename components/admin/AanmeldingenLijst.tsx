@@ -64,6 +64,37 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
             )}{" "}
             · aangemeld {datum}
           </p>
+
+          {(ster.portfolio_url || ster.linkedin_url) && (
+            <div className="mt-3 flex flex-wrap gap-4 text-sm font-semibold">
+              {ster.portfolio_url && (
+                <a
+                  href={ster.portfolio_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-accent transition-colors duration-200 hover:text-accent-actief"
+                >
+                  Portfolio ↗
+                </a>
+              )}
+              {ster.linkedin_url && (
+                <a
+                  href={ster.linkedin_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-accent transition-colors duration-200 hover:text-accent-actief"
+                >
+                  LinkedIn ↗
+                </a>
+              )}
+            </div>
+          )}
+
+          {ster.bio && (
+            <p className="mt-3 max-w-2xl whitespace-pre-line rounded-xl border border-lijn bg-achtergrond p-3 text-sm text-tekst-secundair">
+              {ster.bio}
+            </p>
+          )}
         </div>
         {!afwijzen && (
           <div className="flex shrink-0 gap-2">

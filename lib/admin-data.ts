@@ -112,6 +112,9 @@ export type WachtendeSter = {
   specialisme: string;
   seniority: string;
   email: string | null;
+  portfolio_url: string | null;
+  linkedin_url: string | null;
+  bio: string | null;
   uitnodiger: string | null;
   created_at: string;
 };

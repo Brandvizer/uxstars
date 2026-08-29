@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import { meldNieuweAanmelding } from "@/app/welkom/actions";
+import { werkProfielBij } from "@/app/account/actions";
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import Input, { Textarea } from "@/components/ui/Input";
 
 const specialismen = [
   "UX Design", "Product Design", "UX Research", "Service Design", "UX Writing",
@@ -61,6 +62,15 @@ export default function Welkom() {
       setFout(error.message);
       return;
     }
+
+    // Portfolio/LinkedIn/motivatie in het (nieuwe) profiel opslaan — nodig voor
+    // de beoordeling en meteen bewaard in het account.
+    await werkProfielBij({
+      portfolio_url: String(f.get("portfolio_url") ?? ""),
+      linkedin_url: String(f.get("linkedin_url") ?? ""),
+      bio: String(f.get("bio") ?? ""),
+    }).catch(() => {});
+
     localStorage.removeItem("uxstars_uitnodiging");
     // Meld de aanmelding aan het team voor beoordeling — fire-and-forget.
     void meldNieuweAanmelding(naam).catch(() => {});
@@ -142,27 +152,49 @@ export default function Welkom() {
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
       <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">Maak je ster</h1>
       <p className="mt-3 text-tekst-secundair">
-        Nog even je basis invullen — de rest beheer je daarna in je profiel.
+        Vul je gegevens in — hiermee beoordeelt ons team je aanmelding. Je kunt
+        alles later aanpassen in je profiel.
       </p>
 
       <form onSubmit={aanmaken} className="mt-8 space-y-5">
         <Input label="Naam" name="naam" placeholder="Voor- en achternaam" required />
-        <div>
-          <label className="mb-2 block text-base font-semibold">Specialisme</label>
-          <select name="specialisme" className={veld} defaultValue="UX Design">
-            {specialismen.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="mb-2 block text-base font-semibold">Specialisme</label>
+            <select name="specialisme" className={veld} defaultValue="UX Design">
+              {specialismen.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="mb-2 block text-base font-semibold">Seniority</label>
+            <select name="seniority" className={veld} defaultValue="Senior">
+              {seniorityNiveaus.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div>
-          <label className="mb-2 block text-base font-semibold">Seniority</label>
-          <select name="seniority" className={veld} defaultValue="Senior">
-            {seniorityNiveaus.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
-        </div>
+        <Input
+          label="Portfolio-link"
+          name="portfolio_url"
+          type="url"
+          placeholder="https://jouwportfolio.nl"
+          required
+        />
+        <Input
+          label="LinkedIn (optioneel)"
+          name="linkedin_url"
+          type="url"
+          placeholder="https://linkedin.com/in/…"
+        />
+        <Textarea
+          label="Waarom jij past bij UXSTARS"
+          name="bio"
+          placeholder="Vertel kort waar je goed in bent en wat voor werk je zoekt — dit helpt ons je aanmelding te beoordelen."
+          required
+        />
         <Button type="submit" disabled={bezig} className="w-full">
           {bezig ? "Je ster gaat aan…" : "Word een ster ✦"}
         </Button>
