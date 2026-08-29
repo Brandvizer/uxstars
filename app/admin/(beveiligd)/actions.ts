@@ -385,7 +385,7 @@ export async function stelVoor(
       r.star.linkedin_url
         ? `LinkedIn: <a href="${encodeURI(r.star.linkedin_url)}" style="color:#a8740f;font-weight:600;">bekijk profiel</a>`
         : "",
-      "Wil je kennismaken? Reageer op deze mail, dan brengen we je in contact.",
+      `Wil je kennismaken? Mail ons op <a href="mailto:hallo@uxstars.nl" style="color:#a8740f;font-weight:600;">hallo@uxstars.nl</a>, dan brengen we je in contact.`,
     ],
   });
 
@@ -537,7 +537,6 @@ export async function wijsSterAf(
           "We hebben je aanmelding zorgvuldig bekeken. Deze keer kunnen we je nog geen plek in het stelsel geven.",
           reden ? `<strong>Onze toelichting:</strong> ${esc(reden)}` : "",
           "Dit is geen oordeel over je als designer — het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
-          "Vragen? Reageer gerust op deze mail.",
         ],
       }),
     });
