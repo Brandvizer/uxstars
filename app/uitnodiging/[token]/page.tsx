@@ -17,6 +17,7 @@ export default async function UitnodigingPage({
   let geldig = false;
   let uitnodiger: string | null = null;
   let code: string | null = null;
+  let bedoeldVoor: string | null = null;
 
   const db = getSupabase();
   if (db) {
@@ -25,10 +26,12 @@ export default async function UitnodigingPage({
       geldig: boolean;
       uitnodiger: string | null;
       code: string | null;
+      bedoeld_voor: string | null;
     } | null;
     geldig = info?.geldig ?? false;
     uitnodiger = info?.uitnodiger ?? null;
     code = info?.code ?? null;
+    bedoeldVoor = info?.bedoeld_voor ?? null;
   }
 
   return (
@@ -37,6 +40,7 @@ export default async function UitnodigingPage({
       geldig={geldig}
       uitnodiger={uitnodiger}
       code={code}
+      bedoeldVoor={bedoeldVoor}
     />
   );
 }

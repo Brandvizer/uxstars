@@ -152,6 +152,7 @@ export type Database = {
           id: string;
           token: string;
           code: string | null;
+          bedoeld_voor: string | null;
           uitgever_star_id: string | null;
           gebruikt_door_star_id: string | null;
           status: "open" | "gebruikt" | "ingetrokken";
@@ -162,6 +163,7 @@ export type Database = {
           id?: string;
           token: string;
           code?: string | null;
+          bedoeld_voor?: string | null;
           uitgever_star_id?: string | null;
           gebruikt_door_star_id?: string | null;
           status?: "open" | "gebruikt" | "ingetrokken";

@@ -12,15 +12,17 @@ export default function UitnodigingWelkom({
   geldig,
   uitnodiger,
   code,
+  bedoeldVoor,
 }: {
   token: string;
   geldig: boolean;
   uitnodiger: string | null;
   code: string | null;
+  bedoeldVoor: string | null;
 }) {
   const [fase, setFase] = useState<"kras" | "aanmelden">("kras");
   const [gevalideerd, setGevalideerd] = useState(false);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(bedoeldVoor ?? "");
   const [status, setStatus] = useState<
     "idle" | "bezig" | "verzonden" | "fout"
   >("idle");

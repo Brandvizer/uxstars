@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSupabaseServer } from "@/lib/supabase-server";
+import { getSupabaseService } from "@/lib/supabase";
 import { stuurMail, emailHtml, esc } from "@/lib/mail";
 import type { Json } from "@/lib/database.types";
 
@@ -37,6 +38,15 @@ export async function verstuurVouchNaar(
   const naam = (profiel as { naam: string }[] | null)?.[0]?.naam ?? "Een ster";
   const voornaam = naam.split(" ")[0] || naam;
   const schoonBericht = (bericht ?? "").trim().slice(0, 500);
+
+  // Onthoud voor wie de vouch bedoeld is (voor prefill op de aanmeld-stap).
+  const svc = getSupabaseService();
+  if (svc) {
+    await svc
+      .from("uitnodigingen")
+      .update({ bedoeld_voor: email })
+      .eq("token", u.token);
+  }
 
   const { ok } = await stuurMail({
     naar: email,
