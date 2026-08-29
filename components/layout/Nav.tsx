@@ -57,12 +57,18 @@ export default function Nav() {
 
   useEffect(() => {
     const supabase = getSupabaseBrowser();
-    supabase.auth.getSession().then(({ data }) => setIngelogd(!!data.session));
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_e, session) => setIngelogd(!!session));
     return () => subscription.unsubscribe();
   }, []);
+
+  // Sessie (her)lezen bij elke navigatie — vangt ook het server-side uitloggen,
+  // want dan vuurt onAuthStateChange in deze client niet.
+  useEffect(() => {
+    const supabase = getSupabaseBrowser();
+    supabase.auth.getSession().then(({ data }) => setIngelogd(!!data.session));
+  }, [pathname]);
 
   const accountHref = ingelogd ? "/account" : "/account/login";
   const accountLabel = ingelogd ? "Mijn account" : "Inloggen";
