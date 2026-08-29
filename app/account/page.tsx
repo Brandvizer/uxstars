@@ -1,9 +1,24 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getSupabaseServer } from "@/lib/supabase-server";
 import AccountForm, { type Stelsel } from "@/components/account/AccountForm";
 import { type Aanbeveling } from "@/components/account/BrengOpdrachtgever";
+import { uitloggenStar } from "@/app/account/actions";
 import Button from "@/components/ui/Button";
+
+function UitlogLink() {
+  return (
+    <form action={uitloggenStar} className="mt-4">
+      <button
+        type="submit"
+        className="text-sm text-tekst-secundair transition-colors duration-200 hover:text-tekst"
+      >
+        Uitloggen
+      </button>
+    </form>
+  );
+}
 
 export const metadata: Metadata = {
   title: "Mijn profiel",
@@ -47,9 +62,16 @@ export default async function AccountPage() {
           maar je hebt nog geen ster-profiel. UXSTARS is invite-only — je komt
           binnen via een vouch van een bestaand lid.
         </p>
-        <div className="mt-6">
-          <Button href="/">Terug naar het stelsel</Button>
+        <div className="mt-6 flex flex-col items-center gap-3">
+          <Button href="/uitnodiging">Heb je een vouch-code? Wissel &apos;m in ✦</Button>
+          <Link
+            href="/"
+            className="text-sm text-tekst-secundair transition-colors duration-200 hover:text-tekst"
+          >
+            Terug naar het stelsel
+          </Link>
         </div>
+        <UitlogLink />
       </div>
     );
   }
@@ -86,6 +108,7 @@ export default async function AccountPage() {
             Terug naar het stelsel
           </Button>
         </div>
+        <UitlogLink />
       </div>
     );
   }
@@ -107,6 +130,7 @@ export default async function AccountPage() {
             Terug naar het stelsel
           </Button>
         </div>
+        <UitlogLink />
       </div>
     );
   }
