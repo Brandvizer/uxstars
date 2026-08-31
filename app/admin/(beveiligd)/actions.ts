@@ -618,10 +618,10 @@ export async function keurAanmelding(
       kop: `${esc(voornaam)}, je bent toegelaten ✦`,
       alineas: [
         "Goed nieuws — je aanmelding is goedgekeurd en je account staat klaar.",
-        "Log in via de knop en maak je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
+        "De knop hieronder logt je <strong>direct in</strong> — geen wachtwoord nodig. Maak daar je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
         "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
       ],
-      knop: { label: "Log in & maak je profiel af", url: link },
+      knop: { label: "Log direct in ✦", url: link },
     }),
   });
 
