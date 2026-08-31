@@ -29,7 +29,12 @@ async function magicLink(
     email,
     options: { redirectTo: `${base}/auth/confirm` },
   });
-  if (error || !data?.properties?.hashed_token) return `${base}${next}`;
+  // Terugval: het inlogscherm (waar je zelf een verse link aanvraagt), niet een
+  // dood /account-linkje dat je toch naar login bounct.
+  if (error || !data?.properties?.hashed_token) {
+    console.error("magicLink generateLink:", error?.message ?? "geen token");
+    return `${base}/account/login?next=${encodeURIComponent(next)}`;
+  }
   const { hashed_token, verification_type } = data.properties;
   return (
     `${base}/auth/confirm?token_hash=${encodeURIComponent(hashed_token)}` +
