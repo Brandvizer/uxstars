@@ -3,33 +3,38 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
-import { keurSterGoed, wijsSterAf } from "@/app/admin/(beveiligd)/actions";
-import type { WachtendeSter } from "@/lib/admin-data";
+import { keurAanmelding, wijsAanmelding } from "@/app/admin/(beveiligd)/actions";
+import type { Aanmelding } from "@/lib/admin-data";
 
-function Kaart({ ster }: { ster: WachtendeSter }) {
+function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
   const router = useRouter();
   const [bezig, setBezig] = useState(false);
   const [afwijzen, setAfwijzen] = useState(false);
   const [motivatie, setMotivatie] = useState("");
   const [klaar, setKlaar] = useState<string | null>(null);
+  const [fout, setFout] = useState<string | null>(null);
 
-  const datum = new Date(ster.created_at).toLocaleDateString("nl-NL", {
+  const datum = new Date(aanmelding.created_at).toLocaleDateString("nl-NL", {
     day: "numeric",
     month: "long",
   });
 
   const goedkeuren = async () => {
     setBezig(true);
-    const r = await keurSterGoed(ster.id);
+    setFout(null);
+    const r = await keurAanmelding(aanmelding.id);
     if (r.ok) {
-      setKlaar("Goedgekeurd ✓ welkomstmail verstuurd");
+      setKlaar("Goedgekeurd ✓ account aangemaakt + welkomstmail verstuurd");
       router.refresh();
-    } else setBezig(false);
+    } else {
+      setBezig(false);
+      setFout(r.fout ?? "Er ging iets mis");
+    }
   };
 
   const afwijzenNu = async () => {
     setBezig(true);
-    const r = await wijsSterAf(ster.id, motivatie);
+    const r = await wijsAanmelding(aanmelding.id, motivatie);
     if (r.ok) {
       setKlaar("Afgewezen — motivatie gemaild");
       router.refresh();
@@ -39,7 +44,8 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
   if (klaar) {
     return (
       <li className="rounded-2xl border border-lijn bg-paneel p-5 text-sm text-tekst-secundair">
-        <span className="font-semibold text-tekst">{ster.naam}</span> — {klaar}
+        <span className="font-semibold text-tekst">{aanmelding.naam}</span> —{" "}
+        {klaar}
       </li>
     );
   }
@@ -48,16 +54,15 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
     <li className="rounded-2xl border border-lijn bg-paneel p-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-semibold">{ster.naam}</p>
+          <p className="font-semibold">{aanmelding.naam}</p>
           <p className="mt-1 text-sm text-tekst-secundair">
-            {ster.specialisme} · {ster.seniority}
-            {ster.email ? ` · ${ster.email}` : ""}
+            {aanmelding.rol} · {aanmelding.seniority} · {aanmelding.email}
           </p>
           <p className="mt-1 text-sm text-tekst-secundair">
-            {ster.uitnodiger ? (
+            {aanmelding.uitnodiger ? (
               <>
                 Gevouched door{" "}
-                <span className="text-tekst">{ster.uitnodiger}</span>
+                <span className="text-tekst">{aanmelding.uitnodiger}</span>
               </>
             ) : (
               "Via een bootstrap-uitnodiging"
@@ -65,37 +70,46 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
             · aangemeld {datum}
           </p>
 
-          {(ster.portfolio_url || ster.linkedin_url) && (
-            <div className="mt-3 flex flex-wrap gap-4 text-sm font-semibold">
-              {ster.portfolio_url && (
-                <a
-                  href={ster.portfolio_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent transition-colors duration-200 hover:text-accent-actief"
-                >
-                  Portfolio ↗
-                </a>
-              )}
-              {ster.linkedin_url && (
-                <a
-                  href={ster.linkedin_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-accent transition-colors duration-200 hover:text-accent-actief"
-                >
-                  LinkedIn ↗
-                </a>
-              )}
-            </div>
-          )}
+          <div className="mt-3 flex flex-wrap gap-4 text-sm font-semibold">
+            {aanmelding.portfolio_url && (
+              <a
+                href={aanmelding.portfolio_url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-accent transition-colors duration-200 hover:text-accent-actief"
+              >
+                Portfolio ↗
+              </a>
+            )}
+            {aanmelding.portfolio_bestand && (
+              <a
+                href={aanmelding.portfolio_bestand}
+                target="_blank"
+                rel="noreferrer"
+                className="text-accent transition-colors duration-200 hover:text-accent-actief"
+              >
+                Portfolio-PDF ↗
+              </a>
+            )}
+            {aanmelding.cv_bestand && (
+              <a
+                href={aanmelding.cv_bestand}
+                target="_blank"
+                rel="noreferrer"
+                className="text-accent transition-colors duration-200 hover:text-accent-actief"
+              >
+                CV ↗
+              </a>
+            )}
+          </div>
 
-          {ster.bio && (
+          {aanmelding.motivatie && (
             <p className="mt-3 max-w-2xl whitespace-pre-line rounded-xl border border-lijn bg-achtergrond p-3 text-sm text-tekst-secundair">
-              {ster.bio}
+              {aanmelding.motivatie}
             </p>
           )}
         </div>
+
         {!afwijzen && (
           <div className="flex shrink-0 gap-2">
             <Button size="sm" onClick={goedkeuren} disabled={bezig}>
@@ -112,6 +126,8 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
           </div>
         )}
       </div>
+
+      {fout && <p className="mt-3 text-sm text-accent-actief">{fout}</p>}
 
       {afwijzen && (
         <div className="mt-4 rounded-xl border border-lijn bg-achtergrond p-4">
@@ -152,20 +168,20 @@ function Kaart({ ster }: { ster: WachtendeSter }) {
 export default function AanmeldingenLijst({
   aanmeldingen,
 }: {
-  aanmeldingen: WachtendeSter[];
+  aanmeldingen: Aanmelding[];
 }) {
   if (aanmeldingen.length === 0) {
     return (
       <p className="rounded-2xl border border-lijn bg-paneel px-6 py-10 text-center text-tekst-secundair">
-        Geen openstaande aanmeldingen. Zodra iemand een vouch inwisselt,
+        Geen openstaande aanmeldingen. Zodra iemand zich via een vouch aanmeldt,
         verschijnt die hier.
       </p>
     );
   }
   return (
     <ul className="space-y-3">
-      {aanmeldingen.map((s) => (
-        <Kaart key={s.id} ster={s} />
+      {aanmeldingen.map((a) => (
+        <Kaart key={a.id} aanmelding={a} />
       ))}
     </ul>
   );

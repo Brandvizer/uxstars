@@ -119,7 +119,33 @@ export type WachtendeSter = {
   created_at: string;
 };
 
-/** Gevouchte aanmeldingen die op admin-goedkeuring wachten. */
+export type Aanmelding = {
+  id: string;
+  naam: string;
+  email: string;
+  rol: string;
+  seniority: string;
+  portfolio_url: string | null;
+  portfolio_bestand: string | null;
+  cv_bestand: string | null;
+  motivatie: string | null;
+  uitnodiger: string | null;
+  created_at: string;
+};
+
+/** Openstaande aanmeldingen (sollicitaties, nog zonder account). */
+export async function getAanmeldingen(): Promise<Aanmelding[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_aanmeldingen");
+  if (error) {
+    console.error("getAanmeldingen:", error.message);
+    return [];
+  }
+  return (data as Aanmelding[] | null) ?? [];
+}
+
+/** Gevouchte aanmeldingen die op admin-goedkeuring wachten (oude flow). */
 export async function getWachtendeSterren(): Promise<WachtendeSter[]> {
   const supabase = await getSupabaseServer();
   if (!supabase) return [];

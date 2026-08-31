@@ -17,6 +17,27 @@ async function huidigeOrigin(): Promise<string> {
   return host ? `${proto}://${host}` : "https://uxstars.vercel.app";
 }
 
+/** Bouwt een magic-inloglink voor een e-mailadres (val terug op een gewone link). */
+async function magicLink(
+  svc: NonNullable<ReturnType<typeof getSupabaseService>>,
+  email: string,
+  next: string,
+): Promise<string> {
+  const base = await huidigeOrigin();
+  const { data, error } = await svc.auth.admin.generateLink({
+    type: "magiclink",
+    email,
+    options: { redirectTo: `${base}/auth/confirm` },
+  });
+  if (error || !data?.properties?.hashed_token) return `${base}${next}`;
+  const { hashed_token, verification_type } = data.properties;
+  return (
+    `${base}/auth/confirm?token_hash=${encodeURIComponent(hashed_token)}` +
+    `&type=${encodeURIComponent(verification_type)}` +
+    `&next=${encodeURIComponent(next)}`
+  );
+}
+
 export async function uitloggen() {
   const supabase = await getSupabaseServer();
   if (supabase) await supabase.auth.signOut();
@@ -524,6 +545,105 @@ export async function wijsSterAf(
     return { ok: false };
   }
 
+  const r = data as { email: string | null; naam: string } | null;
+  const reden = motivatie.trim().slice(0, 1000);
+  if (r?.email) {
+    await stuurMail({
+      naar: r.email,
+      onderwerp: "Over je aanmelding bij UXSTARS",
+      html: emailHtml({
+        voorkop: "Je aanmelding",
+        kop: `${esc(r.naam.split(" ")[0])}, bedankt voor je aanmelding`,
+        alineas: [
+          "We hebben je aanmelding zorgvuldig bekeken. Deze keer kunnen we je nog geen plek in het stelsel geven.",
+          reden ? `<strong>Onze toelichting:</strong> ${esc(reden)}` : "",
+          "Dit is geen oordeel over je als designer — het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
+        ],
+      }),
+    });
+  }
+
+  revalidatePath("/admin/aanmeldingen");
+  return { ok: true };
+}
+
+/** Keurt een aanmelding goed → maakt account + actieve ster + stuurt inlog-/welkomstmail. */
+export async function keurAanmelding(
+  id: string,
+): Promise<{ ok: boolean; fout?: string }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const svc = getSupabaseService();
+  if (!svc) return { ok: false };
+
+  const { data: aanm } = await svc
+    .from("aanmeldingen")
+    .select("email, naam")
+    .eq("id", id)
+    .maybeSingle();
+  if (!aanm?.email) return { ok: false, fout: "Aanmelding niet gevonden" };
+  const email = aanm.email.toLowerCase();
+
+  // Auth-user aanmaken (of bestaande gebruiken).
+  let userId: string | null = null;
+  const gemaakt = await svc.auth.admin.createUser({ email, email_confirm: true });
+  if (gemaakt.data?.user) {
+    userId = gemaakt.data.user.id;
+  } else {
+    const { data: lijst } = await svc.auth.admin.listUsers({ page: 1, perPage: 200 });
+    userId = (lijst?.users ?? []).find((u) => u.email === email)?.id ?? null;
+  }
+  if (!userId) return { ok: false, fout: "Kon geen account aanmaken" };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const { data, error } = await supabase.rpc("maak_ster_uit_aanmelding", {
+    p_id: id,
+    p_user_id: userId,
+  });
+  if (error) {
+    console.error("maak_ster_uit_aanmelding:", error.message);
+    return { ok: false, fout: error.message };
+  }
+  const r = data as { email: string; naam: string } | null;
+  const voornaam = (r?.naam ?? aanm.naam).split(" ")[0];
+
+  const link = await magicLink(svc, email, "/account");
+  await stuurMail({
+    naar: email,
+    onderwerp: "Welkom bij UXSTARS ✦",
+    html: emailHtml({
+      voorkop: "Welkom in het stelsel",
+      kop: `${esc(voornaam)}, je bent toegelaten ✦`,
+      alineas: [
+        "Goed nieuws — je aanmelding is goedgekeurd en je account staat klaar.",
+        "Log in via de knop en maak je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
+        "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
+      ],
+      knop: { label: "Log in & maak je profiel af", url: link },
+    }),
+  });
+
+  revalidatePath("/admin/aanmeldingen");
+  return { ok: true };
+}
+
+/** Wijst een aanmelding af → nette motivatie-mail (nazorg). */
+export async function wijsAanmelding(
+  id: string,
+  motivatie: string,
+): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const { data, error } = await supabase.rpc("wijs_aanmelding_af", { p_id: id });
+  if (error) {
+    console.error("wijs_aanmelding_af:", error.message);
+    return { ok: false };
+  }
   const r = data as { email: string | null; naam: string } | null;
   const reden = motivatie.trim().slice(0, 1000);
   if (r?.email) {

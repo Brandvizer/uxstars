@@ -325,6 +325,40 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["bedrijf_leads"]["Insert"]>;
         Relationships: [];
       };
+      aanmeldingen: {
+        Row: {
+          id: string;
+          uitnodiging_id: string | null;
+          naam: string;
+          email: string;
+          rol: string;
+          seniority: string;
+          portfolio_url: string | null;
+          portfolio_bestand: string | null;
+          cv_bestand: string | null;
+          motivatie: string | null;
+          status: "nieuw" | "goedgekeurd" | "afgewezen";
+          ster_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          uitnodiging_id?: string | null;
+          naam: string;
+          email: string;
+          rol: string;
+          seniority: string;
+          portfolio_url?: string | null;
+          portfolio_bestand?: string | null;
+          cv_bestand?: string | null;
+          motivatie?: string | null;
+          status?: "nieuw" | "goedgekeurd" | "afgewezen";
+          ster_id?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["aanmeldingen"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -371,6 +405,22 @@ export type Database = {
       };
       wijs_ster_af: {
         Args: { p_star_id: string };
+        Returns: Json;
+      };
+      dien_aanmelding_in: {
+        Args: { payload: Json };
+        Returns: string;
+      };
+      admin_aanmeldingen: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      maak_ster_uit_aanmelding: {
+        Args: { p_id: string; p_user_id: string };
+        Returns: Json;
+      };
+      wijs_aanmelding_af: {
+        Args: { p_id: string };
         Returns: Json;
       };
       maak_bootstrap_uitnodiging: {
