@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
-import VouchAanvraagForm from "@/components/auth/VouchAanvraagForm";
+import VouchAanvraag from "@/components/auth/VouchAanvraag";
 
 export const metadata: Metadata = {
   title: "Word een star",
@@ -128,7 +128,7 @@ export default function WordEenStarPagina() {
               </Link>
             </p>
           </div>
-          <VouchAanvraagForm />
+          <VouchAanvraag />
         </div>
       </div>
     </div>

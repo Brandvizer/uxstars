@@ -65,7 +65,7 @@ function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
                 <span className="text-tekst">{aanmelding.uitnodiger}</span>
               </>
             ) : (
-              "Via een bootstrap-uitnodiging"
+              "Rechtstreekse aanmelding (zonder vouch van een lid)"
             )}{" "}
             · aangemeld {datum}
           </p>
