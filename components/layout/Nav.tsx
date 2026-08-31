@@ -57,17 +57,23 @@ export default function Nav() {
 
   useEffect(() => {
     const supabase = getSupabaseBrowser();
+    // Alleen op echte events reageren; de INITIAL_SESSION kan een verlopen/
+    // ongeldige (bv. verwijderde user) token zijn — die valideren we via getUser.
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_e, session) => setIngelogd(!!session));
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") setIngelogd(true);
+      if (event === "SIGNED_OUT") setIngelogd(false);
+    });
     return () => subscription.unsubscribe();
   }, []);
 
-  // Sessie (her)lezen bij elke navigatie — vangt ook het server-side uitloggen,
-  // want dan vuurt onAuthStateChange in deze client niet.
+  // getUser() valideert de token bij de server (i.t.t. getSession, dat alleen
+  // lokaal leest). Zo toont de knop een verwijderde/ongeldige sessie als
+  // "Inloggen". Ook her-check bij elke navigatie (vangt server-side uitloggen).
   useEffect(() => {
     const supabase = getSupabaseBrowser();
-    supabase.auth.getSession().then(({ data }) => setIngelogd(!!data.session));
+    supabase.auth.getUser().then(({ data }) => setIngelogd(!!data.user));
   }, [pathname]);
 
   const accountHref = ingelogd ? "/account" : "/account/login";
