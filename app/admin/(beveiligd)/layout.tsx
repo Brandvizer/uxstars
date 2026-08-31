@@ -4,7 +4,6 @@ import { getAdminStatus } from "@/lib/admin";
 import {
   getReviewMissies,
   getAdminReacties,
-  getVouchAanvragen,
   getAdminBedrijven,
   getAdminPlaatsingen,
   getAdminBedrijfLeads,
@@ -52,11 +51,10 @@ export default async function BeveiligdeAdminLayout({
   }
 
   // Tellingen voor de tab-badges: alleen wat nog actie vraagt.
-  const [missies, reacties, aanvragen, bedrijven, plaatsingen, leads, aanmeldingen] =
+  const [missies, reacties, bedrijven, plaatsingen, leads, aanmeldingen] =
     await Promise.all([
       getReviewMissies(),
       getAdminReacties(),
-      getVouchAanvragen(),
       getAdminBedrijven(),
       getAdminPlaatsingen(),
       getAdminBedrijfLeads(),
@@ -66,7 +64,6 @@ export default async function BeveiligdeAdminLayout({
     "/admin": missies.length,
     "/admin/aanmeldingen": aanmeldingen.length,
     "/admin/reacties": reacties.filter((r) => r.status === "nieuw").length,
-    "/admin/uitnodigingen": aanvragen.filter((a) => a.status === "nieuw").length,
     "/admin/bedrijven": bedrijven.filter(
       (b) =>
         b.heeft_account &&
