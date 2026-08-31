@@ -190,6 +190,7 @@ export type Database = {
           omschrijving: string[];
           opdrachtgever_id: string | null;
           opdrachtgever_label: string | null;
+          opdrachtgever_logo: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -209,6 +210,7 @@ export type Database = {
           omschrijving?: string[];
           opdrachtgever_id?: string | null;
           opdrachtgever_label?: string | null;
+          opdrachtgever_logo?: string | null;
           created_at?: string;
           updated_at?: string;
         };

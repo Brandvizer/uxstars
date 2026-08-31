@@ -4,17 +4,34 @@ import MissieReactie from "@/components/missie/MissieReactie";
 
 export default function MissieDetail({ missie }: { missie: Missie }) {
   const open = missie.status === "open";
+  const initiaal = missie.opdrachtgever.trim().charAt(0).toUpperCase() || "✦";
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <div className="flex flex-wrap items-center gap-3">
-        <Badge kleur={open ? "succes" : "neutraal"}>
-          {open && <span className="h-1.5 w-1.5 rounded-full bg-succes" />}
-          {open ? "Open missie" : "Gevuld"}
-        </Badge>
-        <span className="text-sm text-tekst-secundair">
-          {missie.opdrachtgever}
-        </span>
+      <div className="flex items-center gap-4">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-2 shadow-sm">
+          {missie.logo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={missie.logo}
+              alt=""
+              className="h-full w-full object-contain"
+            />
+          ) : (
+            <span className="text-2xl font-bold text-achtergrond">
+              {initiaal}
+            </span>
+          )}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Badge kleur={open ? "succes" : "neutraal"}>
+            {open && <span className="h-1.5 w-1.5 rounded-full bg-succes" />}
+            {open ? "Open missie" : "Gevuld"}
+          </Badge>
+          <span className="text-sm text-tekst-secundair">
+            {missie.opdrachtgever}
+          </span>
+        </div>
       </div>
 
       <h1 className="mt-6 !text-[clamp(1.75rem,3vw+1rem,3rem)]">

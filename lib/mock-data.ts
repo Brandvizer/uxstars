@@ -30,6 +30,8 @@ export type Missie = {
   intro: string;
   omschrijving: string[];
   opdrachtgever: string;
+  /** Bedrijfslogo (witte thumbnail) — alleen bij bedrijfsmissies uit de DB. */
+  logo?: string | null;
 };
 
 export type Verhaal = {

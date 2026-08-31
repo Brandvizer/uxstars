@@ -49,6 +49,7 @@ export default function BedrijfWelkom() {
   const [website, setWebsite] = useState("");
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [uploadt, setUploadt] = useState(false);
+  const [logoNodig, setLogoNodig] = useState(false);
   const logoInput = useRef<HTMLInputElement>(null);
 
   const [ritme, setRitme] = useState<"maand" | "jaar">("jaar");
@@ -82,12 +83,17 @@ export default function BedrijfWelkom() {
     if (!error) {
       const { data } = supabase.storage.from("profielfotos").getPublicUrl(pad);
       setLogoUrl(`${data.publicUrl}?v=${Date.now()}`);
+      setLogoNodig(false);
     }
     setUploadt(false);
   };
 
   const verstuurStap1 = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!logoUrl) {
+      setLogoNodig(true);
+      return;
+    }
     setBezig(true);
     setFout(false);
     const r = await maakBedrijf(naam);
@@ -190,7 +196,15 @@ export default function BedrijfWelkom() {
                 >
                   {uploadt ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
                 </button>
-                <p className="mt-2 text-xs text-tekst-secundair">Optioneel.</p>
+                <p
+                  className={`mt-2 text-xs ${
+                    logoNodig ? "text-accent-actief" : "text-tekst-secundair"
+                  }`}
+                >
+                  {logoNodig
+                    ? "Een logo is verplicht — hiermee herkennen designers je missies."
+                    : "Verplicht — je logo verschijnt bij je missies."}
+                </p>
               </div>
             </div>
 
