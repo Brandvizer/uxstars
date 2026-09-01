@@ -55,25 +55,27 @@ const STAPPEN = [
 
 export default function VroegPage() {
   return (
-    <div>
+    <div className="relative">
+      {/* Beeldvullend sterrenstelsel: vast achter de hele pagina */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <SterrenVeld interactief={false} className="veld-in absolute inset-0" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 72% 62% at 50% 38%, rgba(10,14,26,0.60), rgba(10,14,26,0.26) 68%, transparent)",
+          }}
+        />
+      </div>
+
       {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
       <div className="relative z-10 flex items-center justify-center pt-8">
         <Logo className="h-10 w-auto text-tekst" />
       </div>
 
       {/* Hero + inschrijfformulier */}
-      <section className="relative overflow-hidden">
-        <SterrenVeld className="veld-in absolute inset-0" />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 62% 52% at 50% 46%, rgba(10,14,26,0.85), transparent 74%)",
-          }}
-        />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
-
-        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-12 pt-10 text-center sm:px-6">
+      <section className="relative z-10">
+        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-10 text-center sm:px-6">
           <p
             className="rijs-in mb-5 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
             style={{ animationDelay: "0.1s" }}
@@ -110,7 +112,7 @@ export default function VroegPage() {
       </section>
 
       {/* De pijn die we verhelpen — voor beide kanten */}
-      <section className="mx-auto max-w-5xl px-4 pb-8 sm:px-6">
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
         <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
           Waarom UXSTARS
         </p>
@@ -161,7 +163,7 @@ export default function VroegPage() {
       </section>
 
       {/* Hoe het werkt — drie stappen (echte volgorde, dus genummerd) */}
-      <section className="mx-auto max-w-5xl px-4 pb-20 pt-4 sm:px-6">
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-24 pt-16 sm:px-6">
         <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
           Hoe het werkt
         </p>
