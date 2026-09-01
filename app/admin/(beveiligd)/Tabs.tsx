@@ -19,7 +19,7 @@ const tabs = [
 export default function Tabs({ tellingen }: { tellingen: Record<string, number> }) {
   const pathname = usePathname();
   return (
-    <nav className="flex gap-1 border-b border-lijn">
+    <nav className="-mx-4 flex gap-1 overflow-x-auto border-b border-lijn px-4 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
       {tabs.map((tab) => {
         const actief = pathname === tab.href;
         const aantal = tellingen[tab.href] ?? 0;
@@ -27,7 +27,7 @@ export default function Tabs({ tellingen }: { tellingen: Record<string, number> 
           <Link
             key={tab.href}
             href={tab.href}
-            className={`-mb-px flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors duration-200 ${
+            className={`-mb-px flex shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-semibold transition-colors duration-200 ${
               actief
                 ? "border-accent text-tekst"
                 : "border-transparent text-tekst-secundair hover:text-tekst"
