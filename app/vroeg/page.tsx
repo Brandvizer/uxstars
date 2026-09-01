@@ -13,27 +13,27 @@ const PIJN = [
   {
     label: "Voor designers",
     pijn: [
-      "Solliciteren tegen honderden onbekenden.",
-      "Je portfolio de leegte in, nul terugkoppeling.",
-      "Recruiterspam die nét niet past.",
+      "Je cv verdwijnt in de stapel.",
+      "Portfolio de leegte in, nooit een reactie.",
+      "Recruiterspam voor rollen die niet kloppen.",
     ],
     belofte: [
-      "Je bent gevouched, geen sollicitatie-stress.",
-      "Missies die passen komen naar jóu toe.",
-      "Direct contact, geen tussenlaag. Binnen dagen aan de slag.",
+      "Gevouched binnen, geen sollicitatiecircus.",
+      "Alleen missies die echt bij je passen.",
+      "Rechtstreeks met het team, binnen dagen live.",
     ],
   },
   {
     label: "Voor opdrachtgevers",
     pijn: [
-      "Cv-stapels doorspitten, wekenlang screenen.",
-      "Gokken op kwaliteit die je pas achteraf ziet.",
-      "Dure bureaus met een flinke opslag.",
+      "Honderd cv's, een handvol dat deugt.",
+      "Kwaliteit blijkt pas ná het tekenen.",
+      "Bureaus rekenen een flinke opslag.",
     ],
     belofte: [
-      "Voorgeselecteerd, gevoucht talent. Geen ruis.",
-      "Plaats een missie, koppel binnen dagen de juiste ster.",
-      "Heldere prijs, geen verrassingen.",
+      "Alleen vooraf gevouchte designers.",
+      "Plaats een missie, match binnen dagen.",
+      "Eén helder tarief, geen verrassingen.",
     ],
   },
 ];
@@ -96,9 +96,9 @@ export default function VroegPage() {
             className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair sm:text-lg"
             style={{ animationDelay: "0.36s" }}
           >
-            Werk vinden en talent vinden hoort niet te voelen als een cv-loterij.
-            UXSTARS is een besloten netwerk van gevouchte UX-designers. We openen
-            in fasen.
+            Solliciteren voelt als een loterij, screenen als gokken. UXSTARS
+            draait het om: een besloten netwerk van gevouchte UX-designers, waar
+            werk en talent elkaar rechtstreeks vinden.
           </p>
 
           <div
@@ -133,12 +133,20 @@ export default function VroegPage() {
               <p className="mt-5 text-sm font-semibold text-tekst-secundair">
                 Nu voelt het zo
               </p>
-              <ul className="mt-2 space-y-2">
+              <ul className="mt-3 space-y-2.5">
                 {k.pijn.map((p) => (
-                  <li key={p} className="flex gap-2.5 text-tekst-secundair">
-                    <span className="mt-1 text-tekst-secundair/60" aria-hidden="true">
-                      ✕
-                    </span>
+                  <li key={p} className="flex items-start gap-3 text-tekst-secundair">
+                    <svg
+                      viewBox="0 0 20 20"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-tekst-secundair/40"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M6 6l8 8M14 6l-8 8" />
+                    </svg>
                     <span>{p}</span>
                   </li>
                 ))}
@@ -147,12 +155,21 @@ export default function VroegPage() {
               <div className="my-5 h-px bg-lijn" />
 
               <p className="text-sm font-semibold text-succes">Met UXSTARS</p>
-              <ul className="mt-2 space-y-2">
+              <ul className="mt-3 space-y-2.5">
                 {k.belofte.map((b) => (
-                  <li key={b} className="flex gap-2.5">
-                    <span className="mt-1 text-accent" aria-hidden="true">
-                      ✦
-                    </span>
+                  <li key={b} className="flex items-start gap-3">
+                    <svg
+                      viewBox="0 0 20 20"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-succes"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M4 10.5l4 4 8-9" />
+                    </svg>
                     <span className="text-tekst">{b}</span>
                   </li>
                 ))}

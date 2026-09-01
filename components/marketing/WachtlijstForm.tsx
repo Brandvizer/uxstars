@@ -96,7 +96,7 @@ export default function WachtlijstForm() {
           autoComplete="email"
         />
         <Button type="submit" disabled={status === "bezig"} className="w-full">
-          {status === "bezig" ? "Bezig…" : "Zet me op de lijst ✦"}
+          {status === "bezig" ? "Bezig…" : "Zet me op de lijst"}
         </Button>
         {status === "fout" && (
           <p className="text-sm text-accent-actief" role="alert">
