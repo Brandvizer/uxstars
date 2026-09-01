@@ -161,7 +161,7 @@ export default function VroegPage() {
       </section>
 
       {/* Hoe het werkt — drie stappen (echte volgorde, dus genummerd) */}
-      <section className="mx-auto max-w-5xl px-4 pb-8 pt-4 sm:px-6">
+      <section className="mx-auto max-w-5xl px-4 pb-20 pt-4 sm:px-6">
         <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
           Hoe het werkt
         </p>
@@ -179,27 +179,6 @@ export default function VroegPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* Afsluitende trigger, terug naar het formulier (blijft op de pagina) */}
-      <section className="mx-auto max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6">
-        <h2 className="text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
-          Klaar om erbij te zijn?
-        </h2>
-        <p className="mx-auto mt-3 max-w-lg text-tekst-secundair">
-          Het stelsel opent in fasen en op uitnodiging. Zet je naam op de lijst en
-          je bent als eerste aan de beurt.
-        </p>
-        <a
-          href="#aanmelden"
-          className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-achtergrond transition-all duration-200 hover:bg-accent-actief hover:shadow-[0_0_28px_rgba(245,185,65,0.35)]"
-        >
-          Zet me op de lijst ✦
-        </a>
-
-        <p className="mt-14 font-mono text-xs uppercase tracking-[0.28em] text-tekst-secundair/70">
-          UXSTARS · binnenkort
-        </p>
       </section>
     </div>
   );
