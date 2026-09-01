@@ -3,15 +3,9 @@
 import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import Button from "@/components/ui/Button";
+import FoundingTeller from "@/components/marketing/FoundingTeller";
 
 type Type = "designer" | "opdrachtgever";
-
-const MICRO: Record<Type, string> = {
-  designer:
-    "Als een van de eerste sterren krijg je vroege toegang tot het stelsel, plus je eigen vouch om iemand mee te nemen.",
-  opdrachtgever:
-    "Wees er als eerste bij om binnen dagen een gevouchte UX-designer aan je missie te koppelen.",
-};
 
 export default function WachtlijstForm() {
   const [type, setType] = useState<Type>("designer");
@@ -27,29 +21,10 @@ export default function WachtlijstForm() {
     setStatus("bezig");
     const supabase = getSupabaseBrowser();
     const { error } = await supabase.rpc("meld_wachtlijst_aan", {
-      payload: { naam: naam.trim(), email: email.trim(), type },
+      payload: { naam: naam.trim(), email: email.trim(), type: "opdrachtgever" },
     });
     setStatus(error ? "fout" : "klaar");
   };
-
-  if (status === "klaar") {
-    return (
-      <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-succes/40 bg-paneel/80 p-7 text-center backdrop-blur-sm">
-        <svg
-          viewBox="0 0 24 24"
-          className="ster-ontvlam mx-auto h-12 w-12 fill-accent"
-          aria-hidden="true"
-        >
-          <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
-        </svg>
-        <p className="mt-4 text-lg font-semibold text-succes">Je staat op de lijst ✦</p>
-        <p className="mt-2 text-tekst-secundair">
-          We laten van ons horen zodra het stelsel opengaat. Tot snel tussen de
-          sterren.
-        </p>
-      </div>
-    );
-  }
 
   const veld =
     "w-full rounded-xl border border-lijn bg-achtergrond/80 px-4 py-3 text-base text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none";
@@ -73,40 +48,58 @@ export default function WachtlijstForm() {
         ))}
       </div>
 
-      <p className="mt-4 text-sm text-tekst-secundair">{MICRO[type]}</p>
-
-      <form onSubmit={verstuur} className="mt-4 space-y-3">
-        <input
-          value={naam}
-          onChange={(e) => setNaam(e.target.value)}
-          placeholder="Naam (optioneel)"
-          className={veld}
-          autoComplete="name"
-        />
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (status === "fout") setStatus("idle");
-          }}
-          placeholder="jij@voorbeeld.nl"
-          className={veld}
-          autoComplete="email"
-        />
-        <Button type="submit" disabled={status === "bezig"} className="w-full">
-          {status === "bezig" ? "Bezig…" : "Zet me op de lijst"}
-        </Button>
-        {status === "fout" && (
-          <p className="text-sm text-accent-actief" role="alert">
-            Er ging iets mis. Controleer je e-mailadres en probeer het opnieuw.
+      {type === "designer" ? (
+        <div className="mt-5">
+          <p className="mb-4 text-sm text-tekst-secundair">
+            We openen met de eerste 100 sterren. Meld je direct aan met je
+            portfolio en claim je plek in het stelsel.
           </p>
-        )}
-      </form>
-      <p className="mt-3 text-center text-xs text-tekst-secundair">
-        Geen spam. Alleen bericht als het stelsel opengaat.
-      </p>
+          <FoundingTeller metCta />
+        </div>
+      ) : status === "klaar" ? (
+        <div className="mt-5 rounded-xl border border-succes/40 bg-achtergrond/60 p-5 text-center">
+          <p className="text-base font-semibold text-succes">Je staat genoteerd</p>
+          <p className="mt-2 text-sm text-tekst-secundair">
+            We nemen contact op zodra we opengaan voor opdrachtgevers.
+          </p>
+        </div>
+      ) : (
+        <>
+          <p className="mt-4 text-sm text-tekst-secundair">
+            We gaan binnenkort open voor opdrachtgevers. Laat je e-mail achter, dan
+            ben je als eerste aan de beurt.
+          </p>
+          <form onSubmit={verstuur} className="mt-4 space-y-3">
+            <input
+              value={naam}
+              onChange={(e) => setNaam(e.target.value)}
+              placeholder="Naam (optioneel)"
+              className={veld}
+              autoComplete="name"
+            />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (status === "fout") setStatus("idle");
+              }}
+              placeholder="jij@bedrijf.nl"
+              className={veld}
+              autoComplete="email"
+            />
+            <Button type="submit" disabled={status === "bezig"} className="w-full">
+              {status === "bezig" ? "Bezig…" : "Houd me op de hoogte"}
+            </Button>
+            {status === "fout" && (
+              <p className="text-sm text-accent-actief" role="alert">
+                Er ging iets mis. Controleer je e-mailadres en probeer het opnieuw.
+              </p>
+            )}
+          </form>
+        </>
+      )}
     </div>
   );
 }

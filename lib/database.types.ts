@@ -483,6 +483,10 @@ export type Database = {
         Args: Record<string, never>;
         Returns: Json;
       };
+      founding_status: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
       admin_reacties: {
         Args: Record<string, never>;
         Returns: Json;

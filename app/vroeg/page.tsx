@@ -81,7 +81,7 @@ export default function VroegPage() {
             style={{ animationDelay: "0.1s" }}
           >
             <span className="h-px w-6 bg-accent/50" />
-            Binnenkort · toegang op uitnodiging
+            Founding · de eerste 100 sterren
             <span className="h-px w-6 bg-accent/50" />
           </p>
           <h1
