@@ -2399,3 +2399,137 @@ returns jsonb language sql security definer set search_path = public stable as $
 $$;
 revoke all on function public.admin_wachtlijst() from public;
 grant execute on function public.admin_wachtlijst() to authenticated;
+
+-- ============================================================
+-- 20250612120040_wachtlijst_verwerking.sql
+-- ============================================================
+-- Wachtlijst-verwerking: geef admins acties op pre-launch aanmeldingen.
+-- Status + de mogelijkheid om iemand uit te nodigen (designer -> founder-vouch)
+-- of af te wijzen.
+
+alter table public.wachtlijst
+  add column if not exists status text not null default 'nieuw'
+    check (status in ('nieuw', 'uitgenodigd', 'benaderd', 'afgewezen')),
+  add column if not exists uitnodiging_id uuid
+    references public.uitnodigingen (id) on delete set null,
+  add column if not exists verwerkt_op timestamptz;
+
+-- admin_wachtlijst: nu inclusief status + (indien uitgenodigd) het invite-token.
+create or replace function public.admin_wachtlijst()
+returns jsonb language sql security definer set search_path = public stable as $$
+  select coalesce(jsonb_agg(jsonb_build_object(
+      'id', w.id, 'naam', w.naam, 'email', w.email, 'type', w.type,
+      'status', w.status, 'created_at', w.created_at,
+      'uitnodiging_token', u.token
+    ) order by w.created_at desc), '[]'::jsonb)
+  from public.wachtlijst w
+  left join public.uitnodigingen u on u.id = w.uitnodiging_id
+  where public.is_admin();
+$$;
+revoke all on function public.admin_wachtlijst() from public;
+grant execute on function public.admin_wachtlijst() to authenticated;
+
+-- Zet de status van een wachtlijst-item (afwijzen, benaderd, of terugzetten).
+create or replace function public.zet_wachtlijst_status(p_id uuid, p_status text)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'Alleen beheerders'; end if;
+  if p_status not in ('nieuw', 'uitgenodigd', 'benaderd', 'afgewezen') then
+    raise exception 'Ongeldige status';
+  end if;
+  update public.wachtlijst
+    set status = p_status,
+        verwerkt_op = case when p_status = 'nieuw' then null else now() end
+  where id = p_id;
+end; $$;
+revoke all on function public.zet_wachtlijst_status(uuid, text) from public;
+grant execute on function public.zet_wachtlijst_status(uuid, text) to authenticated;
+
+-- Nodig een wachtlijst-designer uit: maak een founder-vouch (bootstrap-uitnodiging
+-- zonder uitgevende ster) en koppel die aan het wachtlijst-item. Geeft het token
+-- terug zodat de server-actie er een /uitnodiging-link + mail van maakt.
+create or replace function public.nodig_wachtlijst_uit(p_id uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_email text; v_naam text; v_type text;
+  v_token text := gen_random_uuid()::text;
+  v_inv   uuid;
+begin
+  if not public.is_admin() then raise exception 'Alleen beheerders'; end if;
+
+  select email, naam, type into v_email, v_naam, v_type
+  from public.wachtlijst where id = p_id;
+  if v_email is null then raise exception 'Wachtlijst-item niet gevonden'; end if;
+
+  insert into public.uitnodigingen (token, uitgever_star_id)
+  values (v_token, null) returning id into v_inv;
+
+  update public.wachtlijst
+    set status = 'uitgenodigd', uitnodiging_id = v_inv, verwerkt_op = now()
+  where id = p_id;
+
+  return jsonb_build_object(
+    'token', v_token, 'email', v_email, 'naam', coalesce(v_naam, ''), 'type', v_type
+  );
+end; $$;
+revoke all on function public.nodig_wachtlijst_uit(uuid) from public;
+grant execute on function public.nodig_wachtlijst_uit(uuid) to authenticated;
+
+-- ============================================================
+-- 20250612120041_dashboard_stats.sql
+-- ============================================================
+-- Data-dashboard voor de admin: één functie die de belangrijkste cijfers
+-- teruggeeft (wachtlijst, aanmeldingen, sterren, missies, opdrachtgevers) plus
+-- een 30-daagse reeks van wachtlijst-aanmeldingen voor een grafiek.
+
+create or replace function public.dashboard_stats()
+returns jsonb language sql security definer set search_path = public stable as $$
+  select case when not public.is_admin() then '{}'::jsonb else jsonb_build_object(
+    'wachtlijst', jsonb_build_object(
+      'totaal',         (select count(*) from public.wachtlijst),
+      'designers',      (select count(*) from public.wachtlijst where type = 'designer'),
+      'opdrachtgevers', (select count(*) from public.wachtlijst where type = 'opdrachtgever'),
+      'nieuw',          (select count(*) from public.wachtlijst where status = 'nieuw'),
+      'uitgenodigd',    (select count(*) from public.wachtlijst where status = 'uitgenodigd'),
+      'benaderd',       (select count(*) from public.wachtlijst where status = 'benaderd'),
+      'afgewezen',      (select count(*) from public.wachtlijst where status = 'afgewezen'),
+      'laatste7',       (select count(*) from public.wachtlijst where created_at >= now() - interval '7 days'),
+      'laatste30',      (select count(*) from public.wachtlijst where created_at >= now() - interval '30 days')
+    ),
+    'reeks', (
+      select coalesce(jsonb_agg(jsonb_build_object(
+          'datum', d::date, 'aantal', coalesce(c.n, 0)
+        ) order by d), '[]'::jsonb)
+      from generate_series(
+        (current_date - interval '29 days')::date, current_date, interval '1 day'
+      ) d
+      left join (
+        select created_at::date dd, count(*) n
+        from public.wachtlijst
+        where created_at >= current_date - interval '29 days'
+        group by 1
+      ) c on c.dd = d::date
+    ),
+    'aanmeldingen', jsonb_build_object(
+      'totaal',      (select count(*) from public.aanmeldingen),
+      'nieuw',       (select count(*) from public.aanmeldingen where status = 'nieuw'),
+      'goedgekeurd', (select count(*) from public.aanmeldingen where status = 'goedgekeurd'),
+      'afgewezen',   (select count(*) from public.aanmeldingen where status = 'afgewezen')
+    ),
+    'sterren', jsonb_build_object(
+      'actief', (select count(*) from public.stars where status = 'actief'),
+      'totaal', (select count(*) from public.stars)
+    ),
+    'missies', jsonb_build_object(
+      'open',   (select count(*) from public.missies where status = 'open'),
+      'totaal', (select count(*) from public.missies)
+    ),
+    'opdrachtgevers', jsonb_build_object(
+      'totaal',            (select count(*) from public.opdrachtgevers),
+      'membership_actief', (select count(*) from public.opdrachtgevers where membership_status = 'actief'),
+      'membership_trial',  (select count(*) from public.opdrachtgevers where membership_status = 'trial')
+    )
+  ) end;
+$$;
+revoke all on function public.dashboard_stats() from public;
+grant execute on function public.dashboard_stats() to authenticated;

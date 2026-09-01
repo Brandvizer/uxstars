@@ -365,6 +365,9 @@ export type Database = {
           naam: string | null;
           email: string;
           type: "designer" | "opdrachtgever";
+          status: "nieuw" | "uitgenodigd" | "benaderd" | "afgewezen";
+          uitnodiging_id: string | null;
+          verwerkt_op: string | null;
           created_at: string;
         };
         Insert: {
@@ -372,6 +375,9 @@ export type Database = {
           naam?: string | null;
           email: string;
           type: "designer" | "opdrachtgever";
+          status?: "nieuw" | "uitgenodigd" | "benaderd" | "afgewezen";
+          uitnodiging_id?: string | null;
+          verwerkt_op?: string | null;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["wachtlijst"]["Insert"]>;
@@ -462,6 +468,18 @@ export type Database = {
         Returns: undefined;
       };
       admin_wachtlijst: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      zet_wachtlijst_status: {
+        Args: { p_id: string; p_status: string };
+        Returns: undefined;
+      };
+      nodig_wachtlijst_uit: {
+        Args: { p_id: string };
+        Returns: Json;
+      };
+      dashboard_stats: {
         Args: Record<string, never>;
         Returns: Json;
       };

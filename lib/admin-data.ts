@@ -133,11 +133,15 @@ export type Aanmelding = {
   created_at: string;
 };
 
+export type WachtlijstStatus = "nieuw" | "uitgenodigd" | "benaderd" | "afgewezen";
+
 export type WachtlijstItem = {
   id: string;
   naam: string | null;
   email: string;
   type: "designer" | "opdrachtgever";
+  status: WachtlijstStatus;
+  uitnodiging_token: string | null;
   created_at: string;
 };
 
@@ -151,6 +155,47 @@ export async function getWachtlijst(): Promise<WachtlijstItem[]> {
     return [];
   }
   return (data as WachtlijstItem[] | null) ?? [];
+}
+
+export type DashboardStats = {
+  wachtlijst: {
+    totaal: number;
+    designers: number;
+    opdrachtgevers: number;
+    nieuw: number;
+    uitgenodigd: number;
+    benaderd: number;
+    afgewezen: number;
+    laatste7: number;
+    laatste30: number;
+  };
+  reeks: { datum: string; aantal: number }[];
+  aanmeldingen: {
+    totaal: number;
+    nieuw: number;
+    goedgekeurd: number;
+    afgewezen: number;
+  };
+  sterren: { actief: number; totaal: number };
+  missies: { open: number; totaal: number };
+  opdrachtgevers: {
+    totaal: number;
+    membership_actief: number;
+    membership_trial: number;
+  };
+};
+
+/** Kerncijfers voor het admin-dashboard. */
+export async function getDashboardStats(): Promise<DashboardStats | null> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return null;
+  const { data, error } = await supabase.rpc("dashboard_stats");
+  if (error) {
+    console.error("getDashboardStats:", error.message);
+    return null;
+  }
+  const stats = data as DashboardStats | null;
+  return stats && stats.wachtlijst ? stats : null;
 }
 
 /** Openstaande aanmeldingen (sollicitaties, nog zonder account). */

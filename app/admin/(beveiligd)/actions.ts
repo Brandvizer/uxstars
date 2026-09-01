@@ -196,6 +196,119 @@ export async function nodigKandidaatUit(
 }
 
 /**
+ * Nodigt een wachtlijst-designer uit als een van de eersten: maakt een
+ * founder-vouch (bootstrap-uitnodiging) en mailt de link naar de volledige
+ * aanmelding (portfolio, cv, motivatie). Zet de wachtlijst-status op uitgenodigd.
+ */
+export async function nodigWachtlijstDesignerUit(
+  id: string,
+): Promise<{ ok: boolean; link?: string; gemaild?: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { data, error } = await supabase.rpc("nodig_wachtlijst_uit", {
+    p_id: id,
+  });
+  if (error) {
+    console.error("nodig_wachtlijst_uit:", error.message);
+    return { ok: false };
+  }
+
+  const res = data as { token: string; email: string; naam: string };
+  const origin = await huidigeOrigin();
+  const link = `${origin}/uitnodiging/${res.token}`;
+  const hoi = res.naam ? `Hoi ${esc(res.naam)},` : "Hoi,";
+
+  const mail = await stuurMail({
+    naar: res.email,
+    onderwerp: "Je plek in het stelsel staat klaar",
+    html: emailHtml({
+      voorkop: "Je bent uitgenodigd",
+      kop: "Welkom als een van de eersten",
+      alineas: [
+        hoi,
+        "Je stond op de wachtlijst van UXSTARS en we nodigen je uit als een van de eerste sterren. Via onderstaande knop maak je je aanmelding compleet: je portfolio, cv en een korte motivatie. Daarna geven we je definitief toegang.",
+        "Deze uitnodiging is eenmalig en persoonlijk.",
+      ],
+      knop: { label: "Maak je aanmelding compleet", url: link },
+    }),
+  });
+
+  revalidatePath("/admin/wachtlijst");
+  return { ok: true, link, gemaild: mail.ok };
+}
+
+/**
+ * Benadert een wachtlijst-opdrachtgever: mailt de uitnodiging om een
+ * bedrijfsaccount te starten en zet de status op benaderd. (Opdrachtgevers
+ * volgen de betaalde onboarding, geen vouch/stepper.)
+ */
+export async function benaderWachtlijstOpdrachtgever(
+  id: string,
+  email: string,
+  naam: string | null,
+): Promise<{ ok: boolean; gemaild?: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("zet_wachtlijst_status", {
+    p_id: id,
+    p_status: "benaderd",
+  });
+  if (error) {
+    console.error("zet_wachtlijst_status (benaderd):", error.message);
+    return { ok: false };
+  }
+
+  const origin = await huidigeOrigin();
+  const link = `${origin}/opdrachtgevers`;
+  const hoi = naam ? `Hoi ${esc(naam)},` : "Hoi,";
+
+  const mail = await stuurMail({
+    naar: email,
+    onderwerp: "Aan de slag met UXSTARS",
+    html: emailHtml({
+      voorkop: "Voor opdrachtgevers",
+      kop: "Vind je volgende UX-ster",
+      alineas: [
+        hoi,
+        "Je stond op de wachtlijst van UXSTARS. We gaan open voor opdrachtgevers: plaats een missie en koppel binnen dagen aan voorgeselecteerd, gevoucht talent. Via onderstaande knop lees je hoe het werkt en start je een bedrijfsaccount.",
+      ],
+      knop: { label: "Bekijk het voor opdrachtgevers", url: link },
+    }),
+  });
+
+  revalidatePath("/admin/wachtlijst");
+  return { ok: true, gemaild: mail.ok };
+}
+
+/** Wijst een wachtlijst-item af (zet de status; stuurt geen mail). */
+export async function wijsWachtlijstAf(id: string): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+
+  const { error } = await supabase.rpc("zet_wachtlijst_status", {
+    p_id: id,
+    p_status: "afgewezen",
+  });
+  if (error) {
+    console.error("zet_wachtlijst_status (afgewezen):", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/wachtlijst");
+  return { ok: true };
+}
+
+/**
  * Verwijdert een account volledig (auth-user + gekoppelde ster/bedrijf en hun
  * afhankelijke rijen). Voor het opschonen van test-accounts. Beveiligd: niet je
  * eigen account, en geen admin-accounts.
