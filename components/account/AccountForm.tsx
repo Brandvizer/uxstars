@@ -12,7 +12,16 @@ import BrengOpdrachtgever, {
 import type { Database } from "@/lib/database.types";
 
 type Star = Database["public"]["Tables"]["stars"]["Row"];
-type TabId = "profiel" | "stelsel" | "opdrachtgever";
+type TabId = "profiel" | "reacties" | "stelsel" | "opdrachtgever";
+
+export type MijnReactie = {
+  id: string;
+  missie_titel: string;
+  missie_slug: string;
+  missie_status: string;
+  status: string;
+  created_at: string;
+};
 
 export type Stelsel = {
   gevouched_door: string | null;
@@ -36,11 +45,22 @@ const seniorityNiveaus = ["Junior", "Medior", "Senior", "Lead", "Principal"];
 const veld =
   "w-full rounded-xl border border-lijn bg-achtergrond px-4 py-3 text-base text-tekst focus:border-accent focus:outline-none";
 
+const REACTIE_STATUS: Record<string, { label: string; klasse: string }> = {
+  nieuw: { label: "Verstuurd", klasse: "border-lijn text-tekst-secundair" },
+  bekeken: { label: "Bekeken", klasse: "border-accent/50 text-accent" },
+  uitgenodigd: {
+    label: "Uitgenodigd ✦",
+    klasse: "border-succes/50 bg-succes/5 text-succes",
+  },
+  afgewezen: { label: "Niet geselecteerd", klasse: "border-lijn text-tekst-secundair" },
+};
+
 export default function AccountForm({
   profiel,
   uitnodiging,
   stelsel,
   aanbevelingen,
+  reacties,
   email,
   userId,
 }: {
@@ -48,6 +68,7 @@ export default function AccountForm({
   uitnodiging: { token: string; code?: string | null; status: string } | null;
   stelsel: Stelsel | null;
   aanbevelingen: Aanbeveling[];
+  reacties: MijnReactie[];
   email: string | undefined;
   userId: string;
 }) {
@@ -105,6 +126,7 @@ export default function AccountForm({
 
   const tabs: { id: TabId; label: string; badge?: number }[] = [
     { id: "profiel", label: "Profiel" },
+    { id: "reacties", label: "Reacties", badge: reacties.length },
     { id: "stelsel", label: "Jouw stelsel", badge: stelsel?.aantal_afstammelingen },
     { id: "opdrachtgever", label: "Opdrachtgever", badge: aanbevelingen.length },
   ];
@@ -299,6 +321,63 @@ export default function AccountForm({
         </div>
       </form>
       </div>
+      )}
+
+      {/* Reacties — missies waarop je reageerde */}
+      {tab === "reacties" && (
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold">Jouw reacties</h2>
+          <p className="mt-2 text-sm text-tekst-secundair">
+            Missies waarop je hebt gereageerd, en waar ze staan.
+          </p>
+          {reacties.length === 0 ? (
+            <div className="mt-6 rounded-2xl border border-lijn bg-paneel px-6 py-12 text-center">
+              <p className="text-tekst-secundair">
+                Je hebt nog nergens op gereageerd.
+              </p>
+              <div className="mt-4">
+                <Button href="/missies" variant="secundair">
+                  Bekijk open missies
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <ul className="mt-6 space-y-3">
+              {reacties.map((r) => {
+                const st = REACTIE_STATUS[r.status] ?? REACTIE_STATUS.nieuw;
+                return (
+                  <li
+                    key={r.id}
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-lijn bg-paneel p-5"
+                  >
+                    <div className="min-w-0">
+                      <a
+                        href={`/missies/${r.missie_slug}`}
+                        className="font-semibold transition-colors duration-200 hover:text-accent-actief"
+                      >
+                        {r.missie_titel}
+                      </a>
+                      <p className="mt-1 text-sm text-tekst-secundair">
+                        Gereageerd op{" "}
+                        {new Date(r.created_at).toLocaleDateString("nl-NL", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                        {r.missie_status === "gevuld" ? " · missie gevuld" : ""}
+                      </p>
+                    </div>
+                    <span
+                      className={`shrink-0 rounded-full border px-3 py-1 text-sm font-semibold ${st.klasse}`}
+                    >
+                      {st.label}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
       )}
 
       {/* Jouw stelsel — vouch + tak */}

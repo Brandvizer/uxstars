@@ -2,7 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getSupabaseServer } from "@/lib/supabase-server";
-import AccountForm, { type Stelsel } from "@/components/account/AccountForm";
+import AccountForm, {
+  type Stelsel,
+  type MijnReactie,
+} from "@/components/account/AccountForm";
 import { type Aanbeveling } from "@/components/account/BrengOpdrachtgever";
 import { uitloggenStar } from "@/app/account/actions";
 import Button from "@/components/ui/Button";
@@ -138,6 +141,7 @@ export default async function AccountPage() {
   const { data: uitnodiging } = await supabase.rpc("mijn_uitnodiging");
   const { data: stelsel } = await supabase.rpc("mijn_stelsel");
   const { data: aanbevelingen } = await supabase.rpc("mijn_aanbevelingen");
+  const { data: reacties } = await supabase.rpc("mijn_reacties");
 
   return (
     <AccountForm
@@ -151,6 +155,7 @@ export default async function AccountPage() {
       }
       stelsel={stelsel as Stelsel | null}
       aanbevelingen={(aanbevelingen as Aanbeveling[] | null) ?? []}
+      reacties={(reacties as MijnReactie[] | null) ?? []}
       email={user.email}
       userId={user.id}
     />

@@ -435,6 +435,10 @@ export type Database = {
         Args: { p_missie_id: string };
         Returns: Json;
       };
+      mijn_reacties: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
       admin_reacties: {
         Args: Record<string, never>;
         Returns: Json;
