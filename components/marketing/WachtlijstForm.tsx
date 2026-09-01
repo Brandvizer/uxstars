@@ -8,7 +8,7 @@ type Type = "designer" | "opdrachtgever";
 
 const MICRO: Record<Type, string> = {
   designer:
-    "Als een van de eerste sterren krijg je vroege toegang tot het stelsel — en je eigen vouch om iemand mee te nemen.",
+    "Als een van de eerste sterren krijg je vroege toegang tot het stelsel, plus je eigen vouch om iemand mee te nemen.",
   opdrachtgever:
     "Wees er als eerste bij om binnen dagen een gevouchte UX-designer aan je missie te koppelen.",
 };

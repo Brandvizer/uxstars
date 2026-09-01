@@ -5,7 +5,7 @@ import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 export const metadata: Metadata = {
   title: "Binnenkort — UXSTARS",
   description:
-    "Een besloten netwerk van gevouchte UX-designers. Geen cv-loterij — voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
+    "Een besloten netwerk van gevouchte UX-designers. Geen cv-loterij, voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
 };
 
 const PIJN = [
@@ -13,11 +13,11 @@ const PIJN = [
     label: "Voor designers",
     pijn: [
       "Solliciteren tegen honderden onbekenden.",
-      "Je portfolio de leegte in — nul terugkoppeling.",
+      "Je portfolio de leegte in, nul terugkoppeling.",
       "Recruiterspam die nét niet past.",
     ],
     belofte: [
-      "Je bent gevouched — geen sollicitatie-stress.",
+      "Je bent gevouched, geen sollicitatie-stress.",
       "Missies die passen komen naar jóu toe.",
       "Direct contact, geen tussenlaag. Binnen dagen aan de slag.",
     ],
@@ -30,10 +30,25 @@ const PIJN = [
       "Dure bureaus met een flinke opslag.",
     ],
     belofte: [
-      "Voorgeselecteerd, gevoucht talent — geen ruis.",
+      "Voorgeselecteerd, gevoucht talent. Geen ruis.",
       "Plaats een missie, koppel binnen dagen de juiste ster.",
       "Heldere prijs, geen verrassingen.",
     ],
+  },
+];
+
+const STAPPEN = [
+  {
+    titel: "Word gevouched",
+    tekst: "Een lid neemt je mee het stelsel in, of je vraagt zelf toegang aan.",
+  },
+  {
+    titel: "Missies en sterren komen samen",
+    tekst: "Opdrachtgevers plaatsen een missie, designers reageren op wat past.",
+  },
+  {
+    titel: "Binnen dagen aan boord",
+    tekst: "Direct contact, geen tussenlaag. Zo simpel houden we het.",
   },
 ];
 
@@ -83,9 +98,9 @@ export default function VroegPage() {
             className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair sm:text-lg"
             style={{ animationDelay: "0.36s" }}
           >
-            Werk vinden — en talent vinden — hoort niet te voelen als een
-            cv-loterij. UXSTARS is een besloten netwerk van gevouchte
-            UX-designers. We openen in fasen.
+            Werk vinden en talent vinden hoort niet te voelen als een cv-loterij.
+            UXSTARS is een besloten netwerk van gevouchte UX-designers. We openen
+            in fasen.
           </p>
 
           <div
@@ -104,7 +119,7 @@ export default function VroegPage() {
           Waarom UXSTARS
         </p>
         <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
-          Aannemen en aangenomen worden — zonder de ruis
+          Aannemen en aangenomen worden zonder de ruis
         </h2>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -149,7 +164,28 @@ export default function VroegPage() {
         </div>
       </section>
 
-      {/* Afsluitende trigger — terug naar het formulier (blijft op de pagina) */}
+      {/* Hoe het werkt — drie stappen (echte volgorde, dus genummerd) */}
+      <section className="mx-auto max-w-5xl px-4 pb-8 pt-4 sm:px-6">
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
+          Hoe het werkt
+        </p>
+        <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          {STAPPEN.map((s, i) => (
+            <div
+              key={s.titel}
+              className="rounded-2xl border border-lijn bg-paneel p-6"
+            >
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-accent/40 font-mono text-sm font-bold text-accent">
+                {i + 1}
+              </span>
+              <h3 className="mt-4 text-lg font-semibold text-tekst">{s.titel}</h3>
+              <p className="mt-2 text-sm text-tekst-secundair">{s.tekst}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Afsluitende trigger, terug naar het formulier (blijft op de pagina) */}
       <section className="mx-auto max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6">
         <h2 className="text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
           Klaar om erbij te zijn?
