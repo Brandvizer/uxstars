@@ -359,6 +359,24 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["aanmeldingen"]["Insert"]>;
         Relationships: [];
       };
+      wachtlijst: {
+        Row: {
+          id: string;
+          naam: string | null;
+          email: string;
+          type: "designer" | "opdrachtgever";
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          naam?: string | null;
+          email: string;
+          type: "designer" | "opdrachtgever";
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["wachtlijst"]["Insert"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -436,6 +454,14 @@ export type Database = {
         Returns: Json;
       };
       mijn_reacties: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      meld_wachtlijst_aan: {
+        Args: { payload: Json };
+        Returns: undefined;
+      };
+      admin_wachtlijst: {
         Args: Record<string, never>;
         Returns: Json;
       };

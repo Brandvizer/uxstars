@@ -133,6 +133,26 @@ export type Aanmelding = {
   created_at: string;
 };
 
+export type WachtlijstItem = {
+  id: string;
+  naam: string | null;
+  email: string;
+  type: "designer" | "opdrachtgever";
+  created_at: string;
+};
+
+/** Pre-launch wachtlijst-aanmeldingen. */
+export async function getWachtlijst(): Promise<WachtlijstItem[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_wachtlijst");
+  if (error) {
+    console.error("getWachtlijst:", error.message);
+    return [];
+  }
+  return (data as WachtlijstItem[] | null) ?? [];
+}
+
 /** Openstaande aanmeldingen (sollicitaties, nog zonder account). */
 export async function getAanmeldingen(): Promise<Aanmelding[]> {
   const supabase = await getSupabaseServer();

@@ -11,6 +11,7 @@ const tabs = [
   { href: "/admin/bedrijven", label: "Bedrijven" },
   { href: "/admin/leads", label: "Leads" },
   { href: "/admin/plaatsingen", label: "Plaatsingen" },
+  { href: "/admin/wachtlijst", label: "Wachtlijst" },
   { href: "/admin/accounts", label: "Accounts" },
 ];
 
