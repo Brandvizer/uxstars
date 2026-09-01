@@ -62,22 +62,25 @@ export default function VroegPage() {
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
 
-        <div className="pointer-events-none relative mx-auto flex min-h-[86vh] max-w-3xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
+        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-12 pt-10 text-center sm:px-6">
           <p
-            className="rijs-in mb-6 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
+            className="rijs-in mb-5 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
             style={{ animationDelay: "0.1s" }}
           >
             <span className="h-px w-6 bg-accent/50" />
             Binnenkort · toegang op uitnodiging
             <span className="h-px w-6 bg-accent/50" />
           </p>
-          <h1 className="rijs-in max-w-3xl text-balance" style={{ animationDelay: "0.22s" }}>
+          <h1
+            className="rijs-in text-balance !text-[clamp(1.9rem,3.5vw+1rem,3.1rem)]"
+            style={{ animationDelay: "0.22s" }}
+          >
             Elke designer een ster.
             <br />
             Elke opdracht een missie.
           </h1>
           <p
-            className="rijs-in mt-6 max-w-xl text-lg text-tekst-secundair sm:text-xl"
+            className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair sm:text-lg"
             style={{ animationDelay: "0.36s" }}
           >
             Werk vinden — en talent vinden — hoort niet te voelen als een
@@ -87,7 +90,7 @@ export default function VroegPage() {
 
           <div
             id="aanmelden"
-            className="rijs-in mt-10 flex w-full scroll-mt-24 justify-center"
+            className="rijs-in mt-7 flex w-full scroll-mt-24 justify-center"
             style={{ animationDelay: "0.5s" }}
           >
             <WachtlijstForm />
@@ -104,7 +107,7 @@ export default function VroegPage() {
           Aannemen en aangenomen worden — zonder de ruis
         </h2>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
           {PIJN.map((k) => (
             <div
               key={k.label}
@@ -147,7 +150,7 @@ export default function VroegPage() {
       </section>
 
       {/* Afsluitende trigger — terug naar het formulier (blijft op de pagina) */}
-      <section className="mx-auto max-w-3xl px-4 pb-24 text-center sm:px-6">
+      <section className="mx-auto max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6">
         <h2 className="text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
           Klaar om erbij te zijn?
         </h2>
@@ -162,7 +165,7 @@ export default function VroegPage() {
           Zet me op de lijst ✦
         </a>
 
-        <p className="mt-16 font-mono text-xs uppercase tracking-[0.28em] text-tekst-secundair/70">
+        <p className="mt-14 font-mono text-xs uppercase tracking-[0.28em] text-tekst-secundair/70">
           UXSTARS · binnenkort
         </p>
       </section>

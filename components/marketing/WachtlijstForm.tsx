@@ -62,7 +62,7 @@ export default function WachtlijstForm() {
             key={t}
             type="button"
             onClick={() => setType(t)}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold capitalize transition-colors duration-200 ${
+            className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ${
               type === t
                 ? "bg-accent text-achtergrond"
                 : "text-tekst-secundair hover:text-tekst"
