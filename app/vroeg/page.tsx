@@ -5,45 +5,70 @@ import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 export const metadata: Metadata = {
   title: "Binnenkort — UXSTARS",
   description:
-    "UXSTARS is een besloten netwerk van gevouchte UX-designers. We openen in fasen — zet jezelf op de lijst voor vroege toegang.",
+    "Een besloten netwerk van gevouchte UX-designers. Geen cv-loterij — voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
 };
 
-const PUNTEN = [
+const PIJN = [
   {
-    titel: "Gevouchte kwaliteit",
-    tekst: "Je komt binnen via een vouch van een lid. Geen ruis, alleen sterren.",
+    label: "Voor designers",
+    pijn: [
+      "Solliciteren tegen honderden onbekenden.",
+      "Je portfolio de leegte in — nul terugkoppeling.",
+      "Recruiterspam die nét niet past.",
+    ],
+    belofte: [
+      "Je bent gevouched — geen sollicitatie-stress.",
+      "Missies die passen komen naar jóu toe.",
+      "Direct contact, geen tussenlaag. Binnen dagen aan de slag.",
+    ],
   },
   {
-    titel: "Missies, geen cv-stapels",
-    tekst: "Opdrachtgevers plaatsen missies; designers reageren zelf.",
-  },
-  {
-    titel: "Binnen dagen aan boord",
-    tekst: "Voorgeselecteerd talent, direct contact. Geen weken screening.",
+    label: "Voor opdrachtgevers",
+    pijn: [
+      "Cv-stapels doorspitten, wekenlang screenen.",
+      "Gokken op kwaliteit die je pas achteraf ziet.",
+      "Dure bureaus met een flinke opslag.",
+    ],
+    belofte: [
+      "Voorgeselecteerd, gevoucht talent — geen ruis.",
+      "Plaats een missie, koppel binnen dagen de juiste ster.",
+      "Heldere prijs, geen verrassingen.",
+    ],
   },
 ];
 
 export default function VroegPage() {
   return (
     <div>
+      {/* Merkteken — bewust geen link (geïsoleerde pagina) */}
+      <div className="relative z-10 flex items-center justify-center gap-2 pt-8">
+        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-accent" aria-hidden="true">
+          <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+        </svg>
+        <span className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-tekst">
+          UXSTARS
+        </span>
+      </div>
+
+      {/* Hero + inschrijfformulier */}
       <section className="relative overflow-hidden">
         <SterrenVeld className="veld-in absolute inset-0" />
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 60% 50% at 50% 48%, rgba(10,14,26,0.82), transparent 74%)",
+              "radial-gradient(ellipse 62% 52% at 50% 46%, rgba(10,14,26,0.85), transparent 74%)",
           }}
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
 
-        <div className="pointer-events-none relative mx-auto flex min-h-[88vh] max-w-3xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
+        <div className="pointer-events-none relative mx-auto flex min-h-[86vh] max-w-3xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
           <p
             className="rijs-in mb-6 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
             style={{ animationDelay: "0.1s" }}
           >
             <span className="h-px w-6 bg-accent/50" />
-            Binnenkort · het stelsel opent
+            Binnenkort · toegang op uitnodiging
             <span className="h-px w-6 bg-accent/50" />
           </p>
           <h1 className="rijs-in max-w-3xl text-balance" style={{ animationDelay: "0.22s" }}>
@@ -55,32 +80,91 @@ export default function VroegPage() {
             className="rijs-in mt-6 max-w-xl text-lg text-tekst-secundair sm:text-xl"
             style={{ animationDelay: "0.36s" }}
           >
-            UXSTARS is een besloten netwerk van gevouchte UX-designers. Geen
-            cv-stapels — sterren die voor elkaar instaan. We openen in fasen. Zet
-            jezelf op de lijst.
+            Werk vinden — en talent vinden — hoort niet te voelen als een
+            cv-loterij. UXSTARS is een besloten netwerk van gevouchte
+            UX-designers. We openen in fasen.
           </p>
 
-          <div className="rijs-in mt-10 flex w-full justify-center" style={{ animationDelay: "0.5s" }}>
+          <div
+            id="aanmelden"
+            className="rijs-in mt-10 flex w-full scroll-mt-24 justify-center"
+            style={{ animationDelay: "0.5s" }}
+          >
             <WachtlijstForm />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {PUNTEN.map((p) => (
+      {/* De pijn die we verhelpen — voor beide kanten */}
+      <section className="mx-auto max-w-5xl px-4 pb-8 sm:px-6">
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
+          Waarom UXSTARS
+        </p>
+        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
+          Aannemen en aangenomen worden — zonder de ruis
+        </h2>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2">
+          {PIJN.map((k) => (
             <div
-              key={p.titel}
-              className="rounded-2xl border border-lijn bg-paneel p-6"
+              key={k.label}
+              className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
             >
-              <span className="text-accent" aria-hidden="true">
-                ✦
-              </span>
-              <h2 className="mt-3 text-lg font-semibold">{p.titel}</h2>
-              <p className="mt-2 text-sm text-tekst-secundair">{p.tekst}</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+                {k.label}
+              </p>
+
+              <p className="mt-5 text-sm font-semibold text-tekst-secundair">
+                Nu voelt het zo
+              </p>
+              <ul className="mt-2 space-y-2">
+                {k.pijn.map((p) => (
+                  <li key={p} className="flex gap-2.5 text-tekst-secundair">
+                    <span className="mt-1 text-tekst-secundair/60" aria-hidden="true">
+                      ✕
+                    </span>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="my-5 h-px bg-lijn" />
+
+              <p className="text-sm font-semibold text-succes">Met UXSTARS</p>
+              <ul className="mt-2 space-y-2">
+                {k.belofte.map((b) => (
+                  <li key={b} className="flex gap-2.5">
+                    <span className="mt-1 text-accent" aria-hidden="true">
+                      ✦
+                    </span>
+                    <span className="text-tekst">{b}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Afsluitende trigger — terug naar het formulier (blijft op de pagina) */}
+      <section className="mx-auto max-w-3xl px-4 pb-24 text-center sm:px-6">
+        <h2 className="text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
+          Klaar om erbij te zijn?
+        </h2>
+        <p className="mx-auto mt-3 max-w-lg text-tekst-secundair">
+          Het stelsel opent in fasen en op uitnodiging. Zet je naam op de lijst en
+          je bent als eerste aan de beurt.
+        </p>
+        <a
+          href="#aanmelden"
+          className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-base font-semibold text-achtergrond transition-all duration-200 hover:bg-accent-actief hover:shadow-[0_0_28px_rgba(245,185,65,0.35)]"
+        >
+          Zet me op de lijst ✦
+        </a>
+
+        <p className="mt-16 font-mono text-xs uppercase tracking-[0.28em] text-tekst-secundair/70">
+          UXSTARS · binnenkort
+        </p>
       </section>
     </div>
   );

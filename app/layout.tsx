@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter_Tight } from "next/font/google";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
+import SiteChrome from "@/components/layout/SiteChrome";
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -27,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="nl" className={interTight.variable}>
       <body className="flex min-h-screen flex-col">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome nav={<Nav />} footer={<Footer />}>
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );
