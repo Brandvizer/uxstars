@@ -69,13 +69,13 @@ export default function VroegPage() {
       </div>
 
       {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
-      <div className="relative z-10 flex items-center justify-center pt-8">
-        <Logo className="h-10 w-auto text-tekst" />
+      <div className="relative z-10 flex items-center justify-center pt-10">
+        <Logo className="h-12 w-auto text-tekst sm:h-14" />
       </div>
 
       {/* Hero + inschrijfformulier */}
       <section className="relative z-10">
-        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-10 text-center sm:px-6">
+        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-16 text-center sm:px-6">
           <p
             className="rijs-in mb-5 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
             style={{ animationDelay: "0.1s" }}
