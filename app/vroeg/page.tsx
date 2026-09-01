@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Logo from "@/components/ui/Logo";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 
@@ -55,14 +56,9 @@ const STAPPEN = [
 export default function VroegPage() {
   return (
     <div>
-      {/* Merkteken — bewust geen link (geïsoleerde pagina) */}
-      <div className="relative z-10 flex items-center justify-center gap-2 pt-8">
-        <svg viewBox="0 0 24 24" className="h-5 w-5 fill-accent" aria-hidden="true">
-          <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
-        </svg>
-        <span className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-tekst">
-          UXSTARS
-        </span>
+      {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
+      <div className="relative z-10 flex items-center justify-center pt-8">
+        <Logo className="h-10 w-auto text-tekst" />
       </div>
 
       {/* Hero + inschrijfformulier */}
