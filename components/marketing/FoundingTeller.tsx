@@ -50,14 +50,11 @@ export default function FoundingTeller({
       ) : (
         <>
           <p className="text-base text-tekst-secundair">
-            {open ? (
-              <>
-                Nog <span className="font-semibold text-tekst">{resterend}</span> van de{" "}
-                {limiet} founding-plekken vrij.
-              </>
-            ) : (
-              <>Alle {limiet} founding-plekken zijn vergeven.</>
-            )}
+            {open ? "Founding-plekken vrij" : "Alle founding-plekken zijn vergeven"}
+          </p>
+          <p className="mt-1 text-4xl font-semibold leading-none tracking-tight text-tekst">
+            {open ? resterend : 0}
+            <span className="text-tekst-secundair/60"> / {limiet}</span>
           </p>
 
           {metCta &&
