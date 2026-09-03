@@ -65,7 +65,7 @@ export default function VouchAanvraagForm() {
           label="Portfolio of LinkedIn"
           name="portfolio_url"
           type="url"
-          placeholder="https://"
+          placeholder="https://jouwportfolio.nl"
         />
       </div>
       <div className="mt-5">

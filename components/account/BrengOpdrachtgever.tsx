@@ -76,7 +76,7 @@ export default function BrengOpdrachtgever({
           label="E-mail (optioneel)"
           name="contact_email"
           type="email"
-          placeholder="contact@bedrijf.nl"
+          placeholder="naam@voorbeeld.nl"
         />
         <Textarea
           label="Toelichting (optioneel)"

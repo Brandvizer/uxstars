@@ -314,7 +314,7 @@ export default function BedrijfForm({
                 name="website"
                 type="url"
                 defaultValue={bedrijf.website ?? ""}
-                placeholder="https://"
+                placeholder="https://jouwbedrijf.nl"
               />
               <div className="flex items-center gap-4">
                 <Button type="submit" disabled={bezig}>

@@ -300,7 +300,7 @@ export default function AccountForm({
             name="portfolio_url"
             type="url"
             defaultValue={profiel.portfolio_url ?? ""}
-            placeholder="https://"
+            placeholder="https://jouwportfolio.nl"
           />
         </div>
         <Input

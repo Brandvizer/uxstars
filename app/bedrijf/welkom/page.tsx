@@ -225,7 +225,7 @@ export default function BedrijfWelkom() {
               type="url"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
-              placeholder="https://"
+              placeholder="https://jouwbedrijf.nl"
             />
             <Button type="submit" disabled={bezig} className="w-full">
               {bezig ? "Bezig…" : "Volgende"}

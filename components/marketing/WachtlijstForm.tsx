@@ -76,7 +76,7 @@ export default function WachtlijstForm() {
               name="wachtlijst-naam"
               value={naam}
               onChange={(e) => setNaam(e.target.value)}
-              placeholder="Naam (optioneel)"
+              placeholder="Voor- en achternaam (optioneel)"
               autoComplete="name"
             />
             <Input
@@ -90,7 +90,7 @@ export default function WachtlijstForm() {
                 setEmail(e.target.value);
                 if (status === "fout") setStatus("idle");
               }}
-              placeholder="jij@bedrijf.nl"
+              placeholder="jij@voorbeeld.nl"
               autoComplete="email"
             />
             <Button type="submit" disabled={status === "bezig"} className="w-full">
