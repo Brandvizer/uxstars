@@ -10,10 +10,12 @@ export default async function SterrenVeld({
   interactief = true,
   className,
   gezichtenOpMobiel = true,
+  rustig = false,
 }: {
   interactief?: boolean;
   className?: string;
   gezichtenOpMobiel?: boolean;
+  rustig?: boolean;
 }) {
   const sterren = await getActieveSterren();
   return (
@@ -22,6 +24,7 @@ export default async function SterrenVeld({
       interactief={interactief}
       className={className}
       gezichtenOpMobiel={gezichtenOpMobiel}
+      rustig={rustig}
     />
   );
 }

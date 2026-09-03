@@ -30,7 +30,7 @@ export default function WachtlijstForm() {
     "w-full rounded-xl border border-lijn bg-achtergrond/80 px-4 py-3 text-base text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none";
 
   return (
-    <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-lijn bg-paneel/70 p-6 text-left backdrop-blur-sm sm:p-7">
+    <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-lijn bg-paneel/90 p-6 text-left backdrop-blur-sm sm:p-7">
       <div className="inline-flex w-full rounded-full border border-lijn p-1">
         {(["designer", "opdrachtgever"] as const).map((t) => (
           <button

@@ -23,12 +23,15 @@ export default function StarField({
   interactief = true,
   className = "",
   gezichtenOpMobiel = true,
+  rustig = false,
 }: {
   sterren: Ster[];
   interactief?: boolean;
   className?: string;
   /** Profielfoto's ook onder 640px tonen; false = op mobiel alleen stipjes. */
   gezichtenOpMobiel?: boolean;
+  /** Achtergrondmodus: minder sterren, geen foto's, zachtere lijnen. */
+  rustig?: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +54,7 @@ export default function StarField({
 
     // Bouw de velddata eenmalig op: max 60 sterren, posities geseed op id
     const veldSterren: VeldSter[] = sterren
-      .slice(0, MAX_STERREN)
+      .slice(0, rustig ? Math.round(MAX_STERREN * 0.6) : MAX_STERREN)
       .map((s) => ({ ...s, ...positieVoorId(s.id) }));
     const perId = new Map(veldSterren.map((s) => [s.id, s]));
 
@@ -74,7 +77,8 @@ export default function StarField({
     const beelden = new Map<string, HTMLImageElement>();
     // Op mobiel (< sm) staan gezichten pal achter de tekst; optioneel weglaten.
     const toonGezichten =
-      gezichtenOpMobiel || window.matchMedia("(min-width: 640px)").matches;
+      !rustig &&
+      (gezichtenOpMobiel || window.matchMedia("(min-width: 640px)").matches);
     // Bij reduced motion draait er geen lus → hertekenen zodra een foto laadt.
     let herteken = () => {};
     for (const s of veldSterren) {
@@ -115,12 +119,14 @@ export default function StarField({
       // Verbindingslijnen: het stelsel
       ctx.strokeStyle = KLEUREN.lijn;
       ctx.lineWidth = 1;
+      ctx.globalAlpha = rustig ? 0.45 : 1;
       for (const [a, b] of paren) {
         ctx.beginPath();
         ctx.moveTo(px(a), py(a));
         ctx.lineTo(px(b), py(b));
         ctx.stroke();
       }
+      ctx.globalAlpha = 1;
 
       // De sterren zelf — leden met foto als avatar, de rest als twinkelend stipje
       for (const s of veldSterren) {
@@ -237,7 +243,7 @@ export default function StarField({
       canvas.removeEventListener("pointerdown", opTap);
       canvas.removeEventListener("pointerleave", opLeave);
     };
-  }, [sterren, interactief, gezichtenOpMobiel]);
+  }, [sterren, interactief, gezichtenOpMobiel, rustig]);
 
   return (
     // De meegegeven className bepaalt de positie (bijv. "absolute inset-0").

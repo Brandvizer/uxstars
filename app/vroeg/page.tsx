@@ -58,21 +58,20 @@ export default function VroegPage() {
     <div className="relative">
       {/* Beeldvullend sterrenstelsel: vast achter de hele pagina */}
       <div className="pointer-events-none fixed inset-0 -z-10">
-        {/* Op mobiel geen gezichten (die vechten met de tekst) en iets gedimd; vanaf sm vol. */}
+        {/* Rustige achtergrondmodus: minder sterren, geen foto's, zachte lijnen. */}
         <SterrenVeld
           interactief={false}
-          gezichtenOpMobiel={false}
-          className="veld-in absolute inset-0 opacity-75 sm:opacity-100"
+          rustig
+          className="veld-in absolute inset-0 opacity-80"
         />
+        {/* Donkere kern achter de tekstkolom, zodat kop en formulier vrijstaan */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 72% 62% at 50% 38%, rgba(10,14,26,0.60), rgba(10,14,26,0.26) 68%, transparent)",
+              "radial-gradient(ellipse 60% 70% at 50% 45%, rgba(10,14,26,0.85), rgba(10,14,26,0.45) 60%, transparent 85%)",
           }}
         />
-        {/* Extra rustlaag alleen op mobiel */}
-        <div className="absolute inset-0 bg-achtergrond/30 sm:hidden" />
       </div>
 
       {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
