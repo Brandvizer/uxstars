@@ -180,6 +180,7 @@ export default function VouchAanmelding({
             <h2 className="text-xl font-semibold">Wie ben je?</h2>
             <Input
               label="Naam"
+              icoon="persoon"
               value={naam}
               onChange={(e) => setNaam(e.target.value)}
               placeholder="Voor- en achternaam"
