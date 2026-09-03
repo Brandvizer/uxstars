@@ -21,7 +21,7 @@ export default function VouchAanvraag({
         }`}
       >
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-succes">
-          Aanmelding binnen ✦
+          Aanmelding binnen
         </p>
         <h3 className="mt-3 text-xl font-semibold">Bedankt, we bekijken je werk</h3>
         <p className="mt-3 text-tekst-secundair">
