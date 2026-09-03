@@ -96,7 +96,17 @@ export default function MissieOpschonen({
         onClick={opschonen}
         disabled={!genoegWoorden || status === "bezig"}
       >
-        {status === "bezig" ? "Bezig met herschrijven…" : "Maak er een missie van"}
+        {status === "bezig" ? (
+          <>
+            <span
+              aria-hidden="true"
+              className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+            />
+            Bezig met herschrijven
+          </>
+        ) : (
+          "Maak er een missie van"
+        )}
       </Button>
       <p className="tekst-klein text-tekst-secundair">
         {fout ??
