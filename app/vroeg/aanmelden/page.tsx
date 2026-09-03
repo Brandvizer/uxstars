@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
-import FoundingTeller from "@/components/marketing/FoundingTeller";
 import VouchAanvraag from "@/components/auth/VouchAanvraag";
 import { getFoundingStatus } from "@/lib/founding";
 
@@ -15,17 +14,17 @@ export default async function FoundingAanmeldenPage() {
   const status = await getFoundingStatus();
 
   return (
-    <div className="mx-auto max-w-2xl px-4 pb-24 pt-10 sm:px-6">
-      <div className="flex justify-center">
-        <Link href="/vroeg" aria-label="Terug naar UXSTARS">
-          <Logo className="h-11 w-auto text-tekst sm:h-12" />
-        </Link>
-      </div>
+    <div className="pb-24">
+      {/* Kop met logo en onderlijn, zoals de site-navigatie */}
+      <header className="border-b border-lijn">
+        <div className="flex h-16 items-center justify-center sm:h-20">
+          <Link href="/vroeg" aria-label="Terug naar UXSTARS">
+            <Logo className="h-9 w-auto text-tekst sm:h-10" />
+          </Link>
+        </div>
+      </header>
 
-      <div className="mx-auto mt-10 max-w-md">
-        <FoundingTeller start={status} />
-      </div>
-
+      <div className="mx-auto max-w-2xl px-4 sm:px-6">
       {status.open ? (
         <>
           <div className="mt-10 text-center">
@@ -60,6 +59,7 @@ export default async function FoundingAanmeldenPage() {
           </Link>
         </div>
       )}
+      </div>
     </div>
   );
 }
