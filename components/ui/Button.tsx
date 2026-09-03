@@ -20,7 +20,8 @@ const varianten: Record<Variant, string> = {
     "bg-accent text-achtergrond hover:bg-accent-actief hover:shadow-[0_0_24px_rgba(245,185,65,0.35)]",
   secundair:
     "border border-lijn bg-paneel text-tekst hover:border-tekst-secundair",
-  ghost: "text-tekst-secundair hover:text-tekst",
+  ghost:
+    "border border-lijn bg-transparent text-tekst-secundair hover:border-tekst-secundair hover:text-tekst",
 };
 
 const maten: Record<Size, string> = {

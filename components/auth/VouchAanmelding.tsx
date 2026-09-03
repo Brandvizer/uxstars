@@ -249,17 +249,17 @@ export default function VouchAanmelding({
 
         <div className="mt-8 flex items-center justify-between">
           {stap > 0 ? (
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => {
                 setFout(null);
                 setStap((s) => s - 1);
               }}
               disabled={bezig}
-              className="text-sm font-semibold text-tekst-secundair transition-colors duration-200 hover:text-tekst"
             >
               Vorige
-            </button>
+            </Button>
           ) : (
             <span />
           )}
