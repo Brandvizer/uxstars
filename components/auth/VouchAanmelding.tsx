@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import Button from "@/components/ui/Button";
+import RaketVoortgang from "@/components/missie/MissieForm/RaketVoortgang";
 import Input, { Textarea } from "@/components/ui/Input";
 
 const SPECIALISMEN = [
@@ -133,17 +134,8 @@ export default function VouchAanmelding({
 
   return (
     <div className="w-full max-w-md text-left">
-      {/* Voortgang */}
-      <div className="mb-6 flex items-center gap-2">
-        {Array.from({ length: totaal }).map((_, n) => (
-          <span
-            key={n}
-            className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-              n <= stap ? "bg-accent" : "bg-lijn"
-            }`}
-          />
-        ))}
-      </div>
+      {/* Voortgang: dezelfde raket als bij het missieformulier */}
+      <RaketVoortgang stap={stap} totaal={totaal} />
       <p className="label mb-4 text-tekst-secundair">
         Stap {stap + 1} van {totaal}
       </p>
