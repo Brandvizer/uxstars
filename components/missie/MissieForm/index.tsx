@@ -109,7 +109,7 @@ export default function MissieForm({
             onClick={() => setStap((s) => s - 1)}
             disabled={bezig}
           >
-            ← Vorige
+            Vorige
           </Button>
         ) : (
           <span />

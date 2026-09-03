@@ -113,7 +113,7 @@ export default async function Home() {
               href="/missies"
               className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
             >
-              Alle missies →
+              Alle missies
             </Link>
           </div>
         </Onthul>

@@ -258,18 +258,18 @@ export default function VouchAanmelding({
               disabled={bezig}
               className="text-sm font-semibold text-tekst-secundair transition-colors duration-200 hover:text-tekst"
             >
-              ← Vorige
+              Vorige
             </button>
           ) : (
             <span />
           )}
           {stap < totaal - 1 ? (
             <Button type="button" onClick={volgende}>
-              Volgende →
+              Volgende
             </Button>
           ) : (
             <Button type="button" onClick={verstuur} disabled={bezig}>
-              {bezig ? "Versturen…" : "Verstuur aanmelding ✦"}
+              {bezig ? "Versturen…" : "Verstuur aanmelding"}
             </Button>
           )}
         </div>

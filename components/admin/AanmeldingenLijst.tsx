@@ -78,7 +78,7 @@ function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
                 rel="noreferrer"
                 className="text-accent transition-colors duration-200 hover:text-accent-actief"
               >
-                Portfolio ↗
+                Portfolio
               </a>
             )}
             {aanmelding.portfolio_bestand && (
@@ -88,7 +88,7 @@ function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
                 rel="noreferrer"
                 className="text-accent transition-colors duration-200 hover:text-accent-actief"
               >
-                Portfolio-PDF ↗
+                Portfolio-PDF
               </a>
             )}
             {aanmelding.cv_bestand && (
@@ -98,7 +98,7 @@ function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
                 rel="noreferrer"
                 className="text-accent transition-colors duration-200 hover:text-accent-actief"
               >
-                CV ↗
+                CV
               </a>
             )}
           </div>

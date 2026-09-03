@@ -58,7 +58,7 @@ function Kaart({ lead }: { lead: AdminLead }) {
             href={`mailto:${lead.contact_email}`}
             className="text-sm text-accent hover:text-accent-actief"
           >
-            Mail →
+            Mail
           </a>
         )}
       </div>

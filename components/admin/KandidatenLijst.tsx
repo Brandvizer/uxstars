@@ -69,7 +69,7 @@ function Kaart({ aanvraag }: { aanvraag: VouchAanvraag }) {
           rel="noreferrer"
           className="mt-3 inline-block text-sm text-accent hover:text-accent-actief"
         >
-          Portfolio →
+          Portfolio
         </a>
       )}
 

@@ -228,7 +228,7 @@ export default function BedrijfWelkom() {
               placeholder="https://"
             />
             <Button type="submit" disabled={bezig} className="w-full">
-              {bezig ? "Bezig…" : "Volgende →"}
+              {bezig ? "Bezig…" : "Volgende"}
             </Button>
             {fout && (
               <p className="text-sm text-accent-actief" role="alert">
@@ -352,7 +352,7 @@ export default function BedrijfWelkom() {
           </p>
           <div className="rijs-in mt-8" style={{ animationDelay: "0.6s" }}>
             <Button onClick={() => router.replace("/bedrijf")}>
-              Naar je portaal ✦
+              Naar je portaal
             </Button>
           </div>
         </div>

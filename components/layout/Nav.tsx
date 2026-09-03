@@ -206,9 +206,6 @@ export default function Nav() {
                       }`}
                     >
                       {item.titel}
-                      <span aria-hidden className="text-tekst-secundair/40">
-                        →
-                      </span>
                     </Link>
                   );
                 })}

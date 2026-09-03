@@ -40,7 +40,7 @@ export default async function MissiesInReview() {
                     type="submit"
                     className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-achtergrond transition-colors duration-200 hover:bg-accent-actief"
                   >
-                    Goedkeuren → open
+                    Goedkeuren en openzetten
                   </button>
                 </form>
               </div>

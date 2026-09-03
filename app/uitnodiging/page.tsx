@@ -72,7 +72,7 @@ export default function VouchInwisselen() {
           </p>
           <div className="rijs-in relative mt-8">
             <Button onClick={() => router.push(`/uitnodiging/${token}`)}>
-              Word een ster ✦
+              Word een ster
             </Button>
           </div>
         </>

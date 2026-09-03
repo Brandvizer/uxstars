@@ -65,7 +65,7 @@ function LegeMissies({
             heb je de eerste reacties.
           </p>
           <div className="mt-6">
-            <Button href="/bedrijf/missie">Plaats je eerste missie ✦</Button>
+            <Button href="/bedrijf/missie">Plaats je eerste missie</Button>
           </div>
         </>
       ) : (
@@ -249,7 +249,7 @@ export default function BedrijfForm({
                 disabled={portaalBezig}
                 className="mt-5 rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
               >
-                {portaalBezig ? "Even geduld…" : "Beheer abonnement →"}
+                {portaalBezig ? "Even geduld…" : "Beheer abonnement"}
               </button>
             )}
           </div>

@@ -69,12 +69,12 @@ export default function ReactieKaart({ reactie }: { reactie: AdminReactie }) {
       <div className="mt-4 flex flex-wrap gap-3 text-sm">
         {reactie.star.portfolio_url && (
           <a href={reactie.star.portfolio_url} target="_blank" rel="noreferrer" className="text-accent hover:text-accent-actief">
-            Portfolio →
+            Portfolio
           </a>
         )}
         {reactie.star.linkedin_url && (
           <a href={reactie.star.linkedin_url} target="_blank" rel="noreferrer" className="text-accent hover:text-accent-actief">
-            LinkedIn →
+            LinkedIn
           </a>
         )}
       </div>

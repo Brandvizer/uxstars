@@ -115,7 +115,7 @@ export default function WordEenStarPagina() {
                 href="/uitnodiging"
                 className="font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
               >
-                Wissel &apos;m in ✦
+                Wissel &apos;m in
               </Link>
             </p>
             <p className="mt-2 text-sm text-tekst-secundair">

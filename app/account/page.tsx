@@ -66,7 +66,7 @@ export default async function AccountPage() {
           binnen via een vouch van een bestaand lid.
         </p>
         <div className="mt-6 flex flex-col items-center gap-3">
-          <Button href="/uitnodiging">Heb je een vouch-code? Wissel &apos;m in ✦</Button>
+          <Button href="/uitnodiging">Heb je een vouch-code? Wissel &apos;m in</Button>
           <Link
             href="/"
             className="text-sm text-tekst-secundair transition-colors duration-200 hover:text-tekst"

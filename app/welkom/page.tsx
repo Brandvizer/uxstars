@@ -118,7 +118,7 @@ export default function Welkom() {
         </div>
         <div className="rijs-in relative mt-8" style={{ animationDelay: "0.75s" }}>
           <Button onClick={() => router.replace("/account")}>
-            Bekijk je status ✦
+            Bekijk je status
           </Button>
         </div>
       </div>
@@ -196,7 +196,7 @@ export default function Welkom() {
           required
         />
         <Button type="submit" disabled={bezig} className="w-full">
-          {bezig ? "Je ster gaat aan…" : "Word een ster ✦"}
+          {bezig ? "Je ster gaat aan…" : "Word een ster"}
         </Button>
         {fout && (
           <p className="text-sm text-accent-actief" role="alert">

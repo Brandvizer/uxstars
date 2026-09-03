@@ -186,7 +186,7 @@ export default function MissieKaart({ missie }: { missie: MijnMissie }) {
                     href={`/missies/${missie.slug}`}
                     className="ml-auto text-sm font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
                   >
-                    Bekijk live →
+                    Bekijk live
                   </a>
                 )}
               </div>

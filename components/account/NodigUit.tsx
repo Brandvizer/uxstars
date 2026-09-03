@@ -47,7 +47,7 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
           }}
           className="mt-3 text-sm font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
         >
-          Nog iemand uitnodigen →
+          Nog iemand uitnodigen
         </button>
       </div>
     );
@@ -78,7 +78,7 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
       />
       <div className="flex flex-wrap items-center gap-4">
         <Button type="submit" disabled={status === "bezig" || !naarEmail.trim()}>
-          {status === "bezig" ? "Versturen…" : "Verstuur vouch ✦"}
+          {status === "bezig" ? "Versturen…" : "Verstuur vouch"}
         </Button>
         {inviteUrl && (
           <button
