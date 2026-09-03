@@ -99,7 +99,7 @@ export default function VroegPage() {
             Elke opdracht een missie.
           </h1>
           <p
-            className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair sm:text-lg"
+            className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair"
             style={{ animationDelay: "0.36s" }}
           >
             Solliciteren voelt als een loterij, screenen als gokken. UXSTARS
@@ -207,7 +207,7 @@ export default function VroegPage() {
                 {i + 1}
               </span>
               <h3 className="mt-4 text-lg font-semibold text-tekst">{s.titel}</h3>
-              <p className="mt-2 text-sm text-tekst-secundair">{s.tekst}</p>
+              <p className="mt-2 text-base text-tekst-secundair">{s.tekst}</p>
             </div>
           ))}
         </div>

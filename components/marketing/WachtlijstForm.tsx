@@ -50,7 +50,7 @@ export default function WachtlijstForm() {
 
       {type === "designer" ? (
         <div className="mt-5">
-          <p className="mb-4 text-sm text-tekst-secundair">
+          <p className="mb-4 text-base text-tekst-secundair">
             We openen met de eerste 100 sterren. Meld je direct aan met je
             portfolio en claim je plek in het stelsel.
           </p>
@@ -59,13 +59,13 @@ export default function WachtlijstForm() {
       ) : status === "klaar" ? (
         <div className="mt-5 rounded-xl border border-succes/40 bg-achtergrond/60 p-5 text-center">
           <p className="text-base font-semibold text-succes">Je staat genoteerd</p>
-          <p className="mt-2 text-sm text-tekst-secundair">
+          <p className="mt-2 text-base text-tekst-secundair">
             We nemen contact op zodra we opengaan voor opdrachtgevers.
           </p>
         </div>
       ) : (
         <>
-          <p className="mt-4 text-sm text-tekst-secundair">
+          <p className="mt-4 text-base text-tekst-secundair">
             We gaan binnenkort open voor opdrachtgevers. Laat je e-mail achter, dan
             ben je als eerste aan de beurt.
           </p>

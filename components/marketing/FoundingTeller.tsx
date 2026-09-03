@@ -41,43 +41,24 @@ export default function FoundingTeller({
 
   const limiet = status?.limiet ?? 100;
   const resterend = status?.resterend ?? 0;
-  const bezet = status?.bezet ?? 0;
   const open = status ? status.open : true;
 
   return (
     <div className="w-full text-center">
       {status === null ? (
-        <p className="text-sm text-tekst-secundair">Founding-plekken laden…</p>
+        <p className="text-base text-tekst-secundair">Founding-plekken laden…</p>
       ) : (
         <>
-          {open ? (
-            <p className="flex items-baseline justify-center gap-2">
-              <span className="text-4xl font-semibold leading-none text-tekst">
-                {resterend}
-              </span>
-              <span className="text-sm text-tekst-secundair">
-                van {limiet} founding-plekken vrij
-              </span>
-            </p>
-          ) : (
-            <p className="text-sm font-semibold text-accent">
-              Alle {limiet} founding-plekken zijn vergeven
-            </p>
-          )}
-          {/* Het stelsel vult zich: één stipje per plek, bezette plekken in goud */}
-          <div
-            className="mx-auto mt-4 grid max-w-xs grid-cols-25 gap-1.5"
-            aria-hidden="true"
-          >
-            {Array.from({ length: limiet }, (_, i) => (
-              <span
-                key={i}
-                className={`aspect-square rounded-full ${
-                  i < bezet ? "bg-accent" : "bg-tekst-secundair/25"
-                }`}
-              />
-            ))}
-          </div>
+          <p className="text-base text-tekst-secundair">
+            {open ? (
+              <>
+                Nog <span className="font-semibold text-tekst">{resterend}</span> van de{" "}
+                {limiet} founding-plekken vrij.
+              </>
+            ) : (
+              <>Alle {limiet} founding-plekken zijn vergeven.</>
+            )}
+          </p>
 
           {metCta &&
             (open ? (
@@ -88,7 +69,7 @@ export default function FoundingTeller({
                 Claim je founding-plek
               </Link>
             ) : (
-              <p className="mt-4 text-sm text-tekst-secundair">
+              <p className="mt-4 text-base text-tekst-secundair">
                 Het stelsel is voorlopig vol. Houd onze socials in de gaten voor de
                 volgende ronde.
               </p>
