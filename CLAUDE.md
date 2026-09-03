@@ -69,6 +69,7 @@ npm run dev                          # http://localhost:3000
   sterren, geen foto's, zachte lijnen) plus een donkere radiale kern achter de
   tekstkolom. `gezichtenOpMobiel={false}` voor alleen stipjes onder 640px.
 - **Voortgang in meerstaps-formulieren**: altijd `RaketVoortgang`.
+- **AI in formulieren**: één knop, één voorstel, nooit stil overschrijven; altijd een "Terug naar mijn tekst". Prompt bevat de toonregels (geen streepjes, "digital designers"). Route heeft een limiet per IP.
 - **Admin-tabs** zijn gegroepeerd: Dashboard · Designers (Aanmeldingen,
   Uitnodigingen, Reacties, Accounts) · Opdrachtgevers (Missies in review,
   Bedrijven, Leads, Wachtlijst) · Deals (Plaatsingen).
@@ -95,4 +96,6 @@ designers", alle streepjes en knop-iconen weg, typografieschaal ingevoerd,
 Input met iconen en uniforme placeholders, ghost-knop, eigen select-chevron,
 container 1280, /vroeg rustiger (sterrenveld in achtergrondmodus, teller als
 "Founding-plekken vrij 95 / 100"), aanmeldpagina met kopbalk en raketvoortgang,
-vouch-kaart als gouden ticket, admin-tabs gegroepeerd.
+vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`, key `ANTHROPIC_API_KEY`).
+
+**Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.

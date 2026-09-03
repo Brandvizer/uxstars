@@ -14,7 +14,7 @@ export default function StapStart({
 }) {
   return (
     <fieldset>
-      <legend className="text-2xl font-semibold sm:text-3xl">
+      <legend className="kop-2">
         Wanneer moet de raket de lucht in?
       </legend>
       <div className="mt-8">

@@ -14,7 +14,7 @@ export default function StapOmvang({
 }) {
   return (
     <fieldset>
-      <legend className="text-2xl font-semibold sm:text-3xl">
+      <legend className="kop-2">
         Hoeveel ruimte vraagt de missie?
       </legend>
       <div className="mt-8 space-y-8">

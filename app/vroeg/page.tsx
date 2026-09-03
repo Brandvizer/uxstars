@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Logo from "@/components/ui/Logo";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
+import LogoRij from "@/components/home/LogoRij";
 
 export const metadata: Metadata = {
   title: "Binnenkort",
@@ -115,6 +116,10 @@ export default function VroegPage() {
           >
             <WachtlijstForm />
           </div>
+        </div>
+        {/* Sociaal bewijs direct onder het formulier */}
+        <div className="rijs-in" style={{ animationDelay: "0.65s" }}>
+          <LogoRij compact />
         </div>
       </section>
 

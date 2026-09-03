@@ -18,7 +18,7 @@ export default function StapContact({
 }) {
   return (
     <fieldset>
-      <legend className="text-2xl font-semibold sm:text-3xl">
+      <legend className="kop-2">
         Wie mogen we bellen als de juiste ster reageert?
       </legend>
       <div className="mt-8 grid gap-6 sm:grid-cols-2">

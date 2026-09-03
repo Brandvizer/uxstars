@@ -14,7 +14,7 @@ export default function StapTarief({
 }) {
   return (
     <fieldset>
-      <legend className="text-2xl font-semibold sm:text-3xl">
+      <legend className="kop-2">
         Welk tarief past bij de missie?
       </legend>
       <p className="mt-2 text-tekst-secundair">

@@ -17,7 +17,7 @@ export default function StapLocatie({
 
   return (
     <fieldset>
-      <legend className="text-2xl font-semibold sm:text-3xl">
+      <legend className="kop-2">
         Waar vindt de missie plaats?
       </legend>
       <div className="mt-8 space-y-6">
