@@ -29,7 +29,7 @@ export default function OverOnsPagina() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="max-w-3xl">
-        <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
+        <h1>
           Waarom we een stelsel bouwen
         </h1>
         <div className="mt-6 space-y-5 text-xl text-tekst-secundair">

@@ -15,7 +15,7 @@ export default async function WachtlijstPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold">Wachtlijst</h1>
+      <h1 className="kop-3">Wachtlijst</h1>
       <p className="mt-1 text-sm text-tekst-secundair">
         Pre-launch aanmeldingen via <span className="text-tekst">/vroeg</span>.
         Nodig designers uit als founder (vouch + volledige aanmelding) of wijs af.

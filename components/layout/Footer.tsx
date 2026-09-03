@@ -38,7 +38,7 @@ export default function Footer() {
 
         {kolommen.map((kolom) => (
           <div key={kolom.titel}>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-tekst-secundair">
+            <h4 className="label text-tekst-secundair">
               {kolom.titel}
             </h4>
             <ul className="mt-4 space-y-2">

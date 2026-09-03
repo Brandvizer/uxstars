@@ -5,7 +5,7 @@ export default async function AanmeldingenPage() {
   const aanmeldingen = await getAanmeldingen();
   return (
     <div>
-      <h1 className="text-xl font-semibold">Aanmeldingen</h1>
+      <h1 className="kop-3">Aanmeldingen</h1>
       <p className="mt-1 text-sm text-tekst-secundair">
         Sollicitaties van gevouchte designers (nog zonder account). Keur goed → er
         wordt een account aangemaakt en ze krijgen een welkomstmail om hun profiel

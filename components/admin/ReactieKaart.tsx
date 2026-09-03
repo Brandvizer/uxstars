@@ -48,10 +48,10 @@ export default function ReactieKaart({ reactie }: { reactie: AdminReactie }) {
     <article className="rounded-2xl border border-lijn bg-paneel p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+          <p className="label text-accent">
             {reactie.star.specialisme} · {reactie.star.seniority}
           </p>
-          <h3 className="mt-1 text-lg">{reactie.star.naam}</h3>
+          <h3 className="mt-1">{reactie.star.naam}</h3>
           <p className="mt-1 text-sm text-tekst-secundair">
             reageerde op <span className="text-tekst">{reactie.missie_titel}</span>
           </p>

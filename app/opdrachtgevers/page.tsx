@@ -51,10 +51,10 @@ export default function OpdrachtgeversPagina() {
     <div className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
-          <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
+          <h1>
             Een ster vinden hoort geen weken te duren
           </h1>
-          <p className="mt-5 text-xl text-tekst-secundair">
+          <p className="mt-5 text-tekst-secundair tekst-intro">
             UXSTARS is geen bureau en geen vacaturebank. Het is een stelsel van
             digital designers die elkaar kennen, aanvullen en aanbevelen. Jouw
             missie komt direct bij de juiste sterren terecht.
@@ -124,7 +124,7 @@ export default function OpdrachtgeversPagina() {
         <div className="mt-20 grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="max-w-md">
             <h2>Eén membership, geen verrassingen</h2>
-            <p className="mt-4 text-lg text-tekst-secundair">
+            <p className="mt-4 text-tekst-secundair tekst-intro">
               Een vast lidmaatschap om missies te plaatsen en het gevouchte
               netwerk te bereiken. De echte waarde, de juiste match, regelen
               wij per missie.

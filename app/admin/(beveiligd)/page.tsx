@@ -7,7 +7,7 @@ export default async function MissiesInReview() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Missies in review{" "}
         <span className="text-tekst-secundair">({missies.length})</span>
       </h2>
@@ -25,10 +25,10 @@ export default async function MissiesInReview() {
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+                  <p className="label text-accent">
                     {missie.rol}
                   </p>
-                  <h3 className="mt-1 text-lg">{missie.titel}</h3>
+                  <h3 className="mt-1">{missie.titel}</h3>
                   {missie.opdrachtgever_label && (
                     <p className="mt-1 text-sm text-tekst-secundair">
                       {missie.opdrachtgever_label}

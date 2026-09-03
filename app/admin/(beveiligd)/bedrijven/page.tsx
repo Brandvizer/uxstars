@@ -11,7 +11,7 @@ export default async function BedrijvenTab() {
 
   return (
     <div className="max-w-3xl">
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Bedrijven{" "}
         <span className="text-tekst-secundair">({bedrijven.length})</span>
       </h2>

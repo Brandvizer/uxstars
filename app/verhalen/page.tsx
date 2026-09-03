@@ -12,10 +12,10 @@ export default function VerhalenPagina() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="max-w-2xl">
-        <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
+        <h1>
           Verhalen uit het stelsel
         </h1>
-        <p className="mt-4 text-xl text-tekst-secundair">
+        <p className="mt-4 text-tekst-secundair tekst-intro">
           Geen portfolioplaatjes maar echte missies: het probleem, de aanpak en
           wat het opleverde.
         </p>
@@ -27,7 +27,7 @@ export default function VerhalenPagina() {
             key={verhaal.slug}
             className="flex flex-col rounded-2xl border border-lijn bg-paneel p-8 transition-colors duration-300 ease-uit hover:border-accent/40"
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+            <p className="label text-accent">
               {verhaal.rol}
             </p>
             <h3 className="mt-3">

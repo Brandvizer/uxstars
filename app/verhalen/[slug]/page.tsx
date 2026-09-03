@@ -29,16 +29,16 @@ export default async function VerhaalPagina({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-      <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+      <p className="label text-accent">
         {verhaal.rol} · {verhaal.ster}
       </p>
-      <h1 className="mt-4 !text-[clamp(1.75rem,3vw+1rem,3rem)]">
+      <h1 className="mt-4">
         {verhaal.titel}
       </h1>
-      <p className="mt-4 text-xl text-tekst-secundair">{verhaal.ondertitel}</p>
+      <p className="mt-4 text-tekst-secundair tekst-intro">{verhaal.ondertitel}</p>
 
       <blockquote className="mt-10 rounded-2xl border border-accent/30 bg-paneel p-8">
-        <p className="text-xl">&ldquo;{verhaal.quote}&rdquo;</p>
+        <p className="tekst-intro">&ldquo;{verhaal.quote}&rdquo;</p>
         <footer className="mt-4 text-sm text-tekst-secundair">
           {verhaal.ster}, {verhaal.rol}
         </footer>

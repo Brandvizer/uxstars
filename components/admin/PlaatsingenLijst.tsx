@@ -29,7 +29,7 @@ function Kaart({ plaatsing }: { plaatsing: AdminPlaatsing }) {
     <article className="rounded-2xl border border-lijn bg-paneel p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-lg">{plaatsing.missie_titel}</h3>
+          <h3>{plaatsing.missie_titel}</h3>
           <p className="mt-1 text-sm text-tekst-secundair">
             {plaatsing.ster_naam}
             {plaatsing.bedrijf_naam && ` · ${plaatsing.bedrijf_naam}`}

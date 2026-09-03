@@ -61,7 +61,7 @@ export default function BrengOpdrachtgever({
 
   return (
     <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-      <h2 className="text-xl font-semibold">Breng een opdrachtgever binnen</h2>
+      <h2 className="kop-3">Breng een opdrachtgever binnen</h2>
       <p className="mt-2 text-tekst-secundair">
         Ken je een opdrachtgever die een ster zoekt? Breng ze binnen. Wij volgen
         op. Zo groeit het stelsel ook aan de vraagkant.

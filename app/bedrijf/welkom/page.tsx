@@ -155,10 +155,10 @@ export default function BedrijfWelkom() {
       {/* Stap 1 — gegevens + logo */}
       {stap === 1 && (
         <>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+          <p className="label text-accent">
             Stap 1 van 3
           </p>
-          <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+          <h1 className="mt-3 kop-2">
             Je bedrijfsgegevens
           </h1>
           <p className="mt-3 text-tekst-secundair">
@@ -244,10 +244,10 @@ export default function BedrijfWelkom() {
         <div className="grid gap-10 lg:grid-cols-5 lg:items-start">
           {/* Links — waarde */}
           <div className="lg:col-span-3">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+            <p className="label text-accent">
               Stap 2 van 3
             </p>
-            <h1 className="mt-3 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+            <h1 className="mt-3 kop-2">
               Kies je membership
             </h1>
             <p className="mt-3 text-tekst-secundair">
@@ -297,7 +297,7 @@ export default function BedrijfWelkom() {
                 ))}
               </div>
 
-              <p className="mt-6 text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+              <p className="label mt-6 text-accent">
                 {MEMBERSHIP.naam}
               </p>
               <p className="mt-2">
@@ -344,7 +344,7 @@ export default function BedrijfWelkom() {
           >
             <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
           </svg>
-          <h1 className="rijs-in mt-8 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]" style={{ animationDelay: "0.2s" }}>
+          <h1 className="rijs-in mt-8 kop-2" style={{ animationDelay: "0.2s" }}>
             Account aangemaakt
           </h1>
           <p className="rijs-in mt-3 text-tekst-secundair" style={{ animationDelay: "0.4s" }}>

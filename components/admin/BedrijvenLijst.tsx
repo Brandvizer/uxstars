@@ -77,7 +77,7 @@ function Kaart({
         className="flex w-full items-start justify-between gap-3 p-6 text-left transition-colors duration-150 hover:bg-achtergrond/40"
       >
         <div className="min-w-0">
-          <h3 className="text-lg">{bedrijf.naam}</h3>
+          <h3>{bedrijf.naam}</h3>
           <p className="mt-1 truncate text-sm text-tekst-secundair">
             {bedrijf.email}
           </p>

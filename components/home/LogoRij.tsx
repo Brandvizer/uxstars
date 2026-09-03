@@ -10,7 +10,7 @@ const logos = [
 export default function LogoRij() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-      <p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-tekst-secundair">
+      <p className="label text-center text-tekst-secundair">
         Sterren van UXSTARS werkten voor
       </p>
       <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6">

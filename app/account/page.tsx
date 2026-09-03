@@ -59,7 +59,7 @@ export default async function AccountPage() {
   if (!profiel) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Nog geen sterrenplek</h1>
+        <h1 className="kop-2">Nog geen sterrenplek</h1>
         <p className="mt-3 text-tekst-secundair">
           Je bent ingelogd als <span className="text-tekst">{user.email}</span>,
           maar je hebt nog geen ster-profiel. UXSTARS is invite-only: je komt
@@ -94,10 +94,10 @@ export default async function AccountPage() {
         >
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
-        <p className="relative mt-6 text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+        <p className="label relative mt-6 text-accent">
           Aanmelding in behandeling
         </p>
-        <h1 className="relative mt-3 !text-[clamp(1.5rem,3vw+1rem,2.25rem)]">
+        <h1 className="relative mt-3 kop-2">
           We bekijken je aanmelding
         </h1>
         <p className="relative mt-4 text-tekst-secundair">
@@ -119,7 +119,7 @@ export default async function AccountPage() {
   if (profiel.status === "afgewezen") {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2.25rem)]">
+        <h1 className="kop-2">
           Deze keer geen plek
         </h1>
         <p className="mt-4 text-tekst-secundair">

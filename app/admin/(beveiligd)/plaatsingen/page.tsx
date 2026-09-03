@@ -9,7 +9,7 @@ export default async function PlaatsingenTab() {
 
   return (
     <div className="max-w-3xl">
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Plaatsingen{" "}
         <span className="text-tekst-secundair">({plaatsingen.length})</span>
       </h2>

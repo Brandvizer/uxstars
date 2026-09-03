@@ -57,7 +57,7 @@ function LegeMissies({
 
       {actief ? (
         <>
-          <h3 className="mt-6 text-lg font-semibold">
+          <h3 className="mt-6">
             Je stelsel wacht op zijn eerste missie
           </h3>
           <p className="mx-auto mt-2 max-w-sm text-tekst-secundair">
@@ -70,7 +70,7 @@ function LegeMissies({
         </>
       ) : (
         <>
-          <h3 className="mt-6 text-lg font-semibold">Nog geen missies</h3>
+          <h3 className="mt-6">Nog geen missies</h3>
           <p className="mx-auto mt-2 max-w-sm text-tekst-secundair">
             Activeer je membership om missies te plaatsen en het gevouchte
             netwerk te bereiken.
@@ -172,7 +172,7 @@ export default function BedrijfForm({
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">{bedrijf.naam}</h1>
+          <h1 className="kop-2">{bedrijf.naam}</h1>
           <p className="mt-1 text-tekst-secundair">{email}</p>
         </div>
         <form action={uitloggenBedrijf}>
@@ -216,7 +216,7 @@ export default function BedrijfForm({
         {tab === "membership" && (
           <div className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-xl font-semibold">Membership</h2>
+              <h2 className="kop-3">Membership</h2>
               <span
                 className={`rounded-full border px-3 py-1 text-sm font-semibold ${status.klasse}`}
               >
@@ -259,7 +259,7 @@ export default function BedrijfForm({
         {tab === "missies" && (
           <div>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-xl font-semibold">Jouw missies</h2>
+              <h2 className="kop-3">Jouw missies</h2>
               {actief && (
                 <Button href="/bedrijf/missie" size="sm">
                   Plaats een missie
@@ -292,7 +292,7 @@ export default function BedrijfForm({
               onSubmit={opslaan}
               className="space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8 lg:col-span-2"
             >
-              <h2 className="text-xl font-semibold">Bedrijfsprofiel</h2>
+              <h2 className="kop-3">Bedrijfsprofiel</h2>
               <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
               <div className="grid gap-5 sm:grid-cols-2">
                 <Input
@@ -326,7 +326,7 @@ export default function BedrijfForm({
 
             {/* Visitekaartje — zo word je getoond */}
             <div className="rounded-2xl border border-lijn bg-paneel p-6 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.15em] text-tekst-secundair">
+              <p className="label text-tekst-secundair">
                 Je visitekaartje
               </p>
 

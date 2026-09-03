@@ -144,14 +144,14 @@ export default function VouchAanmelding({
           />
         ))}
       </div>
-      <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-tekst-secundair">
+      <p className="label mb-4 text-tekst-secundair">
         Stap {stap + 1} van {totaal}
       </p>
 
       <div className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
         {stap === 0 && (
           <div className="space-y-5">
-            <h2 className="text-xl font-semibold">Wat doe je?</h2>
+            <h2 className="kop-3">Wat doe je?</h2>
             <div>
               <label className={label}>Specialisme</label>
               <select className={veld} value={rol} onChange={(e) => setRol(e.target.value)}>
@@ -177,7 +177,7 @@ export default function VouchAanmelding({
 
         {stap === 1 && (
           <div className="space-y-5">
-            <h2 className="text-xl font-semibold">Wie ben je?</h2>
+            <h2 className="kop-3">Wie ben je?</h2>
             <Input
               label="Naam"
               icoon="persoon"
@@ -199,7 +199,7 @@ export default function VouchAanmelding({
 
         {stap === 2 && (
           <div className="space-y-5">
-            <h2 className="text-xl font-semibold">Laat je werk zien</h2>
+            <h2 className="kop-3">Laat je werk zien</h2>
             <p className="text-sm text-tekst-secundair">
               Een link, een PDF, of allebei: wat jij het liefst deelt.
             </p>
@@ -232,7 +232,7 @@ export default function VouchAanmelding({
 
         {stap === 3 && (
           <div className="space-y-5">
-            <h2 className="text-xl font-semibold">Waarom jij?</h2>
+            <h2 className="kop-3">Waarom jij?</h2>
             <Textarea
               label="Korte motivatie"
               value={motivatie}

@@ -25,7 +25,7 @@ export default async function BedrijfMissiePage() {
   if (!membershipActief(bedrijf)) {
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Membership nodig</h1>
+        <h1 className="kop-2">Membership nodig</h1>
         <p className="mt-3 text-tekst-secundair">
           Je hebt een actief membership nodig om een missie te plaatsen. Mail{" "}
           <a
@@ -48,8 +48,8 @@ export default async function BedrijfMissiePage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="mx-auto mb-14 max-w-2xl text-center">
-        <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">Lanceer je missie</h1>
-        <p className="mt-4 text-xl text-tekst-secundair">
+        <h1>Lanceer je missie</h1>
+        <p className="mt-4 text-tekst-secundair tekst-intro">
           Zeven korte vragen. Binnen één werkdag hoor je welke sterren oplichten.
         </p>
       </div>

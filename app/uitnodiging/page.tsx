@@ -51,16 +51,16 @@ export default function VouchInwisselen() {
         <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
       </svg>
 
-      <p className="relative mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
+      <p className="label relative mt-6 text-accent">
         Wissel je vouch in
       </p>
 
       {status === "geldig" ? (
         <>
-          <h1 className="rijs-in relative mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+          <h1 className="rijs-in relative mt-4 kop-2">
             Je bent gevouched
           </h1>
-          <p className="rijs-in relative mt-4 text-lg text-tekst-secundair">
+          <p className="rijs-in relative mt-4 text-tekst-secundair tekst-intro">
             {uitnodiger ? (
               <>
                 <span className="text-tekst">{uitnodiger}</span> staat voor je in.
@@ -78,7 +78,7 @@ export default function VouchInwisselen() {
         </>
       ) : (
         <>
-          <h1 className="relative mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+          <h1 className="relative mt-4 kop-2">
             Heb je een vouch-code?
           </h1>
           <p className="relative mt-4 text-tekst-secundair">

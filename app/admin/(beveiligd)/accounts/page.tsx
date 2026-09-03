@@ -6,7 +6,7 @@ export default async function AccountsTab() {
 
   return (
     <div className="max-w-3xl">
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Accounts <span className="text-tekst-secundair">({accounts.length})</span>
       </h2>
       <p className="mt-2 text-tekst-secundair">

@@ -7,7 +7,7 @@ export default async function LeadsTab() {
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Opdrachtgever-leads{" "}
         <span className="text-tekst-secundair">({nieuw} nieuw)</span>
       </h2>

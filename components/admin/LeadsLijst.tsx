@@ -24,7 +24,7 @@ function Kaart({ lead }: { lead: AdminLead }) {
 
   return (
     <article className="rounded-2xl border border-lijn bg-paneel p-6">
-      <h3 className="text-lg">{lead.bedrijf_naam}</h3>
+      <h3>{lead.bedrijf_naam}</h3>
       <p className="mt-1 text-sm text-tekst-secundair">
         {lead.contact_naam && `${lead.contact_naam} · `}
         {lead.contact_email ?? "geen e-mail"}

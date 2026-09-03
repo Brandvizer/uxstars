@@ -34,10 +34,10 @@ export default function MissieDetail({ missie }: { missie: Missie }) {
         </div>
       </div>
 
-      <h1 className="mt-6 !text-[clamp(1.75rem,3vw+1rem,3rem)]">
+      <h1 className="mt-6">
         {missie.titel}
       </h1>
-      <p className="mt-4 text-xl text-tekst-secundair">{missie.intro}</p>
+      <p className="mt-4 text-tekst-secundair tekst-intro">{missie.intro}</p>
 
       <div className="mt-8 flex flex-wrap gap-2">
         <Badge>{missie.rol}</Badge>

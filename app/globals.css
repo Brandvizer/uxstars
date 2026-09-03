@@ -31,30 +31,88 @@ body {
   background: var(--achtergrond);
   color: var(--tekst);
   font-family: var(--font-inter-tight), system-ui, sans-serif;
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-size: 1rem; /* bodytekst: 16px, overal */
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Typografieschaal ──────────────────────────────────────────────
+   Eén schaal voor de hele site. Koppen krijgen hun maat van het element
+   (h1/h2/h3/h4); .kop-* geeft een element de maat van een ander niveau
+   zonder de semantiek te veranderen (bijv. h1 van een subpagina in h2-maat).
+
+   hero   clamp 40–72px  homepage-hero
+   h1     clamp 32–48px  paginakop
+   h2     clamp 24–36px  sectiekop
+   h3     20px           kaart-/blokkop
+   h4     16px           kleine kop
+   intro  18px           inleidende alinea onder een h1
+   body   16px
+   klein  14px           meta, hints, bijschriften
+   label  12px caps      categorielabels boven een kop
+─────────────────────────────────────────────────────────────────── */
 h1,
 h2,
 h3,
-h4 {
+h4,
+.kop-hero,
+.kop-1,
+.kop-2,
+.kop-3,
+.kop-4 {
   font-weight: 600;
-  line-height: 1.15;
   text-wrap: balance;
+  color: var(--tekst);
 }
 
-h1 {
-  font-size: clamp(2rem, 5vw + 1rem, 4.5rem);
+h1,
+.kop-1 {
+  font-size: clamp(2rem, 2vw + 1.25rem, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
-h2 {
-  font-size: clamp(1.6rem, 3vw + 0.75rem, 2.75rem);
+.kop-hero {
+  font-size: clamp(2.5rem, 4vw + 1rem, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
 }
 
-h3 {
-  font-size: clamp(1.25rem, 1.5vw + 0.75rem, 1.625rem);
+h2,
+.kop-2 {
+  font-size: clamp(1.5rem, 1.2vw + 1rem, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h3,
+.kop-3 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+h4,
+.kop-4 {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.tekst-intro {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.tekst-klein {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 /* Selects: eigen chevron i.p.v. de OS-pijl, zodat hij op elke browser netjes

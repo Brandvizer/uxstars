@@ -33,7 +33,7 @@ export default async function BeveiligdeAdminLayout({
   if (!isAdmin) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Geen toegang</h1>
+        <h1 className="kop-2">Geen toegang</h1>
         <p className="mt-3 text-tekst-secundair">
           Je bent ingelogd als{" "}
           <span className="text-tekst">{user.email}</span>, maar dit adres staat

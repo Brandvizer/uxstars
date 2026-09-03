@@ -19,7 +19,7 @@ export default function Hero() {
       {/* pointer-events-none zodat hover op de sterren achter de tekst blijft werken */}
       <div className="pointer-events-none relative mx-auto flex min-h-[78vh] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
         <p
-          className="rijs-in mb-6 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
+          className="label rijs-in mb-6 flex items-center gap-2.5 text-accent"
           style={{ animationDelay: "0.1s" }}
         >
           <span className="h-px w-6 bg-accent/50" />
@@ -27,7 +27,7 @@ export default function Hero() {
           <span className="h-px w-6 bg-accent/50" />
         </p>
         <h1
-          className="rijs-in max-w-4xl text-balance"
+          className="kop-hero rijs-in max-w-4xl text-balance"
           style={{ animationDelay: "0.22s" }}
         >
           Elke designer een ster.

@@ -3,10 +3,10 @@ import Button from "@/components/ui/Button";
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 text-center sm:px-6">
-      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+      <p className="label text-accent">
         404
       </p>
-      <h1 className="mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+      <h1 className="mt-4 kop-2">
         Deze ster bestaat niet (meer)
       </h1>
       <p className="mt-4 text-tekst-secundair">

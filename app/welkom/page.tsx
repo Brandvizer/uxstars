@@ -92,7 +92,7 @@ export default function Welkom() {
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
         <h1
-          className="rijs-in relative mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
+          className="rijs-in relative mt-10"
           style={{ animationDelay: "0.3s" }}
         >
           Je aanmelding is binnen
@@ -136,7 +136,7 @@ export default function Welkom() {
   if (!token) {
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Geen uitnodiging gevonden</h1>
+        <h1 className="kop-2">Geen uitnodiging gevonden</h1>
         <p className="mt-3 text-tekst-secundair">
           Open de uitnodigingslink opnieuw in deze browser om je profiel aan te
           maken.
@@ -150,7 +150,7 @@ export default function Welkom() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">Maak je ster</h1>
+      <h1 className="kop-2">Maak je ster</h1>
       <p className="mt-3 text-tekst-secundair">
         Vul je gegevens in. Hiermee beoordeelt ons team je aanmelding. Je kunt
         alles later aanpassen in je profiel.

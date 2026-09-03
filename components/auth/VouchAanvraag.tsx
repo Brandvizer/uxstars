@@ -20,10 +20,10 @@ export default function VouchAanvraag({
           gecentreerd ? "mx-auto max-w-md" : ""
         }`}
       >
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-succes">
+        <p className="label text-succes">
           Aanmelding binnen
         </p>
-        <h3 className="mt-3 text-xl font-semibold">Bedankt, we bekijken je werk</h3>
+        <h3 className="mt-3">Bedankt, we bekijken je werk</h3>
         <p className="mt-3 text-tekst-secundair">
           Ons team beoordeelt je aanmelding. Bij een match krijg je een mail om je
           account af te ronden. Een menselijke check hoort bij een gevoucht

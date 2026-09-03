@@ -6,7 +6,7 @@ export default async function ReactiesTab() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold">
+      <h2 className="kop-3">
         Reacties{" "}
         <span className="text-tekst-secundair">({reacties.length})</span>
       </h2>

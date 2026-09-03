@@ -3,7 +3,7 @@ import BootstrapInvite from "@/components/admin/BootstrapInvite";
 export default function UitnodigingenTab() {
   return (
     <div className="max-w-2xl">
-      <h2 className="text-xl font-semibold">Nodig iemand direct uit</h2>
+      <h2 className="kop-3">Nodig iemand direct uit</h2>
       <p className="mt-2 text-tekst-secundair">
         Maak een eenmalige vouch-link om zelf iemand binnen te halen. Zij krassen
         &apos;m open en doorlopen de aanmelding, die je daarna beoordeelt bij{" "}

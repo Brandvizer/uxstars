@@ -5,7 +5,7 @@ export default function SplitsBlok() {
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="flex flex-col rounded-2xl border border-lijn bg-paneel p-8 sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+          <p className="label text-accent">
             Voor opdrachtgevers
           </p>
           <h2 className="mt-4">Vind een ster die al gevouched is</h2>
@@ -20,7 +20,7 @@ export default function SplitsBlok() {
         </div>
 
         <div className="flex flex-col rounded-2xl border border-lijn bg-paneel p-8 sm:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-succes">
+          <p className="label text-succes">
             Voor designers
           </p>
           <h2 className="mt-4">Schitter in een stelsel, niet alleen</h2>

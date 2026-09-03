@@ -188,7 +188,7 @@ export default function Nav() {
               className="menu-item border-b border-lijn/50 py-4"
               style={{ animationDelay: `${gi * 60}ms` }}
             >
-              <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+              <p className="label mb-1 text-accent">
                 {menu.label}
               </p>
               <div>

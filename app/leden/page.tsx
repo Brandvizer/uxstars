@@ -18,13 +18,13 @@ export default async function LedenPagina() {
     <div className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+          <p className="label text-accent">
             Het stelsel
           </p>
-          <h1 className="mt-4 !text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
+          <h1 className="mt-4">
             De mensen die voor elkaar instaan
           </h1>
-          <p className="mt-5 text-xl text-tekst-secundair">
+          <p className="mt-5 text-tekst-secundair tekst-intro">
             UXSTARS groeit van ster tot ster. Niemand komt binnen zonder dat een
             collega voor je instaat. Daarom zie je hier ook wie wie vouchte.
           </p>
@@ -62,7 +62,7 @@ export default async function LedenPagina() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate text-lg">{lid.naam}</h3>
+                      <h3 className="truncate">{lid.naam}</h3>
                       <p className="truncate text-sm text-tekst-secundair">
                         {lid.specialisme} · {lid.seniority}
                       </p>

@@ -66,7 +66,7 @@ export default function UitnodigingWelkom({
   if (!geldig) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 text-center sm:px-6">
-        <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Uitnodiging niet geldig</h1>
+        <h1 className="kop-2">Uitnodiging niet geldig</h1>
         <p className="mt-3 text-tekst-secundair">
           Deze vouch bestaat niet of is al gebruikt. Vraag degene die je
           uitnodigde om een nieuwe, of misschien is het stelsel al rond.
@@ -85,10 +85,10 @@ export default function UitnodigingWelkom({
         <svg viewBox="0 0 24 24" className="relative h-14 w-14 fill-accent" aria-hidden="true">
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
-        <p className="relative mt-6 text-sm font-semibold uppercase tracking-[0.25em] text-accent">
+        <p className="label relative mt-6 text-accent">
           Je bent al ingelogd
         </p>
-        <h1 className="relative mt-3 !text-[clamp(1.5rem,3vw+1rem,2.25rem)]">
+        <h1 className="relative mt-3 kop-2">
           Deze vouch is voor iemand anders
         </h1>
         <p className="relative mt-4 text-tekst-secundair">
@@ -119,10 +119,10 @@ export default function UitnodigingWelkom({
         >
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
-        <h1 className="rijs-in relative mt-8 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]" style={{ animationDelay: "0.2s" }}>
+        <h1 className="rijs-in relative mt-8 kop-2" style={{ animationDelay: "0.2s" }}>
           Je aanmelding is binnen
         </h1>
-        <p className="rijs-in relative mt-4 text-lg text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
+        <p className="rijs-in relative mt-4 text-tekst-secundair tekst-intro" style={{ animationDelay: "0.4s" }}>
           Bedankt! Ons team bekijkt je aanmelding. Een menselijke check hoort bij
           een gevoucht netwerk. Bij goedkeuring krijg je een mail om je account af
           te ronden.
@@ -154,13 +154,13 @@ export default function UitnodigingWelkom({
 
       {fase === "kras" ? (
         <>
-          <p className="relative mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">
+          <p className="label relative mt-6 text-accent">
             Je hebt een vouch ontvangen
           </p>
-          <h1 className="relative mt-4 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]">
+          <h1 className="relative mt-4 kop-2">
             Kras je plek vrij
           </h1>
-          <p className="relative mt-4 text-lg text-tekst-secundair">
+          <p className="relative mt-4 text-tekst-secundair tekst-intro">
             {uitnodiger ? (
               <>
                 <span className="text-tekst">{uitnodiger}</span> vouchte jou voor
@@ -179,7 +179,7 @@ export default function UitnodigingWelkom({
               onOnthuld={naOnthuld}
             >
               <div className="text-center">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-tekst-secundair">
+                <p className="label text-tekst-secundair">
                   Je vouch-code
                 </p>
                 <p className="mt-1 font-mono text-3xl font-bold tracking-[0.2em] text-succes">
@@ -197,10 +197,10 @@ export default function UitnodigingWelkom({
         </>
       ) : (
         <div className="relative w-full">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">
+          <p className="label text-accent">
             Je vouch is geldig
           </p>
-          <h1 className="mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+          <h1 className="mt-4 kop-2">
             Meld je aan
           </h1>
           <p className="mx-auto mt-4 max-w-md text-tekst-secundair">

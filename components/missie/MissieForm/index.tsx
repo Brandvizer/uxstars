@@ -95,7 +95,7 @@ export default function MissieForm({
     >
       <RaketVoortgang stap={stap} totaal={stappen.length} />
 
-      <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-tekst-secundair">
+      <p className="label mb-4 text-tekst-secundair">
         Stap {stap + 1} van {stappen.length}
       </p>
 

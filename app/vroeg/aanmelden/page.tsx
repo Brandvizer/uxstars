@@ -28,7 +28,7 @@ export default async function FoundingAanmeldenPage() {
       {status.open ? (
         <>
           <div className="mt-10 text-center">
-            <h1 className="text-balance !text-[clamp(1.7rem,3vw+.8rem,2.6rem)]">
+            <h1 className="text-balance kop-2">
               Claim je founding-plek
             </h1>
             <p className="mx-auto mt-4 max-w-lg text-tekst-secundair">
@@ -44,7 +44,7 @@ export default async function FoundingAanmeldenPage() {
         </>
       ) : (
         <div className="mt-10 rounded-2xl border border-lijn bg-paneel p-8 text-center">
-          <h1 className="!text-[clamp(1.6rem,3vw+.6rem,2.2rem)]">
+          <h1 className="kop-2">
             De 100 founding-plekken zijn vol
           </h1>
           <p className="mx-auto mt-4 max-w-md text-tekst-secundair">

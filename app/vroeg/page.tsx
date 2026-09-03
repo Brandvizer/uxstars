@@ -83,7 +83,7 @@ export default function VroegPage() {
       <section className="relative z-10">
         <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-16 text-center sm:px-6">
           <p
-            className="rijs-in mb-5 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
+            className="label rijs-in mb-5 flex items-center gap-2.5 text-accent"
             style={{ animationDelay: "0.1s" }}
           >
             <span className="h-px w-6 bg-accent/50" />
@@ -91,7 +91,7 @@ export default function VroegPage() {
             <span className="h-px w-6 bg-accent/50" />
           </p>
           <h1
-            className="rijs-in text-balance !text-[clamp(1.9rem,3.5vw+1rem,3.1rem)]"
+            className="rijs-in text-balance"
             style={{ animationDelay: "0.22s" }}
           >
             Elke designer een ster.
@@ -120,10 +120,10 @@ export default function VroegPage() {
 
       {/* De pijn die we verhelpen — voor beide kanten */}
       <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
-        <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
+        <p className="label text-center text-accent">
           Waarom UXSTARS
         </p>
-        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance !text-[clamp(1.6rem,3vw+.6rem,2.4rem)]">
+        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance">
           Aannemen en aangenomen worden zonder de ruis
         </h2>
 
@@ -133,7 +133,7 @@ export default function VroegPage() {
               key={k.label}
               className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
             >
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+              <p className="label text-accent">
                 {k.label}
               </p>
 
@@ -194,7 +194,7 @@ export default function VroegPage() {
 
       {/* Hoe het werkt — drie stappen (echte volgorde, dus genummerd) */}
       <section className="relative z-10 mx-auto max-w-5xl px-4 pb-24 pt-16 sm:px-6">
-        <p className="text-center text-sm font-semibold uppercase tracking-[0.22em] text-accent">
+        <p className="label text-center text-accent">
           Hoe het werkt
         </p>
         <div className="mt-8 grid gap-5 sm:grid-cols-3">
@@ -206,7 +206,7 @@ export default function VroegPage() {
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-accent/40 font-mono text-sm font-bold text-accent">
                 {i + 1}
               </span>
-              <h3 className="mt-4 text-lg font-semibold text-tekst">{s.titel}</h3>
+              <h3 className="mt-4 text-tekst">{s.titel}</h3>
               <p className="mt-2 text-base text-tekst-secundair">{s.tekst}</p>
             </div>
           ))}

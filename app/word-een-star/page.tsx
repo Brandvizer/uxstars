@@ -53,10 +53,10 @@ export default function WordEenStarPagina() {
     <div className="py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
-          <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
+          <h1>
             Schitter in een stelsel, niet alleen
           </h1>
-          <p className="mt-5 text-xl text-tekst-secundair">
+          <p className="mt-5 text-tekst-secundair tekst-intro">
             UXSTARS is een netwerk van zelfstandige UX-professionals die elkaar
             vouchen, helpen en aanvullen. Geen detacheerder, geen platform met
             duizend profielen: een constellation waar je bij wílt horen.
@@ -104,7 +104,7 @@ export default function WordEenStarPagina() {
         <div className="mt-20 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="max-w-md">
             <h2>Vraag een vouch aan</h2>
-            <p className="mt-5 text-lg text-tekst-secundair">
+            <p className="mt-5 text-tekst-secundair tekst-intro">
               UXSTARS is invite-only: je komt binnen via een vouch van een
               bestaand lid. Ken je nog niemand in het stelsel? Zet jezelf op de
               radar, dan kijken een lid of wij wie je werk kent.

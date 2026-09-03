@@ -52,7 +52,7 @@ export default function MagicLinkLogin({
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16 sm:px-6">
       <div className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-        <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">{titel}</h1>
+        <h1 className="kop-2">{titel}</h1>
         <p className="mt-3 text-tekst-secundair">{intro}</p>
 
         {status === "verzonden" ? (

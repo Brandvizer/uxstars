@@ -25,7 +25,7 @@ export default function MissieKaart({ missie }: { missie: Missie }) {
         <LogoThumb logo={missie.logo} naam={missie.opdrachtgever} />
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
-            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+            <p className="label text-accent">
               {missie.rol}
             </p>
             <Badge kleur={open ? "succes" : "neutraal"}>

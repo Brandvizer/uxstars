@@ -37,7 +37,7 @@ export default function MembershipKaart() {
       </div>
 
       <div className="rounded-2xl border border-accent/40 bg-paneel p-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
+        <p className="label text-accent">
           {MEMBERSHIP.naam}
         </p>
         <p className="mt-3">

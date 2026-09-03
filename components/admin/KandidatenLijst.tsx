@@ -52,7 +52,7 @@ function Kaart({ aanvraag }: { aanvraag: VouchAanvraag }) {
     <article className="rounded-2xl border border-lijn bg-paneel p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-lg">{aanvraag.naam}</h3>
+          <h3>{aanvraag.naam}</h3>
           <p className="mt-1 text-sm text-tekst-secundair">{aanvraag.email}</p>
         </div>
         {status === "uitgenodigd" && <Badge kleur="accent">Uitgenodigd</Badge>}

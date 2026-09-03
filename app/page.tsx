@@ -129,7 +129,7 @@ export default async function Home() {
       <Onthul>
         <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
           <div className="rounded-2xl border border-lijn bg-paneel p-8 text-center sm:p-12">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+            <p className="label text-accent">
               Voor opdrachtgevers
             </p>
             <h2 className="mt-3">

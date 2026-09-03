@@ -135,7 +135,7 @@ export default function AccountForm({
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
+          <h1 className="kop-2">
             Hallo {profiel.naam.split(" ")[0]}
           </h1>
           <p className="mt-1 text-tekst-secundair">{email}</p>
@@ -179,7 +179,7 @@ export default function AccountForm({
       {/* Profiel */}
       {tab === "profiel" && (
       <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-        <h2 className="text-xl font-semibold">Je profiel</h2>
+        <h2 className="kop-3">Je profiel</h2>
 
         {/* Profielfoto */}
         <div className="mt-6 flex items-center gap-5">
@@ -326,7 +326,7 @@ export default function AccountForm({
       {/* Reacties — missies waarop je reageerde */}
       {tab === "reacties" && (
         <div className="mt-8">
-          <h2 className="text-xl font-semibold">Jouw reacties</h2>
+          <h2 className="kop-3">Jouw reacties</h2>
           <p className="mt-2 text-sm text-tekst-secundair">
             Missies waarop je hebt gereageerd, en waar ze staan.
           </p>
@@ -403,13 +403,13 @@ export default function AccountForm({
           </svg>
 
           <div className="relative">
-            <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+            <p className="label flex items-center gap-2 text-accent">
               <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-accent" aria-hidden="true">
                 <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
               </svg>
               Jouw vouch · 1 beschikbaar
             </p>
-            <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">
+            <h2 className="mt-3 kop-2">
               Je hebt één ster weg te geven
             </h2>
             <p className="mt-3 max-w-xl text-tekst-secundair">
@@ -429,7 +429,7 @@ export default function AccountForm({
         </div>
       ) : (
         <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-          <h2 className="text-xl font-semibold">Jouw vouch is weggegeven</h2>
+          <h2 className="kop-3">Jouw vouch is weggegeven</h2>
           <p className="mt-3 text-tekst-secundair">
             Mooi, het stelsel groeit. Hieronder zie je wie er via jou bij kwam.
           </p>
@@ -440,7 +440,7 @@ export default function AccountForm({
       {stelsel && (
         <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
           <div className="flex items-end justify-between gap-4">
-            <h2 className="text-xl font-semibold">Jouw tak van het stelsel</h2>
+            <h2 className="kop-3">Jouw tak van het stelsel</h2>
             <div className="text-right">
               <div className="text-3xl font-bold leading-none text-accent">
                 {stelsel.aantal_afstammelingen}

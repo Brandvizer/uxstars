@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   if (!s) {
     return (
       <div>
-        <h1 className="text-xl font-semibold">Dashboard</h1>
+        <h1 className="kop-3">Dashboard</h1>
         <p className="mt-6 rounded-2xl border border-lijn bg-paneel px-6 py-10 text-center text-tekst-secundair">
           Cijfers zijn nu even niet beschikbaar.
         </p>
@@ -42,7 +42,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-semibold">Dashboard</h1>
+        <h1 className="kop-3">Dashboard</h1>
         <p className="mt-1 text-sm text-tekst-secundair">
           De belangrijkste cijfers in één oogopslag.
         </p>
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
       {/* Aanmeldingen per dag (laatste 30 dagen) */}
       <section className="rounded-2xl border border-lijn bg-paneel p-6">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-semibold">Aanmeldingen per dag</h2>
+          <h2>Aanmeldingen per dag</h2>
           <span className="text-sm text-tekst-secundair">
             {s.wachtlijst.laatste30} in 30 dagen
           </span>
@@ -91,7 +91,7 @@ export default async function DashboardPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Trechter */}
         <section className="rounded-2xl border border-lijn bg-paneel p-6">
-          <h2 className="font-semibold">Trechter</h2>
+          <h2>Trechter</h2>
           <p className="mt-1 text-sm text-tekst-secundair">
             Van aanmelding naar actief lid.
           </p>
@@ -125,7 +125,7 @@ export default async function DashboardPage() {
 
         {/* Verdeling + statussen */}
         <section className="rounded-2xl border border-lijn bg-paneel p-6">
-          <h2 className="font-semibold">Wachtlijst</h2>
+          <h2>Wachtlijst</h2>
           <div className="mt-4 grid grid-cols-2 gap-3">
             <Cijfer label="Designers" waarde={s.wachtlijst.designers} />
             <Cijfer label="Opdrachtgevers" waarde={s.wachtlijst.opdrachtgevers} />
@@ -133,7 +133,7 @@ export default async function DashboardPage() {
             <Cijfer label="Afgewezen" waarde={s.wachtlijst.afgewezen} />
           </div>
 
-          <h2 className="mt-6 font-semibold">Aanmeldingen (portfolio)</h2>
+          <h2 className="mt-6">Aanmeldingen (portfolio)</h2>
           <div className="mt-4 grid grid-cols-3 gap-3">
             <Cijfer label="Nieuw" waarde={s.aanmeldingen.nieuw} accent />
             <Cijfer label="Goedgekeurd" waarde={s.aanmeldingen.goedgekeurd} />
