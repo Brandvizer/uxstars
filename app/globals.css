@@ -57,6 +57,25 @@ h3 {
   font-size: clamp(1.25rem, 1.5vw + 0.75rem, 1.625rem);
 }
 
+/* Selects: eigen chevron i.p.v. de OS-pijl, zodat hij op elke browser netjes
+   verticaal gecentreerd en op vaste afstand van de rand staat. */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%238b93a7' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M4 6l4 4 4-4'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem 1rem;
+  padding-right: 2.75rem;
+}
+select:focus {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23f5b941' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'><path d='M4 6l4 4 4-4'/></svg>");
+}
+select option {
+  color: var(--tekst);
+  background: var(--achtergrond);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--achtergrond);

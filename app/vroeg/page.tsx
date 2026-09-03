@@ -4,7 +4,7 @@ import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 
 export const metadata: Metadata = {
-  title: "Binnenkort | UXSTARS",
+  title: "Binnenkort",
   description:
     "Een besloten netwerk van gevouchte digital designers. Geen cv-loterij, voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
 };
