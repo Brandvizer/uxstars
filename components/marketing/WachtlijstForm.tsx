@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
 import FoundingTeller from "@/components/marketing/FoundingTeller";
 
 type Type = "designer" | "opdrachtgever";
@@ -26,8 +27,6 @@ export default function WachtlijstForm() {
     setStatus(error ? "fout" : "klaar");
   };
 
-  const veld =
-    "w-full rounded-xl border border-lijn bg-achtergrond/80 px-4 py-3 text-base text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none";
 
   return (
     <div className="pointer-events-auto w-full max-w-md rounded-2xl border border-lijn bg-paneel/90 p-6 text-left backdrop-blur-sm sm:p-7">
@@ -70,15 +69,21 @@ export default function WachtlijstForm() {
             ben je als eerste aan de beurt.
           </p>
           <form onSubmit={verstuur} className="mt-4 space-y-3">
-            <input
+            <Input
+              label="Naam"
+              labelVerborgen
+              icoon="persoon"
+              name="wachtlijst-naam"
               value={naam}
               onChange={(e) => setNaam(e.target.value)}
               placeholder="Naam (optioneel)"
-              className={veld}
               autoComplete="name"
             />
-            <input
+            <Input
+              label="E-mailadres"
+              labelVerborgen
               type="email"
+              name="wachtlijst-email"
               required
               value={email}
               onChange={(e) => {
@@ -86,7 +91,6 @@ export default function WachtlijstForm() {
                 if (status === "fout") setStatus("idle");
               }}
               placeholder="jij@bedrijf.nl"
-              className={veld}
               autoComplete="email"
             />
             <Button type="submit" disabled={status === "bezig"} className="w-full">

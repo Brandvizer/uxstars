@@ -54,17 +54,22 @@ type InputProps = {
   fout?: string;
   /** Icoon links in het veld; null onderdrukt het automatische icoon. */
   icoon?: Icoon | null;
+  /** Label alleen voor screenreaders (placeholder doet het visuele werk). */
+  labelVerborgen?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, fout, id, icoon, ...rest },
+  { label, fout, id, icoon, labelVerborgen = false, ...rest },
   ref,
 ) {
   const inputId = id ?? rest.name;
   const gekozen = icoonVoor(icoon, rest.type);
   return (
     <div>
-      <label htmlFor={inputId} className="mb-2 block text-base font-semibold">
+      <label
+        htmlFor={inputId}
+        className={labelVerborgen ? "sr-only" : "mb-2 block text-base font-semibold"}
+      >
         {label}
       </label>
       <div className="relative">
