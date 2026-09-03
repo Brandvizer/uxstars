@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Logo from "@/components/ui/Logo";
+import LogoBalk from "@/components/marketing/LogoBalk";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 import LogoRij from "@/components/home/LogoRij";
@@ -75,10 +75,7 @@ export default function VroegPage() {
         />
       </div>
 
-      {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
-      <div className="relative z-10 flex items-center justify-center pt-10">
-        <Logo className="h-12 w-auto text-tekst sm:h-14" />
-      </div>
+      <LogoBalk />
 
       {/* Hero + inschrijfformulier */}
       <section className="relative z-10">

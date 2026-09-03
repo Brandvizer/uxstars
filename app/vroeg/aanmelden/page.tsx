@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Logo from "@/components/ui/Logo";
+import LogoBalk from "@/components/marketing/LogoBalk";
 import VouchAanvraag from "@/components/auth/VouchAanvraag";
 import { getFoundingStatus } from "@/lib/founding";
 
@@ -15,14 +15,7 @@ export default async function FoundingAanmeldenPage() {
 
   return (
     <div className="pb-24">
-      {/* Kop met logo en onderlijn, zoals de site-navigatie */}
-      <header className="border-b border-lijn">
-        <div className="flex h-16 items-center justify-center sm:h-20">
-          <Link href="/vroeg" aria-label="Terug naar UXSTARS">
-            <Logo className="h-9 w-auto text-tekst sm:h-10" />
-          </Link>
-        </div>
-      </header>
+      <LogoBalk />
 
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
       {status.open ? (
