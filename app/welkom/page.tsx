@@ -102,7 +102,7 @@ export default function Welkom() {
           style={{ animationDelay: "0.5s" }}
         >
           Bedankt, {geactiveerd.split(" ")[0]}. Ons team bekijkt je aanmelding
-          kort — een menselijke check hoort bij een gevoucht netwerk. Je krijgt
+          kort. Een menselijke check hoort bij een gevoucht netwerk. Je krijgt
           zo snel mogelijk bericht per mail.
         </p>
         <div
@@ -152,7 +152,7 @@ export default function Welkom() {
     <div className="mx-auto max-w-md px-4 py-16 sm:px-6">
       <h1 className="!text-[clamp(1.75rem,3vw+1rem,2.5rem)]">Maak je ster</h1>
       <p className="mt-3 text-tekst-secundair">
-        Vul je gegevens in — hiermee beoordeelt ons team je aanmelding. Je kunt
+        Vul je gegevens in. Hiermee beoordeelt ons team je aanmelding. Je kunt
         alles later aanpassen in je profiel.
       </p>
 
@@ -192,7 +192,7 @@ export default function Welkom() {
         <Textarea
           label="Waarom jij past bij UXSTARS"
           name="bio"
-          placeholder="Vertel kort waar je goed in bent en wat voor werk je zoekt — dit helpt ons je aanmelding te beoordelen."
+          placeholder="Vertel kort waar je goed in bent en wat voor werk je zoekt. Dit helpt ons je aanmelding te beoordelen."
           required
         />
         <Button type="submit" disabled={bezig} className="w-full">

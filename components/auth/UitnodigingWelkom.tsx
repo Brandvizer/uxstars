@@ -69,7 +69,7 @@ export default function UitnodigingWelkom({
         <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Uitnodiging niet geldig</h1>
         <p className="mt-3 text-tekst-secundair">
           Deze vouch bestaat niet of is al gebruikt. Vraag degene die je
-          uitnodigde om een nieuwe — of misschien is het stelsel al rond.
+          uitnodigde om een nieuwe, of misschien is het stelsel al rond.
         </p>
       </div>
     );
@@ -123,7 +123,7 @@ export default function UitnodigingWelkom({
           Je aanmelding is binnen ✦
         </h1>
         <p className="rijs-in relative mt-4 text-lg text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
-          Bedankt! Ons team bekijkt je aanmelding — een menselijke check hoort bij
+          Bedankt! Ons team bekijkt je aanmelding. Een menselijke check hoort bij
           een gevoucht netwerk. Bij goedkeuring krijg je een mail om je account af
           te ronden.
         </p>
@@ -190,7 +190,7 @@ export default function UitnodigingWelkom({
             </Kraslaag>
             {gevalideerd && (
               <p className="rijs-in mt-3 text-sm text-succes">
-                Geldige vouch — we brengen je verder…
+                Geldige vouch, we brengen je verder…
               </p>
             )}
           </div>
@@ -204,7 +204,7 @@ export default function UitnodigingWelkom({
             Meld je aan
           </h1>
           <p className="mx-auto mt-4 max-w-md text-tekst-secundair">
-            Nog een paar stappen. Daarna beoordeelt ons team je aanmelding — je
+            Nog een paar stappen. Daarna beoordeelt ons team je aanmelding. Je
             hoeft nu nog geen account te maken.
           </p>
           <div className="mt-8 flex justify-center">

@@ -62,7 +62,7 @@ export default async function AccountPage() {
         <h1 className="!text-[clamp(1.5rem,3vw+1rem,2rem)]">Nog geen sterrenplek</h1>
         <p className="mt-3 text-tekst-secundair">
           Je bent ingelogd als <span className="text-tekst">{user.email}</span>,
-          maar je hebt nog geen ster-profiel. UXSTARS is invite-only — je komt
+          maar je hebt nog geen ster-profiel. UXSTARS is invite-only: je komt
           binnen via een vouch van een bestaand lid.
         </p>
         <div className="mt-6 flex flex-col items-center gap-3">
@@ -102,7 +102,7 @@ export default async function AccountPage() {
         </h1>
         <p className="relative mt-4 text-tekst-secundair">
           Hoi {profiel.naam.split(" ")[0]}, je vouch is binnen. Ons team
-          beoordeelt &apos;m kort — een menselijke check hoort bij een gevoucht
+          beoordeelt &apos;m kort. Een menselijke check hoort bij een gevoucht
           netwerk. Je krijgt bericht op{" "}
           <span className="text-tekst">{user.email}</span>.
         </p>

@@ -13,11 +13,11 @@ const interTight = Inter_Tight({
 
 export const metadata: Metadata = {
   title: {
-    default: "UXSTARS — Het sterrenstelsel van UX-talent",
-    template: "%s — UXSTARS",
+    default: "UXSTARS | Het sterrenstelsel van digital designers",
+    template: "%s | UXSTARS",
   },
   description:
-    "UXSTARS is een netwerk van gevouchte UX-designers. Plaats een missie en vind binnen dagen de juiste ster voor je team.",
+    "UXSTARS is een netwerk van gevouchte digital designers: UX, UI, product, service en visual. Plaats een missie en vind binnen dagen de juiste ster voor je team.",
 };
 
 export default function RootLayout({

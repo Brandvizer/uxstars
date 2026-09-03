@@ -81,7 +81,7 @@ export default async function BeveiligdeAdminLayout({
   return (
     <div>
       <div className="border-b border-lijn">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
           <p className="flex items-center gap-2 font-semibold">
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-accent" aria-hidden="true">
               <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
@@ -101,10 +101,10 @@ export default async function BeveiligdeAdminLayout({
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
         <Tabs tellingen={tellingen} />
       </div>
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</div>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">{children}</div>
     </div>
   );
 }

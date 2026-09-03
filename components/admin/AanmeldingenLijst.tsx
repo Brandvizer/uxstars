@@ -36,7 +36,7 @@ function Kaart({ aanmelding }: { aanmelding: Aanmelding }) {
     setBezig(true);
     const r = await wijsAanmelding(aanmelding.id, motivatie);
     if (r.ok) {
-      setKlaar("Afgewezen — motivatie gemaild");
+      setKlaar("Afgewezen, motivatie gemaild");
       router.refresh();
     } else setBezig(false);
   };

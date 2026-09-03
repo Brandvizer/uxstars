@@ -106,7 +106,24 @@ export default function VouchAanmelding({
     });
     setBezig(false);
     if (error) {
-      setFout("Er ging iets mis bij het versturen. Probeer het opnieuw.");
+      // De database geeft korte codes terug voor bekende situaties.
+      if (error.message.includes("AL_STER")) {
+        setFout(
+          "Dit e-mailadres heeft al een ster-account. Log in via je account in plaats van opnieuw aan te melden.",
+        );
+        setStap(1);
+      } else if (error.message.includes("AL_AANGEMELD")) {
+        setFout(
+          "Er staat al een aanmelding open voor dit e-mailadres. We nemen contact op zodra die beoordeeld is.",
+        );
+        setStap(1);
+      } else if (error.message.includes("founding-plekken zijn vol")) {
+        setFout("De eerste 100 founding-plekken zijn net vol. Houd onze socials in de gaten voor de volgende ronde.");
+      } else if (error.message.includes("Uitnodiging ongeldig")) {
+        setFout("Deze uitnodiging is ongeldig of al gebruikt.");
+      } else {
+        setFout("Er ging iets mis bij het versturen. Probeer het opnieuw.");
+      }
       return;
     }
     onKlaar();
@@ -183,7 +200,7 @@ export default function VouchAanmelding({
           <div className="space-y-5">
             <h2 className="text-xl font-semibold">Laat je werk zien</h2>
             <p className="text-sm text-tekst-secundair">
-              Een link, een PDF, of allebei — wat jij het liefst deelt.
+              Een link, een PDF, of allebei: wat jij het liefst deelt.
             </p>
             <Input
               label="Portfolio-link"
@@ -219,7 +236,7 @@ export default function VouchAanmelding({
               label="Korte motivatie"
               value={motivatie}
               onChange={(e) => setMotivatie(e.target.value)}
-              placeholder="Vertel kort waar je goed in bent en wat voor werk je zoekt — dit helpt ons je aanmelding te beoordelen."
+              placeholder="Vertel kort waar je goed in bent en wat voor werk je zoekt. Dit helpt ons je aanmelding te beoordelen."
             />
           </div>
         )}

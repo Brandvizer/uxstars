@@ -9,7 +9,7 @@ const logos = [
 
 export default function LogoRij() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-tekst-secundair">
         Sterren van UXSTARS werkten voor
       </p>

@@ -6,7 +6,7 @@ import VouchAanvraag from "@/components/auth/VouchAanvraag";
 import { getFoundingStatus } from "@/lib/founding";
 
 export const metadata: Metadata = {
-  title: "Claim je founding-plek — UXSTARS",
+  title: "Claim je founding-plek | UXSTARS",
   description:
     "Meld je aan als een van de eerste 100 sterren van UXSTARS. Portfolio, cv en een korte motivatie.",
 };
@@ -40,7 +40,7 @@ export default async function FoundingAanmeldenPage() {
           </div>
 
           <div className="mt-10">
-            <VouchAanvraag />
+            <VouchAanvraag gecentreerd />
           </div>
         </>
       ) : (

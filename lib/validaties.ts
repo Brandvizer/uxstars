@@ -3,6 +3,7 @@ import { z } from "zod";
 export const rollen = [
   "UX Designer",
   "Product Designer",
+  "UI / Visual Designer",
   "UX Researcher",
   "Service Designer",
   "UX Writer",
@@ -54,7 +55,7 @@ export const stapSchemas = {
       .min(10, "Geef je missie een titel van minimaal 10 tekens"),
     omschrijving: z
       .string({ error: "Vertel kort waar de missie over gaat" })
-      .min(40, "Vertel iets meer — minimaal 40 tekens helpt sterren kiezen"),
+      .min(40, "Vertel iets meer: minimaal 40 tekens helpt sterren kiezen"),
   }),
   omvang: z.object({
     urenPerWeek: z.enum(urenOpties, { error: "Kies het aantal uren" }),

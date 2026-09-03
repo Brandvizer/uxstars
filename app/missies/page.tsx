@@ -15,12 +15,12 @@ export const revalidate = 300;
 export default async function MissiesPagina() {
   const missies = await getMissies();
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="max-w-2xl">
         <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">Open missies</h1>
         <p className="mt-4 text-xl text-tekst-secundair">
           Opdrachten van opdrachtgevers die een ster zoeken. Reageer als het
-          past — of stuur de missie door naar iemand uit jouw stelsel.
+          past, of stuur de missie door naar iemand uit jouw stelsel.
         </p>
       </div>
 

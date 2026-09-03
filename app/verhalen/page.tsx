@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function VerhalenPagina() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="max-w-2xl">
         <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
           Verhalen uit het stelsel

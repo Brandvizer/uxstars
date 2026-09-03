@@ -56,7 +56,7 @@ export async function meldNieuweAanmelding(naam: string): Promise<void> {
         kop: "Nieuwe gevouchte aanmelding",
         alineas: [
           `<strong>${esc(naam)}</strong> (${esc(kandidaatEmail)}) heeft een vouch ingewisseld en wacht op goedkeuring.`,
-          "Klik hieronder — je gaat direct ingelogd naar de aanmeldingen.",
+          "Klik hieronder. Je gaat direct ingelogd naar de aanmeldingen.",
         ],
         knop: { label: "Beoordeel de aanmelding", url },
       }),

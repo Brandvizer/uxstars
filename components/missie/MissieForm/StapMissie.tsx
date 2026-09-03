@@ -17,7 +17,7 @@ export default function StapMissie({
         Wat is de missie?
       </legend>
       <p className="mt-2 text-tekst-secundair">
-        Een goede titel en een korte omschrijving zijn genoeg — wij denken mee
+        Een goede titel en een korte omschrijving zijn genoeg, wij denken mee
         over de rest.
       </p>
       <div className="mt-8 space-y-6">

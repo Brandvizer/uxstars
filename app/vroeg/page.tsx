@@ -4,9 +4,9 @@ import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 
 export const metadata: Metadata = {
-  title: "Binnenkort — UXSTARS",
+  title: "Binnenkort | UXSTARS",
   description:
-    "Een besloten netwerk van gevouchte UX-designers. Geen cv-loterij, voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
+    "Een besloten netwerk van gevouchte digital designers. Geen cv-loterij, voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
 };
 
 const PIJN = [
@@ -58,7 +58,12 @@ export default function VroegPage() {
     <div className="relative">
       {/* Beeldvullend sterrenstelsel: vast achter de hele pagina */}
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <SterrenVeld interactief={false} className="veld-in absolute inset-0" />
+        {/* Op mobiel geen gezichten (die vechten met de tekst) en iets gedimd; vanaf sm vol. */}
+        <SterrenVeld
+          interactief={false}
+          gezichtenOpMobiel={false}
+          className="veld-in absolute inset-0 opacity-75 sm:opacity-100"
+        />
         <div
           className="absolute inset-0"
           style={{
@@ -66,6 +71,8 @@ export default function VroegPage() {
               "radial-gradient(ellipse 72% 62% at 50% 38%, rgba(10,14,26,0.60), rgba(10,14,26,0.26) 68%, transparent)",
           }}
         />
+        {/* Extra rustlaag alleen op mobiel */}
+        <div className="absolute inset-0 bg-achtergrond/30 sm:hidden" />
       </div>
 
       {/* Merkteken: het echte UXSTARS-logo (geïsoleerde pagina, bewust geen link) */}
@@ -97,8 +104,9 @@ export default function VroegPage() {
             style={{ animationDelay: "0.36s" }}
           >
             Solliciteren voelt als een loterij, screenen als gokken. UXSTARS
-            draait het om: een besloten netwerk van gevouchte UX-designers, waar
-            werk en talent elkaar rechtstreeks vinden.
+            draait het om: een besloten netwerk van gevouchte digital designers,
+            van UX tot UI en product, waar werk en talent elkaar rechtstreeks
+            vinden.
           </p>
 
           <div
@@ -136,17 +144,21 @@ export default function VroegPage() {
               <ul className="mt-3 space-y-2.5">
                 {k.pijn.map((p) => (
                   <li key={p} className="flex items-start gap-3 text-tekst-secundair">
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="mt-0.5 h-5 w-5 shrink-0 text-tekst-secundair/40"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M6 6l8 8M14 6l-8 8" />
-                    </svg>
+                    {/* h-[1lh] = hoogte van één tekstregel, zodat het icoon
+                        exact op de eerste regel centreert, ook bij afbreken. */}
+                    <span className="flex h-[1lh] shrink-0 items-center">
+                      <svg
+                        viewBox="0 0 20 20"
+                        className="h-5 w-5 text-tekst-secundair/40"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 6l8 8M14 6l-8 8" />
+                      </svg>
+                    </span>
                     <span>{p}</span>
                   </li>
                 ))}
@@ -158,18 +170,20 @@ export default function VroegPage() {
               <ul className="mt-3 space-y-2.5">
                 {k.belofte.map((b) => (
                   <li key={b} className="flex items-start gap-3">
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="mt-0.5 h-5 w-5 shrink-0 text-succes"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M4 10.5l4 4 8-9" />
-                    </svg>
+                    <span className="flex h-[1lh] shrink-0 items-center">
+                      <svg
+                        viewBox="0 0 20 20"
+                        className="h-5 w-5 text-succes"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M4 10.5l4 4 8-9" />
+                      </svg>
+                    </span>
                     <span className="text-tekst">{b}</span>
                   </li>
                 ))}

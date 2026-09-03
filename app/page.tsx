@@ -44,7 +44,7 @@ const beloften = [
   {
     titel: "Eerlijke tarieven",
     tekst:
-      "Transparant voor beide kanten. Geen onzichtbare marges — wat jij betaalt, weet de designer ook.",
+      "Transparant voor beide kanten. Geen onzichtbare marges: wat jij betaalt, weet de designer ook.",
     icoon: (
       <svg
         viewBox="0 0 24 24"
@@ -88,7 +88,7 @@ export default async function Home() {
     <>
       <Hero />
 
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pb-20 pt-8 sm:px-6">
         <Onthul>
           <h2 className="max-w-2xl">Waarom opdrachtgevers en designers hier samenkomen</h2>
         </Onthul>
@@ -105,7 +105,7 @@ export default async function Home() {
         <LogoRij />
       </Onthul>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <Onthul>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h2>Open missies</h2>
@@ -127,7 +127,7 @@ export default async function Home() {
       </section>
 
       <Onthul>
-        <section className="mx-auto max-w-6xl px-4 pb-8 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
           <div className="rounded-2xl border border-lijn bg-paneel p-8 text-center sm:p-12">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
               Voor opdrachtgevers
@@ -137,7 +137,7 @@ export default async function Home() {
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-tekst-secundair">
               Eén transparant membership om missies te plaatsen en het gevouchte
-              netwerk te bereiken — {MEMBERSHIP.trialDagen} dagen gratis
+              netwerk te bereiken: {MEMBERSHIP.trialDagen} dagen gratis
               proberen, geen verrassingen.
             </p>
             <div className="mt-7">

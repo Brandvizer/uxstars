@@ -21,7 +21,7 @@ const redenen = [
   {
     titel: "Eerlijk tarief, transparante fee",
     tekst:
-      "Jij ziet wat de opdrachtgever betaalt. Onze fee is vast en bescheiden — de rest is voor jou.",
+      "Jij ziet wat de opdrachtgever betaalt. Onze fee is vast en bescheiden, de rest is voor jou.",
   },
   {
     titel: "Een stelsel om je heen",
@@ -51,7 +51,7 @@ const stappen = [
 export default function WordEenStarPagina() {
   return (
     <div className="py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
           <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
             Schitter in een stelsel, niet alleen
@@ -59,7 +59,7 @@ export default function WordEenStarPagina() {
           <p className="mt-5 text-xl text-tekst-secundair">
             UXSTARS is een netwerk van zelfstandige UX-professionals die elkaar
             vouchen, helpen en aanvullen. Geen detacheerder, geen platform met
-            duizend profielen — een constellation waar je bij wílt horen.
+            duizend profielen: een constellation waar je bij wílt horen.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export default function WordEenStarPagina() {
           <div className="max-w-md">
             <h2>Vraag een vouch aan</h2>
             <p className="mt-5 text-lg text-tekst-secundair">
-              UXSTARS is invite-only — je komt binnen via een vouch van een
+              UXSTARS is invite-only: je komt binnen via een vouch van een
               bestaand lid. Ken je nog niemand in het stelsel? Zet jezelf op de
               radar, dan kijken een lid of wij wie je werk kent.
             </p>

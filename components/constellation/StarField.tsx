@@ -5,7 +5,7 @@ import { positieVoorId, tekenSter, tekenAvatar, KLEUREN } from "./Star";
 import type { Ster } from "@/lib/mock-data";
 
 const MAX_STERREN = 60;
-const PARALLAX_MAX = 40; // px — merkbaar maar subtiel; sterren drijven niet weg
+const PARALLAX_MAX = 40; // px. Merkbaar maar subtiel; sterren drijven niet weg
 const PARALLAX_FACTOR = 0.06;
 
 // Per ster: de databron plus de stabiele, geseede tekengegevens
@@ -22,10 +22,13 @@ export default function StarField({
   sterren,
   interactief = true,
   className = "",
+  gezichtenOpMobiel = true,
 }: {
   sterren: Ster[];
   interactief?: boolean;
   className?: string;
+  /** Profielfoto's ook onder 640px tonen; false = op mobiel alleen stipjes. */
+  gezichtenOpMobiel?: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,10 +72,13 @@ export default function StarField({
     // Avatar-beelden laden voor sterren met (toegestane) foto.
     const AVATAR_STRAAL = 20;
     const beelden = new Map<string, HTMLImageElement>();
+    // Op mobiel (< sm) staan gezichten pal achter de tekst; optioneel weglaten.
+    const toonGezichten =
+      gezichtenOpMobiel || window.matchMedia("(min-width: 640px)").matches;
     // Bij reduced motion draait er geen lus → hertekenen zodra een foto laadt.
     let herteken = () => {};
     for (const s of veldSterren) {
-      if (s.foto_url) {
+      if (s.foto_url && toonGezichten) {
         const img = new Image();
         img.onload = () => herteken();
         img.src = s.foto_url;
@@ -231,7 +237,7 @@ export default function StarField({
       canvas.removeEventListener("pointerdown", opTap);
       canvas.removeEventListener("pointerleave", opLeave);
     };
-  }, [sterren, interactief]);
+  }, [sterren, interactief, gezichtenOpMobiel]);
 
   return (
     // De meegegeven className bepaalt de positie (bijv. "absolute inset-0").

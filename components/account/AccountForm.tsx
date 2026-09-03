@@ -210,7 +210,7 @@ export default function AccountForm({
             {uploadt ? "Uploaden…" : fotoUrl ? "Foto vervangen" : "Foto uploaden"}
           </button>
           <p className="mt-2 text-xs text-tekst-secundair">
-            PNG, JPG of WEBP — max 3 MB.
+            PNG, JPG of WEBP, max 3 MB.
           </p>
         </div>
       </div>
@@ -223,7 +223,7 @@ export default function AccountForm({
           className="mt-1 h-4 w-4 accent-accent"
         />
         <span className="text-sm text-tekst-secundair">
-          UXSTARS mag mijn foto ook elders op de site tonen — bijvoorbeeld als
+          UXSTARS mag mijn foto ook elders op de site tonen, bijvoorbeeld als
           ster in het stelsel.
         </span>
       </label>
@@ -388,7 +388,7 @@ export default function AccountForm({
         {inviteUrl && uitnodiging?.status === "open" ? (
           <>
             <p className="mt-3 text-tekst-secundair">
-              Jij weet wie in jouw netwerk eruit springt — nodig één designer uit.
+              Jij weet wie in jouw netwerk eruit springt. Nodig één designer uit.
               Zij krijgen een vouch in hun inbox en kunnen die openkrassen. Elke
               aanmelding beoordelen wij kort.
             </p>
@@ -398,7 +398,7 @@ export default function AccountForm({
           </>
         ) : (
           <p className="mt-3 text-tekst-secundair">
-            Je hebt je vouch al weggegeven. Mooi — het stelsel groeit.
+            Je hebt je vouch al weggegeven. Mooi, het stelsel groeit.
           </p>
         )}
       </div>

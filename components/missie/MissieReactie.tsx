@@ -81,7 +81,7 @@ export default function MissieReactie({ missieId }: { missieId?: string }) {
   if (staat === "geen-ster") {
     return (
       <p className="mt-2 text-tekst-secundair">
-        Je bent ingelogd, maar nog geen ster. UXSTARS is invite-only — je komt
+        Je bent ingelogd, maar nog geen ster. UXSTARS is invite-only: je komt
         binnen via een vouch.{" "}
         <Link href="/account" className="text-accent hover:text-accent-actief">
           Naar je account

@@ -6,7 +6,7 @@ export default function UitnodigingenTab() {
       <h2 className="text-xl font-semibold">Nodig iemand direct uit</h2>
       <p className="mt-2 text-tekst-secundair">
         Maak een eenmalige vouch-link om zelf iemand binnen te halen. Zij krassen
-        &apos;m open en doorlopen de aanmelding — die je daarna beoordeelt bij{" "}
+        &apos;m open en doorlopen de aanmelding, die je daarna beoordeelt bij{" "}
         <span className="text-tekst">Aanmeldingen</span>. Alle beoordeling gebeurt
         daar; hier maak je alleen de link.
       </p>

@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 
 export default function SplitsBlok() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
       <div className="grid gap-6 md:grid-cols-2">
         <div className="flex flex-col rounded-2xl border border-lijn bg-paneel p-8 sm:p-10">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">
@@ -12,7 +12,7 @@ export default function SplitsBlok() {
           <p className="mt-4 flex-1 text-tekst-secundair">
             Elke designer in het stelsel is aanbevolen door een collega die met
             hem of haar werkte. Jij plaatst een missie, wij matchen binnen
-            dagen — geen bureaus, geen marges op marges.
+            dagen, geen bureaus, geen marges op marges.
           </p>
           <div className="mt-8">
             <Button href="/opdrachtgevers">Zo werkt het</Button>

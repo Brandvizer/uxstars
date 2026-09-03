@@ -63,7 +63,7 @@ export default function BrengOpdrachtgever({
     <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
       <h2 className="text-xl font-semibold">Breng een opdrachtgever binnen</h2>
       <p className="mt-2 text-tekst-secundair">
-        Ken je een opdrachtgever die een ster zoekt? Breng ze binnen — wij volgen
+        Ken je een opdrachtgever die een ster zoekt? Breng ze binnen. Wij volgen
         op. Zo groeit het stelsel ook aan de vraagkant.
       </p>
 
@@ -88,7 +88,7 @@ export default function BrengOpdrachtgever({
             {status === "bezig" ? "Versturen…" : "Aanbevelen"}
           </Button>
           {status === "verzonden" && (
-            <span className="text-sm text-succes">Bedankt — staat in de pool ✓</span>
+            <span className="text-sm text-succes">Bedankt, staat in de pool ✓</span>
           )}
           {status === "fout" && (
             <span className="text-sm text-accent-actief">

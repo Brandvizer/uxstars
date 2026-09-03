@@ -17,13 +17,13 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-achtergrond to-transparent" />
 
       {/* pointer-events-none zodat hover op de sterren achter de tekst blijft werken */}
-      <div className="pointer-events-none relative mx-auto flex min-h-[78vh] max-w-6xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
+      <div className="pointer-events-none relative mx-auto flex min-h-[78vh] max-w-7xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
         <p
           className="rijs-in mb-6 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.25em] text-accent"
           style={{ animationDelay: "0.1s" }}
         >
           <span className="h-px w-6 bg-accent/50" />
-          Het sterrenstelsel van UX-talent
+          Het sterrenstelsel van digital designers
           <span className="h-px w-6 bg-accent/50" />
         </p>
         <h1
@@ -39,7 +39,7 @@ export default function Hero() {
           style={{ animationDelay: "0.36s" }}
         >
           UXSTARS is een netwerk van gevouchte UX-professionals. Geen cv-stapels,
-          maar sterren die voor elkaar instaan — en binnen dagen aan boord zijn.
+          maar sterren die voor elkaar instaan, en binnen dagen aan boord zijn.
         </p>
         <div
           className="rijs-in pointer-events-auto mt-10 flex flex-col items-center gap-4 sm:flex-row"

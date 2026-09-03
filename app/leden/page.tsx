@@ -5,7 +5,7 @@ import Onthul from "@/components/ui/Onthul";
 export const metadata: Metadata = {
   title: "Het stelsel",
   description:
-    "De mensen achter UXSTARS — gevouchte UX-professionals die voor elkaar instaan. Zie wie wie in het stelsel bracht.",
+    "De mensen achter UXSTARS: gevouchte digital designers die voor elkaar instaan. Zie wie wie in het stelsel bracht.",
 };
 
 // Publieke data uit Supabase: periodiek hervalideren (ISR).
@@ -16,7 +16,7 @@ export default async function LedenPagina() {
 
   return (
     <div className="py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-accent">
             Het stelsel
@@ -26,7 +26,7 @@ export default async function LedenPagina() {
           </h1>
           <p className="mt-5 text-xl text-tekst-secundair">
             UXSTARS groeit van ster tot ster. Niemand komt binnen zonder dat een
-            collega voor je instaat — daarom zie je hier ook wie wie vouchte.
+            collega voor je instaat. Daarom zie je hier ook wie wie vouchte.
           </p>
         </div>
 

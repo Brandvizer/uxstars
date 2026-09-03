@@ -12,7 +12,7 @@ function vouchMail(naam: string, link: string): string {
     voorkop: "Jouw vouch",
     kop: `${naam.split(" ")[0]}, je vouch ligt nog klaar`,
     alineas: [
-      "Jij bent al binnen — <strong>dit is jóuw vouch</strong> om iemand anders binnen te halen. Eén designer uit je netwerk mag jij een plek in het stelsel geven.",
+      "Jij bent al binnen: <strong>dit is jóuw vouch</strong> om iemand anders binnen te halen. Eén designer uit je netwerk mag jij een plek in het stelsel geven.",
       "Bewaar 'm voor wie er echt uitspringt. Eén klik en zij horen erbij.",
     ],
     knop: { label: "Geef je vouch", url: link },

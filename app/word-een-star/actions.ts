@@ -34,7 +34,7 @@ export async function meldNieuweVouchAanvraag(
     alineas: [
       `<strong style="color:#0a0e1a;">${esc(naam)}</strong> vroeg zojuist een vouch aan.`,
       `E-mail: ${esc(email)}`,
-      "Bekijk de aanvraag in je kandidatenpool — geef je vouch of wijs af.",
+      "Bekijk de aanvraag in je kandidatenpool: geef je vouch of wijs af.",
     ],
     knop: origin
       ? { label: "Open kandidatenpool", url: `${origin}/admin/uitnodigingen` }

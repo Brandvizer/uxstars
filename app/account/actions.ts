@@ -56,7 +56,7 @@ export async function verstuurVouchNaar(
       kop: `${esc(voornaam)} vouchte jou voor UXSTARS ✦`,
       alineas: [
         schoonBericht ? `&ldquo;${esc(schoonBericht)}&rdquo;` : "",
-        `${esc(naam)} geeft jou een plek in UXSTARS — een besloten netwerk van gevouchte UX-designers. Alleen wie een vouch krijgt, komt binnen.`,
+        `${esc(naam)} geeft jou een plek in UXSTARS. Een besloten netwerk van gevouchte digital designers. Alleen wie een vouch krijgt, komt binnen.`,
         "Open de link hieronder en <strong>kras je vouch open</strong>. Daarna maak je je account aan en beoordelen wij je aanmelding kort.",
       ],
       knop: { label: "Kras je vouch open ✦", url: `${SITE_URL}/uitnodiging/${u.token}` },

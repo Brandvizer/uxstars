@@ -184,7 +184,7 @@ export async function nodigKandidaatUit(
       kop: "Welkom in het stelsel",
       alineas: [
         `Hoi ${esc(res.naam)},`,
-        "Je bent uitgenodigd voor UXSTARS — het invite-only netwerk van gevouchte designers. Alleen de beste designers krijgen toegang, en iemand vond dat jij eruit springt.",
+        "Je bent uitgenodigd voor UXSTARS, het invite-only netwerk van gevouchte designers. Alleen de beste designers krijgen toegang, en iemand vond dat jij eruit springt.",
         "Deze uitnodiging is eenmalig en persoonlijk.",
       ],
       knop: { label: "Maak je ster aan", url: link },
@@ -516,7 +516,7 @@ export async function stelVoor(
     voorkop: "Een ster reageerde",
     kop: `Een ster voor "${esc(r.missie_titel)}"`,
     alineas: [
-      `<strong style="color:#0a0e1a;">${esc(r.star.naam)}</strong> — ${esc(r.star.specialisme)}, ${esc(r.star.seniority)}`,
+      `<strong style="color:#0a0e1a;">${esc(r.star.naam)}</strong>, ${esc(r.star.specialisme)}, ${esc(r.star.seniority)}`,
       r.motivatie ? `&ldquo;${esc(r.motivatie)}&rdquo;` : "",
       r.star.portfolio_url
         ? `Portfolio: <a href="${encodeURI(r.star.portfolio_url)}" style="color:#a8740f;font-weight:600;">${esc(r.star.portfolio_url)}</a>`
@@ -546,7 +546,7 @@ export async function stelVoor(
         voorkop: "Voorgesteld",
         kop: "Je bent voorgesteld",
         alineas: [
-          `Goed nieuws, ${esc(r.star.naam.split(" ")[0])} — we hebben je voorgesteld aan de opdrachtgever van <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>.`,
+          `Goed nieuws, ${esc(r.star.naam.split(" ")[0])}: we hebben je voorgesteld aan de opdrachtgever van <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>.`,
           "Is er een match, dan brengen we jullie in contact. We houden je op de hoogte.",
         ],
       }),
@@ -594,7 +594,7 @@ export async function bevestigPlaatsing(
       onderwerp: `Je bent geplaatst op: ${r.missie_titel}`,
       html: emailHtml({
         voorkop: "Geplaatst",
-        kop: "Gefeliciteerd — je bent geplaatst",
+        kop: "Gefeliciteerd, je bent geplaatst",
         alineas: [
           `${esc(r.star.naam.split(" ")[0])}, je bent geplaatst op <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>. Mooi werk! ✦`,
           "We nemen contact op over de praktische afspraken.",
@@ -633,9 +633,9 @@ export async function keurSterGoed(starId: string): Promise<{ ok: boolean }> {
         voorkop: "Welkom in het stelsel",
         kop: `${esc(r.naam.split(" ")[0])}, je bent toegelaten ✦`,
         alineas: [
-          "Goed nieuws — je aanmelding is goedgekeurd. Je bent nu een volwaardige ster in het stelsel.",
-          "<strong>Je eigen profiel</strong> — log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
-          "<strong>Je eigen vouch</strong> — jij mag nu zelf één designer binnenhalen. Kies met zorg; het stelsel groeit door wie jij kiest.",
+          "Goed nieuws: je aanmelding is goedgekeurd. Je bent nu een volwaardige ster in het stelsel.",
+          "<strong>Je eigen profiel</strong>: log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
+          "<strong>Je eigen vouch</strong>: jij mag nu zelf één designer binnenhalen. Kies met zorg; het stelsel groeit door wie jij kiest.",
         ],
         knop: { label: "Naar je profiel", url: `${base}/account` },
       }),
@@ -675,7 +675,7 @@ export async function wijsSterAf(
         alineas: [
           "We hebben je aanmelding zorgvuldig bekeken. Deze keer kunnen we je nog geen plek in het stelsel geven.",
           reden ? `<strong>Onze toelichting:</strong> ${esc(reden)}` : "",
-          "Dit is geen oordeel over je als designer — het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
+          "Dit is geen oordeel over je als designer. Het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
         ],
       }),
     });
@@ -735,8 +735,8 @@ export async function keurAanmelding(
       voorkop: "Welkom in het stelsel",
       kop: `${esc(voornaam)}, je bent toegelaten ✦`,
       alineas: [
-        "Goed nieuws — je aanmelding is goedgekeurd en je account staat klaar.",
-        "De knop hieronder logt je <strong>direct in</strong> — geen wachtwoord nodig. Maak daar je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
+        "Goed nieuws: je aanmelding is goedgekeurd en je account staat klaar.",
+        "De knop hieronder logt je <strong>direct in</strong>, geen wachtwoord nodig. Maak daar je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
         "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
       ],
       knop: { label: "Log direct in ✦", url: link },
@@ -774,7 +774,7 @@ export async function wijsAanmelding(
         alineas: [
           "We hebben je aanmelding zorgvuldig bekeken. Deze keer kunnen we je nog geen plek in het stelsel geven.",
           reden ? `<strong>Onze toelichting:</strong> ${esc(reden)}` : "",
-          "Dit is geen oordeel over je als designer — het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
+          "Dit is geen oordeel over je als designer. Het stelsel groeit bewust langzaam en selectief. Je bent van harte welkom om het later nog eens te proberen.",
         ],
       }),
     });

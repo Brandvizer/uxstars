@@ -46,7 +46,7 @@ export default async function BedrijfMissiePage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
       <div className="mx-auto mb-14 max-w-2xl text-center">
         <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">Lanceer je missie</h1>
         <p className="mt-4 text-xl text-tekst-secundair">

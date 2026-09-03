@@ -9,12 +9,19 @@ import StarField from "./StarField";
 export default async function SterrenVeld({
   interactief = true,
   className,
+  gezichtenOpMobiel = true,
 }: {
   interactief?: boolean;
   className?: string;
+  gezichtenOpMobiel?: boolean;
 }) {
   const sterren = await getActieveSterren();
   return (
-    <StarField sterren={sterren} interactief={interactief} className={className} />
+    <StarField
+      sterren={sterren}
+      interactief={interactief}
+      className={className}
+      gezichtenOpMobiel={gezichtenOpMobiel}
+    />
   );
 }

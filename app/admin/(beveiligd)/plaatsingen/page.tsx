@@ -14,7 +14,7 @@ export default async function PlaatsingenTab() {
         <span className="text-tekst-secundair">({plaatsingen.length})</span>
       </h2>
       <p className="mt-2 text-tekst-secundair">
-        Deal-type, tarieven en marge per plaatsing — en de contractstatus van de
+        Deal-type, tarieven en marge per plaatsing, en de contractstatus van de
         Via-UXSTARS-deals.
         {viaActief > 0 && ` ${viaActief} lopend(e) Via-UXSTARS-contract(en).`}
       </p>

@@ -40,7 +40,7 @@ export default async function VerhaalPagina({
       <blockquote className="mt-10 rounded-2xl border border-accent/30 bg-paneel p-8">
         <p className="text-xl">&ldquo;{verhaal.quote}&rdquo;</p>
         <footer className="mt-4 text-sm text-tekst-secundair">
-          — {verhaal.ster}, {verhaal.rol}
+          {verhaal.ster}, {verhaal.rol}
         </footer>
       </blockquote>
 

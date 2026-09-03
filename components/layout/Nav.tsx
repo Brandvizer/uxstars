@@ -81,11 +81,11 @@ export default function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-lijn bg-achtergrond/80 backdrop-blur-md">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:h-20 sm:px-6">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6">
         <Link
           href="/"
           className="flex items-center text-tekst"
-          aria-label="UXSTARS — naar home"
+          aria-label="UXSTARS, naar home"
           onClick={() => setOpen(false)}
         >
           <Logo className="h-10 w-auto sm:h-14" />

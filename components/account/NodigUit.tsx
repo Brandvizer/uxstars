@@ -35,7 +35,7 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
         <p className="font-semibold text-succes">Vouch verstuurd ✦</p>
         <p className="mt-1 text-sm text-tekst-secundair">
           <span className="text-tekst">{naarEmail}</span> krijgt je uitnodiging in
-          de inbox. Zodra zij zich aanmelden, beoordelen wij het — en hoor jij het
+          de inbox. Zodra zij zich aanmelden, beoordelen wij het, en hoor jij het
           ook.
         </p>
         <button

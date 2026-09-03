@@ -23,8 +23,16 @@ export default function FoundingTeller({
     let actief = true;
     getSupabaseBrowser()
       .rpc("founding_status")
-      .then(({ data }) => {
-        if (actief && data) setStatus(data as FoundingStatus);
+      .then(({ data, error }) => {
+        if (!actief) return;
+        if (error) {
+          // Bijv. migratie nog niet toegepast: val terug op de standaard
+          // (100 plekken open) in plaats van eindeloos "laden…" te tonen.
+          console.error("founding_status mislukt:", error.message);
+          setStatus({ limiet: 100, bezet: 0, resterend: 100, open: true });
+          return;
+        }
+        if (data) setStatus(data as FoundingStatus);
       });
     return () => {
       actief = false;

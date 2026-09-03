@@ -16,7 +16,7 @@ import { MEMBERSHIP, euro } from "@/lib/membership";
 const VOORDELEN = [
   {
     titel: "Onbeperkt missies plaatsen",
-    tekst: "Geen kosten per vacature — plaats zoveel opdrachten als je wilt.",
+    tekst: "Geen kosten per vacature: plaats zoveel opdrachten als je wilt.",
   },
   {
     titel: "Het gevouchte netwerk",
@@ -28,7 +28,7 @@ const VOORDELEN = [
   },
   {
     titel: "Keuze per opdracht",
-    tekst: "Direct of Via UXSTARS — zonder Wet-DBA-risico, zonder gedoe.",
+    tekst: "Direct of Via UXSTARS: zonder Wet-DBA-risico, zonder gedoe.",
   },
   {
     titel: "Persoonlijke matching",
@@ -162,7 +162,7 @@ export default function BedrijfWelkom() {
             Je bedrijfsgegevens
           </h1>
           <p className="mt-3 text-tekst-secundair">
-            Vul je gegevens in — deze gebruiken we voor je missies.
+            Vul je gegevens in. Deze gebruiken we voor je missies.
           </p>
 
           <form
@@ -202,8 +202,8 @@ export default function BedrijfWelkom() {
                   }`}
                 >
                   {logoNodig
-                    ? "Een logo is verplicht — hiermee herkennen designers je missies."
-                    : "Verplicht — je logo verschijnt bij je missies."}
+                    ? "Een logo is verplicht. Hiermee herkennen designers je missies."
+                    : "Verplicht: je logo verschijnt bij je missies."}
                 </p>
               </div>
             </div>
@@ -348,7 +348,7 @@ export default function BedrijfWelkom() {
             Account aangemaakt
           </h1>
           <p className="rijs-in mt-3 text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
-            Je proefperiode loopt — je kunt nu je eerste missie plaatsen.
+            Je proefperiode loopt. Je kunt nu je eerste missie plaatsen.
           </p>
           <div className="rijs-in mt-8" style={{ animationDelay: "0.6s" }}>
             <Button onClick={() => router.replace("/bedrijf")}>

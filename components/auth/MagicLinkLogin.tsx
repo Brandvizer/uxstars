@@ -60,8 +60,8 @@ export default function MagicLinkLogin({
             <p className="font-semibold text-succes">Check je inbox ✉️</p>
             <p className="mt-2 text-tekst-secundair">
               We hebben een inloglink gestuurd naar{" "}
-              <span className="text-tekst">{email}</span>. Klik erop — in dezelfde
-              browser — om verder te gaan.
+              <span className="text-tekst">{email}</span>. Klik erop, in dezelfde
+              browser, om verder te gaan.
             </p>
           </div>
         ) : (

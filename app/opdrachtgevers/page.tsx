@@ -6,7 +6,7 @@ import MembershipKaart from "@/components/opdrachtgevers/MembershipKaart";
 export const metadata: Metadata = {
   title: "Voor opdrachtgevers",
   description:
-    "Vind een gevouchte UX-designer voor je team. Plaats een missie en ontvang binnen dagen reacties uit het UXSTARS-netwerk.",
+    "Vind een gevouchte digital designer voor je team. Plaats een missie en ontvang binnen dagen reacties uit het UXSTARS-netwerk.",
 };
 
 const stappen = [
@@ -49,14 +49,14 @@ const verschillen = [
 export default function OpdrachtgeversPagina() {
   return (
     <div className="py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="max-w-3xl">
           <h1 className="!text-[clamp(2rem,4vw+0.5rem,3.5rem)]">
             Een ster vinden hoort geen weken te duren
           </h1>
           <p className="mt-5 text-xl text-tekst-secundair">
             UXSTARS is geen bureau en geen vacaturebank. Het is een stelsel van
-            UX-professionals die elkaar kennen, aanvullen en aanbevelen. Jouw
+            digital designers die elkaar kennen, aanvullen en aanbevelen. Jouw
             missie komt direct bij de juiste sterren terecht.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -126,7 +126,7 @@ export default function OpdrachtgeversPagina() {
             <h2>Eén membership, geen verrassingen</h2>
             <p className="mt-4 text-lg text-tekst-secundair">
               Een vast lidmaatschap om missies te plaatsen en het gevouchte
-              netwerk te bereiken. De echte waarde — de juiste match — regelen
+              netwerk te bereiken. De echte waarde, de juiste match, regelen
               wij per missie.
             </p>
             <p className="mt-5 text-tekst-secundair">
@@ -141,7 +141,7 @@ export default function OpdrachtgeversPagina() {
 
       <LogoRij />
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="rounded-2xl border border-lijn bg-paneel p-8 text-center sm:p-12">
           <h2>Klaar voor lancering?</h2>
           <p className="mx-auto mt-3 max-w-xl text-tekst-secundair">

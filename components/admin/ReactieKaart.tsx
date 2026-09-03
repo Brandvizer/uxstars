@@ -29,7 +29,7 @@ export default function ReactieKaart({ reactie }: { reactie: AdminReactie }) {
     setBezig("voorstellen");
     const r = await stelVoor(reactie.reactie_id);
     setBezig("");
-    setMelding(r.ok ? "Voorgesteld — mail verstuurd ✓" : (r.fout ?? "Mislukt"));
+    setMelding(r.ok ? "Voorgesteld, mail verstuurd ✓" : (r.fout ?? "Mislukt"));
   };
 
   const plaatsen = async () => {

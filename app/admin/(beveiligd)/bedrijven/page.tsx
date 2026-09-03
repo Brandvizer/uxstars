@@ -16,7 +16,7 @@ export default async function BedrijvenTab() {
         <span className="text-tekst-secundair">({bedrijven.length})</span>
       </h2>
       <p className="mt-2 text-tekst-secundair">
-        Overzicht van bedrijven — klik een bedrijf open voor details. Membership
+        Overzicht van bedrijven. Klik een bedrijf open voor details. Membership
         gaat straks automatisch (Stripe); hier kun je het overschrijven of een
         bedrijf verwijderen.
         {wachtend > 0 && ` ${wachtend} met account wachten op activatie.`}

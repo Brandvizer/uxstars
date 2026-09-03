@@ -27,11 +27,11 @@ const kolommen = [
 export default function Footer() {
   return (
     <footer className="border-t border-lijn">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3">
         <div>
           <Logo className="h-10 w-auto text-tekst" />
           <p className="mt-3 max-w-xs text-base text-tekst-secundair">
-            Het sterrenstelsel van UX-talent. Elke designer een ster, elke
+            Het sterrenstelsel van digital designers. Elke designer een ster, elke
             opdracht een missie.
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function Footer() {
         ))}
       </div>
       <div className="border-t border-lijn">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-sm text-tekst-secundair sm:px-6">
+        <p className="mx-auto max-w-7xl px-4 py-5 text-sm text-tekst-secundair sm:px-6">
           © {new Date().getFullYear()} UXSTARS · Met zorg gebouwd onder een
           heldere sterrenhemel
         </p>
