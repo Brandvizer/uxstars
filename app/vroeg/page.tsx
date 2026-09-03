@@ -140,7 +140,7 @@ export default function VroegPage() {
               <p className="mt-5 text-sm font-semibold text-tekst-secundair">
                 Nu voelt het zo
               </p>
-              <ul className="mt-3 space-y-2.5">
+              <ul className="mt-3 space-y-2.5 text-base">
                 {k.pijn.map((p) => (
                   <li key={p} className="flex items-start gap-3 text-tekst-secundair">
                     {/* h-[1lh] = hoogte van één tekstregel, zodat het icoon
@@ -166,7 +166,7 @@ export default function VroegPage() {
               <div className="my-5 h-px bg-lijn" />
 
               <p className="text-sm font-semibold text-succes">Met UXSTARS</p>
-              <ul className="mt-3 space-y-2.5">
+              <ul className="mt-3 space-y-2.5 text-base">
                 {k.belofte.map((b) => (
                   <li key={b} className="flex items-start gap-3">
                     <span className="flex h-[1lh] shrink-0 items-center">
