@@ -24,6 +24,8 @@ export default function StapContact({
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
         <Input
           label="Je naam"
+          icoon="persoon"
+          placeholder="Voor- en achternaam"
           autoComplete="name"
           fout={form.formState.errors.naam?.message}
           {...form.register("naam")}

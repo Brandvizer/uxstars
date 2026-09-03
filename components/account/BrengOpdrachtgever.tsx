@@ -25,9 +25,9 @@ export default function BrengOpdrachtgever({
 }: {
   aanbevelingen: Aanbeveling[];
 }) {
-  const [status, setStatus] = useState<
-    "idle" | "bezig" | "verzonden" | "fout"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "bezig" | "verzonden" | "fout">(
+    "idle",
+  );
   const [lijst, setLijst] = useState<Aanbeveling[]>(aanbevelingen);
 
   const verstuur = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,8 +69,20 @@ export default function BrengOpdrachtgever({
 
       <form onSubmit={verstuur} className="mt-6 space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
-          <Input label="Bedrijfsnaam" name="bedrijf_naam" required />
-          <Input label="Contactpersoon" name="contact_naam" autoComplete="off" />
+          <Input
+            label="Bedrijfsnaam"
+            icoon="gebouw"
+            placeholder="Naam van het bedrijf"
+            name="bedrijf_naam"
+            required
+          />
+          <Input
+            label="Contactpersoon"
+            icoon="persoon"
+            placeholder="Voor- en achternaam"
+            name="contact_naam"
+            autoComplete="off"
+          />
         </div>
         <Input
           label="E-mail (optioneel)"
@@ -88,7 +100,9 @@ export default function BrengOpdrachtgever({
             {status === "bezig" ? "Versturen…" : "Aanbevelen"}
           </Button>
           {status === "verzonden" && (
-            <span className="text-sm text-succes">Bedankt, staat in de pool ✓</span>
+            <span className="text-sm text-succes">
+              Bedankt, staat in de pool ✓
+            </span>
           )}
           {status === "fout" && (
             <span className="text-sm text-accent-actief">

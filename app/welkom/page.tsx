@@ -9,9 +9,18 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 
 const specialismen = [
-  "UX Design", "Product Design", "UX Research", "Service Design", "UX Writing",
-  "Interaction Design", "Design Systems", "UX Strategy", "Content Design",
-  "UI / Visual Design", "Design Ops", "Conversation Design",
+  "UX Design",
+  "Product Design",
+  "UX Research",
+  "Service Design",
+  "UX Writing",
+  "Interaction Design",
+  "Design Systems",
+  "UX Strategy",
+  "Content Design",
+  "UI / Visual Design",
+  "Design Ops",
+  "Conversation Design",
 ];
 const seniorityNiveaus = ["Junior", "Medior", "Senior", "Lead", "Principal"];
 const veld =
@@ -116,7 +125,10 @@ export default function Welkom() {
             Je hoort het per mail
           </span>
         </div>
-        <div className="rijs-in relative mt-8" style={{ animationDelay: "0.75s" }}>
+        <div
+          className="rijs-in relative mt-8"
+          style={{ animationDelay: "0.75s" }}
+        >
           <Button onClick={() => router.replace("/account")}>
             Bekijk je status
           </Button>
@@ -157,18 +169,32 @@ export default function Welkom() {
       </p>
 
       <form onSubmit={aanmaken} className="mt-8 space-y-5">
-        <Input label="Naam" name="naam" placeholder="Voor- en achternaam" required />
+        <Input
+          label="Naam"
+          icoon="persoon"
+          name="naam"
+          placeholder="Voor- en achternaam"
+          required
+        />
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="mb-2 block text-base font-semibold">Specialisme</label>
-            <select name="specialisme" className={veld} defaultValue="UX Design">
+            <label className="mb-2 block text-base font-semibold">
+              Specialisme
+            </label>
+            <select
+              name="specialisme"
+              className={veld}
+              defaultValue="UX Design"
+            >
               {specialismen.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="mb-2 block text-base font-semibold">Seniority</label>
+            <label className="mb-2 block text-base font-semibold">
+              Seniority
+            </label>
             <select name="seniority" className={veld} defaultValue="Senior">
               {seniorityNiveaus.map((s) => (
                 <option key={s}>{s}</option>

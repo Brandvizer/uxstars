@@ -7,9 +7,9 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 
 export default function VouchAanvraagForm() {
-  const [status, setStatus] = useState<
-    "idle" | "bezig" | "verzonden" | "fout"
-  >("idle");
+  const [status, setStatus] = useState<"idle" | "bezig" | "verzonden" | "fout">(
+    "idle",
+  );
 
   const verstuur = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +36,9 @@ export default function VouchAanvraagForm() {
   if (status === "verzonden") {
     return (
       <div className="rounded-2xl border border-succes/40 bg-paneel p-8 text-center">
-        <p className="text-lg font-semibold text-succes">Je staat op de radar</p>
+        <p className="text-lg font-semibold text-succes">
+          Je staat op de radar
+        </p>
         <p className="mx-auto mt-3 max-w-md text-tekst-secundair">
           Bedankt. We laten je werk zien aan het stelsel. Vouchen een lid of wij
           jou, dan krijg je een uitnodiging in je inbox.
@@ -51,7 +53,14 @@ export default function VouchAanvraagForm() {
       className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label="Naam" name="naam" autoComplete="name" required />
+        <Input
+          label="Naam"
+          icoon="persoon"
+          placeholder="Voor- en achternaam"
+          name="naam"
+          autoComplete="name"
+          required
+        />
         <Input
           label="E-mailadres"
           name="email"

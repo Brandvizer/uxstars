@@ -36,9 +36,18 @@ export type Stelsel = {
 };
 
 const specialismen = [
-  "UX Design", "Product Design", "UX Research", "Service Design", "UX Writing",
-  "Interaction Design", "Design Systems", "UX Strategy", "Content Design",
-  "UI / Visual Design", "Design Ops", "Conversation Design",
+  "UX Design",
+  "Product Design",
+  "UX Research",
+  "Service Design",
+  "UX Writing",
+  "Interaction Design",
+  "Design Systems",
+  "UX Strategy",
+  "Content Design",
+  "UI / Visual Design",
+  "Design Ops",
+  "Conversation Design",
 ];
 const seniorityNiveaus = ["Junior", "Medior", "Senior", "Lead", "Principal"];
 
@@ -52,7 +61,10 @@ const REACTIE_STATUS: Record<string, { label: string; klasse: string }> = {
     label: "Uitgenodigd",
     klasse: "border-succes/50 bg-succes/5 text-succes",
   },
-  afgewezen: { label: "Niet geselecteerd", klasse: "border-lijn text-tekst-secundair" },
+  afgewezen: {
+    label: "Niet geselecteerd",
+    klasse: "border-lijn text-tekst-secundair",
+  },
 };
 
 export default function AccountForm({
@@ -127,17 +139,23 @@ export default function AccountForm({
   const tabs: { id: TabId; label: string; badge?: number }[] = [
     { id: "profiel", label: "Profiel" },
     { id: "reacties", label: "Reacties", badge: reacties.length },
-    { id: "stelsel", label: "Jouw stelsel", badge: stelsel?.aantal_afstammelingen },
-    { id: "opdrachtgever", label: "Opdrachtgever", badge: aanbevelingen.length },
+    {
+      id: "stelsel",
+      label: "Jouw stelsel",
+      badge: stelsel?.aantal_afstammelingen,
+    },
+    {
+      id: "opdrachtgever",
+      label: "Opdrachtgever",
+      badge: aanbevelingen.length,
+    },
   ];
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="kop-2">
-            Hallo {profiel.naam.split(" ")[0]}
-          </h1>
+          <h1 className="kop-2">Hallo {profiel.naam.split(" ")[0]}</h1>
           <p className="mt-1 text-tekst-secundair">{email}</p>
         </div>
         <form action={uitloggenStar}>
@@ -178,149 +196,178 @@ export default function AccountForm({
 
       {/* Profiel */}
       {tab === "profiel" && (
-      <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-        <h2 className="kop-3">Je profiel</h2>
+        <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+          <h2 className="kop-3">Je profiel</h2>
 
-        {/* Profielfoto */}
-        <div className="mt-6 flex items-center gap-5">
-          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-lijn bg-achtergrond">
-          {fotoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={fotoUrl} alt="" className="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-2xl text-tekst-secundair">
-              {profiel.naam.charAt(0)}
+          {/* Profielfoto */}
+          <div className="mt-6 flex items-center gap-5">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-lijn bg-achtergrond">
+              {fotoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={fotoUrl}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-2xl text-tekst-secundair">
+                  {profiel.naam.charAt(0)}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <div>
-          <input
-            ref={fotoInput}
-            type="file"
-            accept="image/png,image/jpeg,image/webp"
-            className="hidden"
-            onChange={uploadFoto}
-          />
+            <div>
+              <input
+                ref={fotoInput}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={uploadFoto}
+              />
+              <button
+                type="button"
+                onClick={() => fotoInput.current?.click()}
+                disabled={uploadt}
+                className="rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
+              >
+                {uploadt
+                  ? "Uploaden…"
+                  : fotoUrl
+                    ? "Foto vervangen"
+                    : "Foto uploaden"}
+              </button>
+              <p className="mt-2 text-xs text-tekst-secundair">
+                PNG, JPG of WEBP, max 3 MB.
+              </p>
+            </div>
+          </div>
+
+          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-lijn bg-achtergrond p-4">
+            <input
+              type="checkbox"
+              checked={toestemming}
+              onChange={(e) => setToestemming(e.target.checked)}
+              className="mt-1 h-4 w-4 accent-accent"
+            />
+            <span className="text-sm text-tekst-secundair">
+              UXSTARS mag mijn foto ook elders op de site tonen, bijvoorbeeld
+              als ster in het stelsel.
+            </span>
+          </label>
+
+          {/* Beschikbaarheid — de gloed in het stelsel */}
           <button
             type="button"
-            onClick={() => fotoInput.current?.click()}
-            disabled={uploadt}
-            className="rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
-          >
-            {uploadt ? "Uploaden…" : fotoUrl ? "Foto vervangen" : "Foto uploaden"}
-          </button>
-          <p className="mt-2 text-xs text-tekst-secundair">
-            PNG, JPG of WEBP, max 3 MB.
-          </p>
-        </div>
-      </div>
-
-      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-lijn bg-achtergrond p-4">
-        <input
-          type="checkbox"
-          checked={toestemming}
-          onChange={(e) => setToestemming(e.target.checked)}
-          className="mt-1 h-4 w-4 accent-accent"
-        />
-        <span className="text-sm text-tekst-secundair">
-          UXSTARS mag mijn foto ook elders op de site tonen, bijvoorbeeld als
-          ster in het stelsel.
-        </span>
-      </label>
-
-      {/* Beschikbaarheid — de gloed in het stelsel */}
-      <button
-        type="button"
-        onClick={() => setBeschikbaar((b) => !b)}
-        className={`mt-8 flex w-full items-center justify-between rounded-2xl border p-5 text-left transition-colors duration-200 ${
-          beschikbaar ? "border-succes/50 bg-succes/5" : "border-lijn bg-achtergrond"
-        }`}
-      >
-        <span>
-          <span className="font-semibold">
-            {beschikbaar ? "Beschikbaar voor missies" : "Niet beschikbaar"}
-          </span>
-          <span className="mt-1 block text-sm text-tekst-secundair">
-            Beschikbare sterren gloeien in het stelsel en vinden missies.
-          </span>
-        </span>
-        <span
-          className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${
-            beschikbaar ? "bg-succes" : "bg-lijn"
-          }`}
-        >
-          <span
-            className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${
-              beschikbaar ? "left-6" : "left-1"
+            onClick={() => setBeschikbaar((b) => !b)}
+            className={`mt-8 flex w-full items-center justify-between rounded-2xl border p-5 text-left transition-colors duration-200 ${
+              beschikbaar
+                ? "border-succes/50 bg-succes/5"
+                : "border-lijn bg-achtergrond"
             }`}
-          />
-        </span>
-      </button>
+          >
+            <span>
+              <span className="font-semibold">
+                {beschikbaar ? "Beschikbaar voor missies" : "Niet beschikbaar"}
+              </span>
+              <span className="mt-1 block text-sm text-tekst-secundair">
+                Beschikbare sterren gloeien in het stelsel en vinden missies.
+              </span>
+            </span>
+            <span
+              className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${
+                beschikbaar ? "bg-succes" : "bg-lijn"
+              }`}
+            >
+              <span
+                className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${
+                  beschikbaar ? "left-6" : "left-1"
+                }`}
+              />
+            </span>
+          </button>
 
-      {/* Profielformulier */}
-      <form onSubmit={opslaan} className="mt-6 space-y-5">
-        <Input label="Naam" name="naam" defaultValue={profiel.naam} required />
+          {/* Profielformulier */}
+          <form onSubmit={opslaan} className="mt-6 space-y-5">
+            <Input
+              label="Naam"
+              icoon="persoon"
+              placeholder="Voor- en achternaam"
+              name="naam"
+              defaultValue={profiel.naam}
+              required
+            />
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label className="mb-2 block text-base font-semibold">Specialisme</label>
-            <select name="specialisme" defaultValue={profiel.specialisme} className={veld}>
-              {specialismen.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="mb-2 block text-base font-semibold">Seniority</label>
-            <select name="seniority" defaultValue={profiel.seniority} className={veld}>
-              {seniorityNiveaus.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-          </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label className="mb-2 block text-base font-semibold">
+                  Specialisme
+                </label>
+                <select
+                  name="specialisme"
+                  defaultValue={profiel.specialisme}
+                  className={veld}
+                >
+                  {specialismen.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="mb-2 block text-base font-semibold">
+                  Seniority
+                </label>
+                <select
+                  name="seniority"
+                  defaultValue={profiel.seniority}
+                  className={veld}
+                >
+                  {seniorityNiveaus.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <Textarea
+              label="Korte bio"
+              name="bio"
+              defaultValue={profiel.bio ?? ""}
+              placeholder="Waar ben je goed in, wat voor werk zoek je?"
+            />
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              <Input
+                label="Uurtarief (€, privé)"
+                name="tarief_uur"
+                type="number"
+                defaultValue={profiel.tarief_uur ?? ""}
+                placeholder="95"
+              />
+              <Input
+                label="Portfolio-link"
+                name="portfolio_url"
+                type="url"
+                defaultValue={profiel.portfolio_url ?? ""}
+                placeholder="https://jouwportfolio.nl"
+              />
+            </div>
+            <Input
+              label="LinkedIn"
+              name="linkedin_url"
+              type="url"
+              defaultValue={profiel.linkedin_url ?? ""}
+              placeholder="https://linkedin.com/in/…"
+            />
+
+            <div className="flex items-center gap-4">
+              <Button type="submit" disabled={bezig}>
+                {bezig ? "Opslaan…" : "Profiel opslaan"}
+              </Button>
+              {opgeslagen && (
+                <span className="text-sm text-succes">Opgeslagen ✓</span>
+              )}
+            </div>
+          </form>
         </div>
-
-        <Textarea
-          label="Korte bio"
-          name="bio"
-          defaultValue={profiel.bio ?? ""}
-          placeholder="Waar ben je goed in, wat voor werk zoek je?"
-        />
-
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Input
-            label="Uurtarief (€, privé)"
-            name="tarief_uur"
-            type="number"
-            defaultValue={profiel.tarief_uur ?? ""}
-            placeholder="95"
-          />
-          <Input
-            label="Portfolio-link"
-            name="portfolio_url"
-            type="url"
-            defaultValue={profiel.portfolio_url ?? ""}
-            placeholder="https://jouwportfolio.nl"
-          />
-        </div>
-        <Input
-          label="LinkedIn"
-          name="linkedin_url"
-          type="url"
-          defaultValue={profiel.linkedin_url ?? ""}
-          placeholder="https://linkedin.com/in/…"
-        />
-
-        <div className="flex items-center gap-4">
-          <Button type="submit" disabled={bezig}>
-            {bezig ? "Opslaan…" : "Profiel opslaan"}
-          </Button>
-          {opgeslagen && (
-            <span className="text-sm text-succes">Opgeslagen ✓</span>
-          )}
-        </div>
-      </form>
-      </div>
       )}
 
       {/* Reacties — missies waarop je reageerde */}
@@ -383,124 +430,128 @@ export default function AccountForm({
       {/* Jouw stelsel — vouch + tak */}
       {tab === "stelsel" && (
         <>
-      {inviteUrl && uitnodiging?.status === "open" ? (
-        /* De vouch als gouden ticket: dit is iets waardevols dat je weggeeft */
-        <div className="relative mt-8 overflow-hidden rounded-2xl border border-accent/50 bg-paneel p-6 shadow-[0_0_60px_rgba(245,185,65,0.12)] sm:p-8">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 55% 80% at 100% 0%, rgba(245,185,65,0.16), transparent 70%)",
-            }}
-          />
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            className="pointer-events-none absolute -right-6 -top-6 h-40 w-40 fill-accent/[0.07]"
-          >
-            <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
-          </svg>
-
-          <div className="relative">
-            <p className="label flex items-center gap-2 text-accent">
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-accent" aria-hidden="true">
+          {inviteUrl && uitnodiging?.status === "open" ? (
+            /* De vouch als gouden ticket: dit is iets waardevols dat je weggeeft */
+            <div className="relative mt-8 overflow-hidden rounded-2xl border border-accent/50 bg-paneel p-6 shadow-[0_0_60px_rgba(245,185,65,0.12)] sm:p-8">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 55% 80% at 100% 0%, rgba(245,185,65,0.16), transparent 70%)",
+                }}
+              />
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="pointer-events-none absolute -right-6 -top-6 h-40 w-40 fill-accent/[0.07]"
+              >
                 <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
               </svg>
-              Jouw vouch · 1 beschikbaar
-            </p>
-            <h2 className="mt-3 kop-2">
-              Je hebt één ster weg te geven
-            </h2>
-            <p className="mt-3 max-w-xl text-tekst-secundair">
-              Kies met zorg: één designer uit jouw netwerk krijgt hiermee een plek
-              in het stelsel. Zij krassen de vouch open, wij beoordelen kort, en
-              vanaf dan stamt hun ster van jou af.
-            </p>
-            {uitnodiging.code && (
-              <p className="mt-5 inline-flex items-center gap-3 rounded-full border border-accent/40 bg-achtergrond/70 px-4 py-2 font-mono text-sm tracking-[0.2em] text-accent">
-                {uitnodiging.code}
+
+              <div className="relative">
+                <p className="label flex items-center gap-2 text-accent">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-3.5 w-3.5 fill-accent"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+                  </svg>
+                  Jouw vouch · 1 beschikbaar
+                </p>
+                <h2 className="mt-3 kop-2">Je hebt één ster weg te geven</h2>
+                <p className="mt-3 max-w-xl text-tekst-secundair">
+                  Kies met zorg: één designer uit jouw netwerk krijgt hiermee
+                  een plek in het stelsel. Zij krassen de vouch open, wij
+                  beoordelen kort, en vanaf dan stamt hun ster van jou af.
+                </p>
+                {uitnodiging.code && (
+                  <p className="mt-5 inline-flex items-center gap-3 rounded-full border border-accent/40 bg-achtergrond/70 px-4 py-2 font-mono text-sm tracking-[0.2em] text-accent">
+                    {uitnodiging.code}
+                  </p>
+                )}
+                <div className="mt-6">
+                  <NodigUit inviteUrl={inviteUrl} />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+              <h2 className="kop-3">Jouw vouch is weggegeven</h2>
+              <p className="mt-3 text-tekst-secundair">
+                Mooi, het stelsel groeit. Hieronder zie je wie er via jou bij
+                kwam.
               </p>
-            )}
-            <div className="mt-6">
-              <NodigUit inviteUrl={inviteUrl} />
             </div>
-          </div>
-        </div>
-      ) : (
-        <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-          <h2 className="kop-3">Jouw vouch is weggegeven</h2>
-          <p className="mt-3 text-tekst-secundair">
-            Mooi, het stelsel groeit. Hieronder zie je wie er via jou bij kwam.
-          </p>
-        </div>
-      )}
-
-      {/* Jouw tak van het stelsel */}
-      {stelsel && (
-        <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
-          <div className="flex items-end justify-between gap-4">
-            <h2 className="kop-3">Jouw tak van het stelsel</h2>
-            <div className="text-right">
-              <div className="text-3xl font-bold leading-none text-accent">
-                {stelsel.aantal_afstammelingen}
-              </div>
-              <div className="mt-1 text-xs text-tekst-secundair">
-                {stelsel.aantal_afstammelingen === 1 ? "ster stamt" : "sterren stammen"} van jou af
-              </div>
-            </div>
-          </div>
-
-          {stelsel.gevouched_door && (
-            <p className="mt-3 text-tekst-secundair">
-              Gevouched door{" "}
-              <span className="text-tekst">{stelsel.gevouched_door}</span>
-            </p>
           )}
 
-          <div className="mt-5">
-            {stelsel.directe.length === 0 ? (
-              <p className="text-tekst-secundair">
-                Je hebt nog niemand gevouched.{" "}
-                {inviteUrl
-                  ? "Geef je vouch en zie je tak oplichten."
-                  : ""}
-              </p>
-            ) : (
-              <>
-                <p className="text-sm text-tekst-secundair">Jij vouchte:</p>
-                <div className="mt-3 flex flex-wrap gap-3">
-                  {stelsel.directe.map((s) => (
-                    <div
-                      key={s.id}
-                      className="flex items-center gap-2 rounded-full border border-lijn bg-achtergrond py-1.5 pl-1.5 pr-4"
-                    >
-                      <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-paneel">
-                        {s.foto_url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={s.foto_url}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center text-sm text-tekst-secundair">
-                            {s.naam.charAt(0)}
-                          </div>
-                        )}
-                        {s.beschikbaar && (
-                          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-achtergrond bg-succes" />
-                        )}
-                      </div>
-                      <span className="text-sm">{s.naam}</span>
-                    </div>
-                  ))}
+          {/* Jouw tak van het stelsel */}
+          {stelsel && (
+            <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+              <div className="flex items-end justify-between gap-4">
+                <h2 className="kop-3">Jouw tak van het stelsel</h2>
+                <div className="text-right">
+                  <div className="text-3xl font-bold leading-none text-accent">
+                    {stelsel.aantal_afstammelingen}
+                  </div>
+                  <div className="mt-1 text-xs text-tekst-secundair">
+                    {stelsel.aantal_afstammelingen === 1
+                      ? "ster stamt"
+                      : "sterren stammen"}{" "}
+                    van jou af
+                  </div>
                 </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+              </div>
+
+              {stelsel.gevouched_door && (
+                <p className="mt-3 text-tekst-secundair">
+                  Gevouched door{" "}
+                  <span className="text-tekst">{stelsel.gevouched_door}</span>
+                </p>
+              )}
+
+              <div className="mt-5">
+                {stelsel.directe.length === 0 ? (
+                  <p className="text-tekst-secundair">
+                    Je hebt nog niemand gevouched.{" "}
+                    {inviteUrl ? "Geef je vouch en zie je tak oplichten." : ""}
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-sm text-tekst-secundair">Jij vouchte:</p>
+                    <div className="mt-3 flex flex-wrap gap-3">
+                      {stelsel.directe.map((s) => (
+                        <div
+                          key={s.id}
+                          className="flex items-center gap-2 rounded-full border border-lijn bg-achtergrond py-1.5 pl-1.5 pr-4"
+                        >
+                          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-paneel">
+                            {s.foto_url ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={s.foto_url}
+                                alt=""
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="flex h-full w-full items-center justify-center text-sm text-tekst-secundair">
+                                {s.naam.charAt(0)}
+                              </div>
+                            )}
+                            {s.beschikbaar && (
+                              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-achtergrond bg-succes" />
+                            )}
+                          </div>
+                          <span className="text-sm">{s.naam}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </>
       )}
 

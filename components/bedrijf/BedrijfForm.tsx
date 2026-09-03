@@ -5,7 +5,11 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import MissieKaart from "@/components/bedrijf/MissieKaart";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
-import { werkBedrijfBij, uitloggenBedrijf, startPortal } from "@/app/bedrijf/actions";
+import {
+  werkBedrijfBij,
+  uitloggenBedrijf,
+  startPortal,
+} from "@/app/bedrijf/actions";
 import type { Bedrijf, MijnMissie } from "@/lib/bedrijf-data";
 
 const STATUS: Record<string, { tekst: string; klasse: string }> = {
@@ -39,8 +43,17 @@ function LegeMissies({
 }) {
   return (
     <div className="rounded-2xl border border-lijn bg-paneel px-6 py-16 text-center">
-      <svg viewBox="0 0 64 64" className="mx-auto h-24 w-24 text-accent" aria-hidden="true">
-        <circle cx="32" cy="30" r="20" className="animate-pulse fill-accent/5" />
+      <svg
+        viewBox="0 0 64 64"
+        className="mx-auto h-24 w-24 text-accent"
+        aria-hidden="true"
+      >
+        <circle
+          cx="32"
+          cy="30"
+          r="20"
+          className="animate-pulse fill-accent/5"
+        />
         <circle cx="12" cy="14" r="1.4" className="fill-accent/40" />
         <circle cx="52" cy="17" r="1" className="fill-accent/30" />
         <circle cx="51" cy="46" r="1.6" className="fill-accent/40" />
@@ -57,9 +70,7 @@ function LegeMissies({
 
       {actief ? (
         <>
-          <h3 className="mt-6">
-            Je stelsel wacht op zijn eerste missie
-          </h3>
+          <h3 className="mt-6">Je stelsel wacht op zijn eerste missie</h3>
           <p className="mx-auto mt-2 max-w-sm text-tekst-secundair">
             Plaats een missie en zie welke sterren oplichten. Binnen één werkdag
             heb je de eerste reacties.
@@ -226,7 +237,8 @@ export default function BedrijfForm({
             {actief ? (
               <p className="mt-3 text-tekst-secundair">
                 Je kunt missies plaatsen in het stelsel.
-                {bedrijf.membership_tier && ` Pakket: ${bedrijf.membership_tier}.`}
+                {bedrijf.membership_tier &&
+                  ` Pakket: ${bedrijf.membership_tier}.`}
                 {tot && ` Loopt tot ${tot}.`}
               </p>
             ) : (
@@ -268,7 +280,10 @@ export default function BedrijfForm({
             </div>
             {missies.length === 0 ? (
               <div className="mt-5">
-                <LegeMissies actief={actief} naarMembership={() => setTab("membership")} />
+                <LegeMissies
+                  actief={actief}
+                  naarMembership={() => setTab("membership")}
+                />
               </div>
             ) : (
               <>
@@ -293,16 +308,25 @@ export default function BedrijfForm({
               className="space-y-5 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8 lg:col-span-2"
             >
               <h2 className="kop-3">Bedrijfsprofiel</h2>
-              <Input label="Bedrijfsnaam" name="naam" defaultValue={bedrijf.naam} required />
+              <Input
+                label="Bedrijfsnaam"
+                icoon="gebouw"
+                placeholder="Naam van het bedrijf"
+                name="naam"
+                defaultValue={bedrijf.naam}
+                required
+              />
               <div className="grid gap-5 sm:grid-cols-2">
                 <Input
                   label="Contactpersoon"
+                  icoon="persoon"
                   name="contactpersoon"
                   defaultValue={bedrijf.contactpersoon ?? ""}
                   placeholder="Voor- en achternaam"
                 />
                 <Input
                   label="Telefoon"
+                  icoon="telefoon"
                   name="telefoon"
                   type="tel"
                   defaultValue={bedrijf.telefoon ?? ""}
@@ -320,20 +344,24 @@ export default function BedrijfForm({
                 <Button type="submit" disabled={bezig}>
                   {bezig ? "Opslaan…" : "Opslaan"}
                 </Button>
-                {opgeslagen && <span className="text-sm text-succes">Opgeslagen ✓</span>}
+                {opgeslagen && (
+                  <span className="text-sm text-succes">Opgeslagen ✓</span>
+                )}
               </div>
             </form>
 
             {/* Visitekaartje — zo word je getoond */}
             <div className="rounded-2xl border border-lijn bg-paneel p-6 text-center">
-              <p className="label text-tekst-secundair">
-                Je visitekaartje
-              </p>
+              <p className="label text-tekst-secundair">Je visitekaartje</p>
 
               <div className="mx-auto mt-5 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border border-lijn bg-achtergrond">
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={logoUrl}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <span className="text-3xl font-bold text-tekst-secundair">
                     {bedrijf.naam.charAt(0).toUpperCase()}
@@ -366,7 +394,11 @@ export default function BedrijfForm({
                 disabled={logoBezig}
                 className="mt-6 w-full rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
               >
-                {logoBezig ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
+                {logoBezig
+                  ? "Uploaden…"
+                  : logoUrl
+                    ? "Logo vervangen"
+                    : "Logo uploaden"}
               </button>
               <p className="mt-3 text-xs text-tekst-secundair">
                 Een herkenbaar logo maakt je missies aantrekkelijker.

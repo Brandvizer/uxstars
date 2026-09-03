@@ -138,7 +138,9 @@ export default function BedrijfWelkom() {
   const plan = ritme === "jaar" ? MEMBERSHIP.jaar : MEMBERSHIP.maand;
 
   return (
-    <div className={`mx-auto px-4 py-16 sm:px-6 ${stap === 2 ? "max-w-4xl" : "max-w-xl"}`}>
+    <div
+      className={`mx-auto px-4 py-16 sm:px-6 ${stap === 2 ? "max-w-4xl" : "max-w-xl"}`}
+    >
       {stap < 3 && (
         <div className="mb-8 flex items-center gap-2">
           {[1, 2, 3].map((n) => (
@@ -155,12 +157,8 @@ export default function BedrijfWelkom() {
       {/* Stap 1 — gegevens + logo */}
       {stap === 1 && (
         <>
-          <p className="label text-accent">
-            Stap 1 van 3
-          </p>
-          <h1 className="mt-3 kop-2">
-            Je bedrijfsgegevens
-          </h1>
+          <p className="label text-accent">Stap 1 van 3</p>
+          <h1 className="mt-3 kop-2">Je bedrijfsgegevens</h1>
           <p className="mt-3 text-tekst-secundair">
             Vul je gegevens in. Deze gebruiken we voor je missies.
           </p>
@@ -173,7 +171,11 @@ export default function BedrijfWelkom() {
               <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-lijn bg-achtergrond">
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={logoUrl}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-xs text-tekst-secundair">
                     Logo
@@ -194,7 +196,11 @@ export default function BedrijfWelkom() {
                   disabled={uploadt}
                   className="rounded-full border border-lijn bg-achtergrond px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:border-tekst-secundair disabled:opacity-50"
                 >
-                  {uploadt ? "Uploaden…" : logoUrl ? "Logo vervangen" : "Logo uploaden"}
+                  {uploadt
+                    ? "Uploaden…"
+                    : logoUrl
+                      ? "Logo vervangen"
+                      : "Logo uploaden"}
                 </button>
                 <p
                   className={`mt-2 text-xs ${
@@ -210,15 +216,18 @@ export default function BedrijfWelkom() {
 
             <Input
               label="Bedrijfsnaam"
+              icoon="gebouw"
+              placeholder="Naam van het bedrijf"
               value={naam}
               onChange={(e) => setNaam(e.target.value)}
               required
             />
             <Input
               label="Contactpersoon"
+              icoon="persoon"
+              placeholder="Voor- en achternaam"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
-              placeholder="Voor- en achternaam"
             />
             <Input
               label="Website"
@@ -244,16 +253,14 @@ export default function BedrijfWelkom() {
         <div className="grid gap-10 lg:grid-cols-5 lg:items-start">
           {/* Links — waarde */}
           <div className="lg:col-span-3">
-            <p className="label text-accent">
-              Stap 2 van 3
-            </p>
-            <h1 className="mt-3 kop-2">
-              Kies je membership
-            </h1>
+            <p className="label text-accent">Stap 2 van 3</p>
+            <h1 className="mt-3 kop-2">Kies je membership</h1>
             <p className="mt-3 text-tekst-secundair">
               Eén lidmaatschap, alles inbegrepen. Start met{" "}
-              <span className="text-tekst">{MEMBERSHIP.trialDagen} dagen gratis</span> —
-              je betaalt pas daarna en je kunt altijd opzeggen.
+              <span className="text-tekst">
+                {MEMBERSHIP.trialDagen} dagen gratis
+              </span>{" "}
+              — je betaalt pas daarna en je kunt altijd opzeggen.
             </p>
 
             <ul className="mt-8 space-y-5">
@@ -297,9 +304,7 @@ export default function BedrijfWelkom() {
                 ))}
               </div>
 
-              <p className="label mt-6 text-accent">
-                {MEMBERSHIP.naam}
-              </p>
+              <p className="label mt-6 text-accent">{MEMBERSHIP.naam}</p>
               <p className="mt-2">
                 <span className="text-4xl font-bold">{euro(plan.prijs)}</span>{" "}
                 <span className="text-tekst-secundair">{plan.periode}</span>
@@ -310,8 +315,14 @@ export default function BedrijfWelkom() {
                 </p>
               )}
 
-              <Button onClick={kiesPlan} disabled={bezig} className="mt-6 w-full">
-                {bezig ? "Bezig…" : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
+              <Button
+                onClick={kiesPlan}
+                disabled={bezig}
+                className="mt-6 w-full"
+              >
+                {bezig
+                  ? "Bezig…"
+                  : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
               </Button>
               <p className="mt-3 text-center text-xs text-tekst-secundair">
                 Geen verplichtingen tijdens de proefperiode.
@@ -319,8 +330,8 @@ export default function BedrijfWelkom() {
 
               <div className="mt-6 space-y-2 border-t border-lijn pt-5 text-sm text-tekst-secundair">
                 <p className="flex items-center gap-2">
-                  <span className="text-succes">✓</span> {MEMBERSHIP.trialDagen} dagen
-                  gratis proberen
+                  <span className="text-succes">✓</span> {MEMBERSHIP.trialDagen}{" "}
+                  dagen gratis proberen
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="text-succes">✓</span> Maandelijks opzegbaar
@@ -347,7 +358,10 @@ export default function BedrijfWelkom() {
           <h1 className="rijs-in mt-8 kop-2" style={{ animationDelay: "0.2s" }}>
             Account aangemaakt
           </h1>
-          <p className="rijs-in mt-3 text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
+          <p
+            className="rijs-in mt-3 text-tekst-secundair"
+            style={{ animationDelay: "0.4s" }}
+          >
             Je proefperiode loopt. Je kunt nu je eerste missie plaatsen.
           </p>
           <div className="rijs-in mt-8" style={{ animationDelay: "0.6s" }}>
