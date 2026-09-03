@@ -43,7 +43,6 @@ export default function FoundingTeller({
   const resterend = status?.resterend ?? 0;
   const bezet = status?.bezet ?? 0;
   const open = status ? status.open : true;
-  const pct = Math.min(100, Math.round((bezet / limiet) * 100));
 
   return (
     <div className="w-full text-center">
@@ -51,21 +50,33 @@ export default function FoundingTeller({
         <p className="text-sm text-tekst-secundair">Founding-plekken laden…</p>
       ) : (
         <>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-            {open ? (
-              <>
-                Nog <span className="text-tekst">{resterend}</span> van {limiet}{" "}
-                founding-plekken
-              </>
-            ) : (
-              <>Alle {limiet} founding-plekken zijn vergeven</>
-            )}
-          </p>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-achtergrond/80 ring-1 ring-lijn">
-            <div
-              className="h-full rounded-full bg-accent transition-all duration-500"
-              style={{ width: `${Math.max(3, pct)}%` }}
-            />
+          {open ? (
+            <p className="flex items-baseline justify-center gap-2">
+              <span className="text-4xl font-semibold leading-none text-tekst">
+                {resterend}
+              </span>
+              <span className="text-sm text-tekst-secundair">
+                van {limiet} founding-plekken vrij
+              </span>
+            </p>
+          ) : (
+            <p className="text-sm font-semibold text-accent">
+              Alle {limiet} founding-plekken zijn vergeven
+            </p>
+          )}
+          {/* Het stelsel vult zich: één stipje per plek, bezette plekken in goud */}
+          <div
+            className="mx-auto mt-4 grid max-w-xs grid-cols-25 gap-1.5"
+            aria-hidden="true"
+          >
+            {Array.from({ length: limiet }, (_, i) => (
+              <span
+                key={i}
+                className={`aspect-square rounded-full ${
+                  i < bezet ? "bg-accent" : "bg-tekst-secundair/25"
+                }`}
+              />
+            ))}
           </div>
 
           {metCta &&
