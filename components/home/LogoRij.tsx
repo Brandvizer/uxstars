@@ -17,14 +17,14 @@ export default function LogoRij({ compact = false }: { compact?: boolean }) {
       </p>
       <ul
         className={`flex flex-wrap items-center justify-center gap-y-4 ${
-          compact ? "mt-5 gap-x-8" : "mt-8 gap-x-12 gap-y-6"
+          compact ? "mt-6 gap-x-10" : "mt-8 gap-x-12 gap-y-6"
         }`}
       >
         {logos.map((naam) => (
           <li
             key={naam}
             className={`font-semibold text-tekst-secundair/50 transition-colors duration-300 ease-uit hover:text-tekst ${
-              compact ? "text-base" : "text-xl"
+              compact ? "text-lg" : "text-xl"
             }`}
           >
             {naam}
