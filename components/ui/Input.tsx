@@ -103,14 +103,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 type TextareaProps = {
   label: string;
   fout?: string;
+  labelVerborgen?: boolean;
 } & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  function Textarea({ label, fout, id, ...rest }, ref) {
+  function Textarea({ label, fout, id, labelVerborgen = false, ...rest }, ref) {
     const inputId = id ?? rest.name;
     return (
       <div>
-        <label htmlFor={inputId} className="mb-2 block text-base font-semibold">
+        <label
+          htmlFor={inputId}
+          className={labelVerborgen ? "sr-only" : "mb-2 block text-base font-semibold"}
+        >
           {label}
         </label>
         <textarea

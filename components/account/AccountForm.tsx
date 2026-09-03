@@ -383,25 +383,58 @@ export default function AccountForm({
       {/* Jouw stelsel — vouch + tak */}
       {tab === "stelsel" && (
         <>
-      <div className="mt-8 rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-8">
-        <h2 className="text-xl font-semibold">Nodig iemand uit</h2>
-        {inviteUrl && uitnodiging?.status === "open" ? (
-          <>
-            <p className="mt-3 text-tekst-secundair">
-              Jij weet wie in jouw netwerk eruit springt. Nodig één designer uit.
-              Zij krijgen een vouch in hun inbox en kunnen die openkrassen. Elke
-              aanmelding beoordelen wij kort.
+      {inviteUrl && uitnodiging?.status === "open" ? (
+        /* De vouch als gouden ticket: dit is iets waardevols dat je weggeeft */
+        <div className="relative mt-8 overflow-hidden rounded-2xl border border-accent/50 bg-paneel p-6 shadow-[0_0_60px_rgba(245,185,65,0.12)] sm:p-8">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 55% 80% at 100% 0%, rgba(245,185,65,0.16), transparent 70%)",
+            }}
+          />
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            className="pointer-events-none absolute -right-6 -top-6 h-40 w-40 fill-accent/[0.07]"
+          >
+            <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+          </svg>
+
+          <div className="relative">
+            <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-accent">
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-accent" aria-hidden="true">
+                <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+              </svg>
+              Jouw vouch · 1 beschikbaar
             </p>
-            <div className="mt-5">
+            <h2 className="mt-3 text-2xl font-semibold sm:text-3xl">
+              Je hebt één ster weg te geven
+            </h2>
+            <p className="mt-3 max-w-xl text-tekst-secundair">
+              Kies met zorg: één designer uit jouw netwerk krijgt hiermee een plek
+              in het stelsel. Zij krassen de vouch open, wij beoordelen kort, en
+              vanaf dan stamt hun ster van jou af.
+            </p>
+            {uitnodiging.code && (
+              <p className="mt-5 inline-flex items-center gap-3 rounded-full border border-accent/40 bg-achtergrond/70 px-4 py-2 font-mono text-sm tracking-[0.2em] text-accent">
+                {uitnodiging.code}
+              </p>
+            )}
+            <div className="mt-6">
               <NodigUit inviteUrl={inviteUrl} />
             </div>
-          </>
-        ) : (
+          </div>
+        </div>
+      ) : (
+        <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
+          <h2 className="text-xl font-semibold">Jouw vouch is weggegeven</h2>
           <p className="mt-3 text-tekst-secundair">
-            Je hebt je vouch al weggegeven. Mooi, het stelsel groeit.
+            Mooi, het stelsel groeit. Hieronder zie je wie er via jou bij kwam.
           </p>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Jouw tak van het stelsel */}
       {stelsel && (

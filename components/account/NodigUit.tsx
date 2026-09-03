@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Button from "@/components/ui/Button";
+import Input, { Textarea } from "@/components/ui/Input";
 import { verstuurVouchNaar } from "@/app/account/actions";
 
 export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
@@ -53,13 +54,13 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
     );
   }
 
-  const veld =
-    "w-full rounded-xl border border-lijn bg-achtergrond px-4 py-2.5 text-sm text-tekst placeholder:text-tekst-secundair/60 focus:border-accent focus:outline-none";
-
   return (
     <form onSubmit={verstuur} className="space-y-3">
-      <input
+      <Input
+        label="E-mailadres van de designer"
+        labelVerborgen
         type="email"
+        name="vouch-email"
         required
         value={naarEmail}
         onChange={(e) => {
@@ -67,27 +68,24 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
           if (status === "fout") setStatus("idle");
         }}
         placeholder="naam@voorbeeld.nl"
-        className={veld}
       />
-      <textarea
+      <Textarea
+        label="Persoonlijk bericht"
+        labelVerborgen
+        name="vouch-bericht"
         value={bericht}
         onChange={(e) => setBericht(e.target.value)}
         rows={2}
         placeholder="Persoonlijk bericht (optioneel)"
-        className={`${veld} resize-y`}
       />
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3 pt-1">
         <Button type="submit" disabled={status === "bezig" || !naarEmail.trim()}>
           {status === "bezig" ? "Versturen…" : "Verstuur vouch"}
         </Button>
         {inviteUrl && (
-          <button
-            type="button"
-            onClick={kopieerLink}
-            className="text-sm font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
-          >
-            {gekopieerd ? "Link gekopieerd ✓" : "Of kopieer de link"}
-          </button>
+          <Button type="button" variant="ghost" onClick={kopieerLink}>
+            {gekopieerd ? "Link gekopieerd" : "Kopieer de link"}
+          </Button>
         )}
       </div>
       {status === "fout" && (
