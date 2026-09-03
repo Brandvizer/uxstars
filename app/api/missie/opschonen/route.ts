@@ -36,9 +36,11 @@ Regels:
 - Gebruik nooit gedachtestreepjes. Gebruik een punt, dubbele punt of komma.
 - Schrijf "digital designer", niet "UX'er" of "UX-designer", tenzij de input uitdrukkelijk om één discipline vraagt.
 - Als er geen titel is meegegeven, stel er een voor: maximaal 8 woorden, zonder bedrijfsnaam, zonder punt, geen hoofdletters op elk woord.
+- Stel daarna maximaal 2 korte vervolgvragen over wat een designer nog mist om te beoordelen of de missie bij hem of haar past. Denk aan: voor wie is het product, wat is de huidige situatie, welke beslissers zijn betrokken, waarom nu. Vraag NIET naar rol, uren per week, duur, locatie, startdatum of tarief; dat wordt elders in het formulier gevraagd. Is de tekst al compleet, geef dan een lege lijst.
+- Als de input een blok "Aanvullende antwoorden" bevat, verwerk die antwoorden in de omschrijving en stel geen vragen meer die daarmee beantwoord zijn.
 
 Antwoord uitsluitend met JSON in deze vorm, zonder toelichting:
-{"titel": "...", "omschrijving": "..."}
+{"titel": "...", "omschrijving": "...", "vragen": ["...", "..."]}
 Laat "titel" leeg ("") als er al een titel was meegegeven.`;
 
 export async function POST(req: NextRequest) {
@@ -59,7 +61,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: { titel?: unknown; omschrijving?: unknown };
+  let body: { titel?: unknown; omschrijving?: unknown; antwoorden?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -75,11 +77,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const antwoorden =
+    typeof body.antwoorden === "string" ? body.antwoorden.trim() : "";
   const invoer = [
     titel ? `Titel (al ingevuld): ${titel}` : "Titel: (nog leeg)",
     "",
     "Ruwe omschrijving:",
     ruw.slice(0, MAX_TEKENS),
+    ...(antwoorden
+      ? ["", "Aanvullende antwoorden van de opdrachtgever:", antwoorden.slice(0, 1500)]
+      : []),
   ].join("\n");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -95,7 +102,7 @@ export async function POST(req: NextRequest) {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 600,
+      max_tokens: 800,
       temperature: 0.4,
       system: SYSTEEM,
       messages: [{ role: "user", content: invoer }],
@@ -124,7 +131,7 @@ export async function POST(req: NextRequest) {
 
   // Het model antwoordt met JSON; pak het eerste {…}-blok voor de zekerheid.
   const match = tekst.match(/\{[\s\S]*\}/);
-  let uit: { titel?: string; omschrijving?: string } = {};
+  let uit: { titel?: string; omschrijving?: string; vragen?: unknown } = {};
   try {
     uit = match ? JSON.parse(match[0]) : {};
   } catch {
@@ -145,5 +152,8 @@ export async function POST(req: NextRequest) {
       ? titelVoorstel.charAt(0).toUpperCase() + titelVoorstel.slice(1)
       : "",
     omschrijving,
+    vragen: Array.isArray(uit.vragen)
+      ? uit.vragen.filter((v): v is string => typeof v === "string" && v.trim() !== "").slice(0, 2)
+      : [],
   });
 }

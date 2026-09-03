@@ -69,7 +69,7 @@ npm run dev                          # http://localhost:3000
   sterren, geen foto's, zachte lijnen) plus een donkere radiale kern achter de
   tekstkolom. `gezichtenOpMobiel={false}` voor alleen stipjes onder 640px.
 - **Voortgang in meerstaps-formulieren**: altijd `RaketVoortgang`.
-- **AI in formulieren**: één knop, één voorstel, nooit stil overschrijven; altijd een "Terug naar mijn tekst". Prompt bevat de toonregels (geen streepjes, "digital designers"). Route heeft een limiet per IP.
+- **AI in formulieren**: één knop, één voorstel, nooit stil overschrijven; altijd een "Terug naar mijn tekst". Prompt bevat de toonregels (geen streepjes, "digital designers"). Route heeft een limiet per IP. De AI mag maximaal 2 vervolgvragen stellen over inhoud die een designer mist (doelgroep, huidige situatie, beslissers, waarom nu), nooit over wat latere stappen al vragen (rol, uren, duur, locatie, start, tarief). Max 3 rondes.
 - **Admin-tabs** zijn gegroepeerd: Dashboard · Designers (Aanmeldingen,
   Uitnodigingen, Reacties, Accounts) · Opdrachtgevers (Missies in review,
   Bedrijven, Leads, Wachtlijst) · Deals (Plaatsingen).
