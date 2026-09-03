@@ -88,6 +88,10 @@ export async function POST(req: NextRequest) {
       "content-type": "application/json",
       "x-api-key": key,
       "anthropic-version": "2023-06-01",
+      // Nieuwe (identity-linked) keys vereisen de workspace waarin je werkt.
+      ...(process.env.ANTHROPIC_WORKSPACE_ID && {
+        "anthropic-workspace-id": process.env.ANTHROPIC_WORKSPACE_ID,
+      }),
     },
     body: JSON.stringify({
       model: MODEL,
@@ -99,9 +103,16 @@ export async function POST(req: NextRequest) {
   });
 
   if (!res.ok) {
-    console.error("Anthropic-fout", res.status, await res.text());
+    const detail = await res.text();
+    console.error("Anthropic-fout", res.status, detail);
     return NextResponse.json(
-      { fout: "Opschonen lukte even niet. Probeer het zo nog eens." },
+      {
+        fout: "Opschonen lukte even niet. Probeer het zo nog eens.",
+        // Alleen lokaal: de echte foutmelding, zodat je ziet wat er mis is.
+        ...(process.env.NODE_ENV !== "production" && {
+          detail: `${res.status} ${detail.slice(0, 300)}`,
+        }),
+      },
       { status: 502 },
     );
   }
@@ -127,8 +138,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const titelVoorstel = titel ? "" : (uit.titel ?? "").trim();
   return NextResponse.json({
-    titel: titel ? "" : (uit.titel ?? "").trim(),
+    // Eerste letter altijd een hoofdletter, de rest zoals het model het schreef.
+    titel: titelVoorstel
+      ? titelVoorstel.charAt(0).toUpperCase() + titelVoorstel.slice(1)
+      : "",
     omschrijving,
   });
 }

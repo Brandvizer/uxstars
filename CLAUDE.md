@@ -96,6 +96,6 @@ designers", alle streepjes en knop-iconen weg, typografieschaal ingevoerd,
 Input met iconen en uniforme placeholders, ghost-knop, eigen select-chevron,
 container 1280, /vroeg rustiger (sterrenveld in achtergrondmodus, teller als
 "Founding-plekken vrij 95 / 100"), aanmeldpagina met kopbalk en raketvoortgang,
-vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`, key `ANTHROPIC_API_KEY`).
+vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`; keys `ANTHROPIC_API_KEY` en `ANTHROPIC_WORKSPACE_ID`, de laatste is verplicht bij identity-linked keys).
 
 **Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.
