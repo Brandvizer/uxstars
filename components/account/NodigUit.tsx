@@ -32,7 +32,7 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
   if (status === "verzonden") {
     return (
       <div className="rounded-2xl border border-succes/40 bg-achtergrond p-5">
-        <p className="font-semibold text-succes">Vouch verstuurd ✦</p>
+        <p className="font-semibold text-succes">Vouch verstuurd</p>
         <p className="mt-1 text-sm text-tekst-secundair">
           <span className="text-tekst">{naarEmail}</span> krijgt je uitnodiging in
           de inbox. Zodra zij zich aanmelden, beoordelen wij het, en hoor jij het

@@ -49,7 +49,7 @@ const REACTIE_STATUS: Record<string, { label: string; klasse: string }> = {
   nieuw: { label: "Verstuurd", klasse: "border-lijn text-tekst-secundair" },
   bekeken: { label: "Bekeken", klasse: "border-accent/50 text-accent" },
   uitgenodigd: {
-    label: "Uitgenodigd ✦",
+    label: "Uitgenodigd",
     klasse: "border-succes/50 bg-succes/5 text-succes",
   },
   afgewezen: { label: "Niet geselecteerd", klasse: "border-lijn text-tekst-secundair" },

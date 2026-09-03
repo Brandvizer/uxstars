@@ -36,7 +36,7 @@ export default function VouchAanvraagForm() {
   if (status === "verzonden") {
     return (
       <div className="rounded-2xl border border-succes/40 bg-paneel p-8 text-center">
-        <p className="text-lg font-semibold text-succes">Je staat op de radar ✦</p>
+        <p className="text-lg font-semibold text-succes">Je staat op de radar</p>
         <p className="mx-auto mt-3 max-w-md text-tekst-secundair">
           Bedankt. We laten je werk zien aan het stelsel. Vouchen een lid of wij
           jou, dan krijg je een uitnodiging in je inbox.

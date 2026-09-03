@@ -53,7 +53,7 @@ export default function MembershipKaart() {
         <ul className="mt-6 space-y-3 text-tekst-secundair">
           {voordelen.map((v) => (
             <li key={v} className="flex items-start gap-3">
-              <span className="mt-0.5 text-accent">✦</span>
+              <svg viewBox="0 0 20 20" className="mt-1 h-4 w-4 shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9" /></svg>
               {v}
             </li>
           ))}

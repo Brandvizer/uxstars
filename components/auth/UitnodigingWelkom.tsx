@@ -120,7 +120,7 @@ export default function UitnodigingWelkom({
           <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
         </svg>
         <h1 className="rijs-in relative mt-8 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]" style={{ animationDelay: "0.2s" }}>
-          Je aanmelding is binnen ✦
+          Je aanmelding is binnen
         </h1>
         <p className="rijs-in relative mt-4 text-lg text-tekst-secundair" style={{ animationDelay: "0.4s" }}>
           Bedankt! Ons team bekijkt je aanmelding. Een menselijke check hoort bij
@@ -174,7 +174,7 @@ export default function UitnodigingWelkom({
 
           <div className="relative mt-8 w-full max-w-sm">
             <Kraslaag
-              hint="Kras je vouch open ✦"
+              hint="Kras je vouch open"
               onthoudSleutel={`uxstars_kras_${token}`}
               onOnthuld={naOnthuld}
             >
@@ -198,7 +198,7 @@ export default function UitnodigingWelkom({
       ) : (
         <div className="relative w-full">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">
-            Je vouch is geldig ✦
+            Je vouch is geldig
           </p>
           <h1 className="mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
             Meld je aan

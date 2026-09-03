@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
  * vinger wegkrast. Bij ~55% onthult 'ie automatisch en roept `onOnthuld` aan.
  */
 export default function Kraslaag({
-  hint = "Kras om te onthullen ✦",
+  hint = "Kras om te onthullen",
   onthoudSleutel,
   onOnthuld,
   children,

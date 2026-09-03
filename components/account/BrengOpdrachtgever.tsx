@@ -14,7 +14,7 @@ export type Aanbeveling = {
 };
 
 function leadBadge(status: string) {
-  if (status === "binnen") return <Badge kleur="succes">Binnen ✦</Badge>;
+  if (status === "binnen") return <Badge kleur="succes">Binnen</Badge>;
   if (status === "benaderd") return <Badge kleur="accent">Benaderd</Badge>;
   if (status === "afgewezen") return <Badge>Afgewezen</Badge>;
   return <Badge kleur="accent">Nieuw</Badge>;

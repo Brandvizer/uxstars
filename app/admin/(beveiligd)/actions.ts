@@ -596,7 +596,7 @@ export async function bevestigPlaatsing(
         voorkop: "Geplaatst",
         kop: "Gefeliciteerd, je bent geplaatst",
         alineas: [
-          `${esc(r.star.naam.split(" ")[0])}, je bent geplaatst op <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>. Mooi werk! ✦`,
+          `${esc(r.star.naam.split(" ")[0])}, je bent geplaatst op <strong style="color:#0a0e1a;">${esc(r.missie_titel)}</strong>. Mooi werk!`,
           "We nemen contact op over de praktische afspraken.",
         ],
       }),
@@ -628,10 +628,10 @@ export async function keurSterGoed(starId: string): Promise<{ ok: boolean }> {
     const base = await huidigeOrigin();
     await stuurMail({
       naar: r.email,
-      onderwerp: "Welkom bij UXSTARS ✦",
+      onderwerp: "Welkom bij UXSTARS",
       html: emailHtml({
         voorkop: "Welkom in het stelsel",
-        kop: `${esc(r.naam.split(" ")[0])}, je bent toegelaten ✦`,
+        kop: `${esc(r.naam.split(" ")[0])}, je bent toegelaten`,
         alineas: [
           "Goed nieuws: je aanmelding is goedgekeurd. Je bent nu een volwaardige ster in het stelsel.",
           "<strong>Je eigen profiel</strong>: log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
@@ -730,16 +730,16 @@ export async function keurAanmelding(
   const link = await magicLink(svc, email, "/account");
   await stuurMail({
     naar: email,
-    onderwerp: "Welkom bij UXSTARS ✦",
+    onderwerp: "Welkom bij UXSTARS",
     html: emailHtml({
       voorkop: "Welkom in het stelsel",
-      kop: `${esc(voornaam)}, je bent toegelaten ✦`,
+      kop: `${esc(voornaam)}, je bent toegelaten`,
       alineas: [
         "Goed nieuws: je aanmelding is goedgekeurd en je account staat klaar.",
         "De knop hieronder logt je <strong>direct in</strong>, geen wachtwoord nodig. Maak daar je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
         "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
       ],
-      knop: { label: "Log direct in ✦", url: link },
+      knop: { label: "Log direct in", url: link },
     }),
   });
 

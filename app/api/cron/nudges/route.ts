@@ -73,7 +73,7 @@ export async function GET(req: Request) {
     const link = `${SITE_URL}/uitnodiging/${k.token}`;
     const { ok } = await stuurMail({
       naar: k.email,
-      onderwerp: "Je vouch ligt nog klaar ✦",
+      onderwerp: "Je vouch ligt nog klaar",
       html: vouchMail(esc(k.naam), link),
     });
     if (ok) {

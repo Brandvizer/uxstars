@@ -58,7 +58,7 @@ export default function VouchInwisselen() {
       {status === "geldig" ? (
         <>
           <h1 className="rijs-in relative mt-4 !text-[clamp(1.75rem,3vw+1rem,2.5rem)]">
-            Je bent gevouched ✦
+            Je bent gevouched
           </h1>
           <p className="rijs-in relative mt-4 text-lg text-tekst-secundair">
             {uitnodiger ? (

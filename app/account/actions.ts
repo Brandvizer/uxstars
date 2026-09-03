@@ -50,16 +50,16 @@ export async function verstuurVouchNaar(
 
   const { ok } = await stuurMail({
     naar: email,
-    onderwerp: `${voornaam} vouchte jou voor UXSTARS ✦`,
+    onderwerp: `${voornaam} vouchte jou voor UXSTARS`,
     html: emailHtml({
       voorkop: "Je hebt een vouch ontvangen",
-      kop: `${esc(voornaam)} vouchte jou voor UXSTARS ✦`,
+      kop: `${esc(voornaam)} vouchte jou voor UXSTARS`,
       alineas: [
         schoonBericht ? `&ldquo;${esc(schoonBericht)}&rdquo;` : "",
         `${esc(naam)} geeft jou een plek in UXSTARS. Een besloten netwerk van gevouchte digital designers. Alleen wie een vouch krijgt, komt binnen.`,
         "Open de link hieronder en <strong>kras je vouch open</strong>. Daarna maak je je account aan en beoordelen wij je aanmelding kort.",
       ],
-      knop: { label: "Kras je vouch open ✦", url: `${SITE_URL}/uitnodiging/${u.token}` },
+      knop: { label: "Kras je vouch open", url: `${SITE_URL}/uitnodiging/${u.token}` },
     }),
   });
 

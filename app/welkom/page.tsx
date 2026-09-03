@@ -95,7 +95,7 @@ export default function Welkom() {
           className="rijs-in relative mt-10 !text-[clamp(1.75rem,3vw+1rem,2.75rem)]"
           style={{ animationDelay: "0.3s" }}
         >
-          Je aanmelding is binnen ✦
+          Je aanmelding is binnen
         </h1>
         <p
           className="rijs-in relative mt-4 text-lg text-tekst-secundair"
@@ -110,10 +110,10 @@ export default function Welkom() {
           style={{ animationDelay: "0.6s" }}
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
-            ✦ We beoordelen je aanmelding
+            We beoordelen je aanmelding
           </span>
           <span className="inline-flex items-center gap-2 rounded-full border border-lijn bg-paneel/60 px-4 py-1.5">
-            ✦ Je hoort het per mail
+            Je hoort het per mail
           </span>
         </div>
         <div className="rijs-in relative mt-8" style={{ animationDelay: "0.75s" }}>
