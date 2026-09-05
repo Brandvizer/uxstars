@@ -98,4 +98,6 @@ container 1280, /vroeg rustiger (sterrenveld in achtergrondmodus, teller als
 "Founding-plekken vrij 95 / 100"), aanmeldpagina met kopbalk en raketvoortgang,
 vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`; keys `ANTHROPIC_API_KEY` en `ANTHROPIC_WORKSPACE_ID`, de laatste is verplicht bij identity-linked keys).
 
+**5 sep 2026** · Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
+
 **Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.
