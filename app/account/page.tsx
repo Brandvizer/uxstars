@@ -142,6 +142,7 @@ export default async function AccountPage() {
   const { data: stelsel } = await supabase.rpc("mijn_stelsel");
   const { data: aanbevelingen } = await supabase.rpc("mijn_aanbevelingen");
   const { data: reacties } = await supabase.rpc("mijn_reacties");
+  const aanbrengCode = profiel.aanbreng_code ?? null;
 
   return (
     <AccountForm
@@ -158,6 +159,7 @@ export default async function AccountPage() {
       reacties={(reacties as MijnReactie[] | null) ?? []}
       email={user.email}
       userId={user.id}
+      aanbrengCode={aanbrengCode}
     />
   );
 }

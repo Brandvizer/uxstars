@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import Badge from "@/components/ui/Badge";
 import { beveelBedrijfAan } from "@/app/account/actions";
+import { AANBRENGEN, aanbrengLink } from "@/lib/aanbrengen";
 
 export type Aanbeveling = {
   id: string;
@@ -14,21 +15,40 @@ export type Aanbeveling = {
 };
 
 function leadBadge(status: string) {
-  if (status === "binnen") return <Badge kleur="succes">Binnen</Badge>;
-  if (status === "benaderd") return <Badge kleur="accent">Benaderd</Badge>;
-  if (status === "afgewezen") return <Badge>Afgewezen</Badge>;
-  return <Badge kleur="accent">Nieuw</Badge>;
+  if (status === "uitbetaald") return <Badge kleur="succes">Beloning uitbetaald</Badge>;
+  if (status === "betalend") return <Badge kleur="succes">Betalend, {AANBRENGEN.bedragTekst} onderweg</Badge>;
+  if (status === "binnen") return <Badge kleur="succes">Account aangemaakt</Badge>;
+  if (status === "benaderd") return <Badge kleur="accent">Uitgenodigd</Badge>;
+  if (status === "afgewezen") return <Badge>Niet doorgegaan</Badge>;
+  return <Badge kleur="accent">Aangebracht</Badge>;
 }
 
 export default function BrengOpdrachtgever({
   aanbevelingen,
+  aanbrengCode,
 }: {
   aanbevelingen: Aanbeveling[];
+  aanbrengCode: string | null;
 }) {
   const [status, setStatus] = useState<"idle" | "bezig" | "verzonden" | "fout">(
     "idle",
   );
+  const [gemaild, setGemaild] = useState(false);
+  const [gekopieerd, setGekopieerd] = useState(false);
   const [lijst, setLijst] = useState<Aanbeveling[]>(aanbevelingen);
+
+  const link = aanbrengCode
+    ? aanbrengLink(typeof window !== "undefined" ? window.location.origin : "", aanbrengCode)
+    : null;
+
+  const kopieer = async () => {
+    if (!link) return;
+    try {
+      await navigator.clipboard.writeText(link);
+      setGekopieerd(true);
+      setTimeout(() => setGekopieerd(false), 2000);
+    } catch {}
+  };
 
   const verstuur = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +64,7 @@ export default function BrengOpdrachtgever({
     });
     if (r.ok) {
       setStatus("verzonden");
+      setGemaild(r.gemaild);
       setLijst((l) => [
         {
           id: `tmp-${l.length}-${naam}`,
@@ -63,11 +84,35 @@ export default function BrengOpdrachtgever({
     <div className="mt-8 rounded-2xl border border-lijn bg-paneel p-6 sm:p-8">
       <h2 className="kop-3">Breng een opdrachtgever binnen</h2>
       <p className="mt-2 text-tekst-secundair">
-        Ken je een opdrachtgever die een ster zoekt? Breng ze binnen. Wij volgen
-        op. Zo groeit het stelsel ook aan de vraagkant.
+        Ken je een opdrachtgever die een ster zoekt? Wordt die betalend Partner,
+        dan krijg jij <span className="text-tekst">{AANBRENGEN.bedragTekst}</span> en een
+        extra vouch. Zo groeit het stelsel ook aan de vraagkant.
       </p>
 
-      <form onSubmit={verstuur} className="mt-6 space-y-5">
+      {link && (
+        <div className="mt-5 rounded-xl border border-lijn bg-achtergrond p-4">
+          <p className="tekst-klein text-tekst-secundair">
+            Jouw aanbrenglink. Deel hem waar je wilt; iedereen die er een
+            bedrijfsaccount mee aanmaakt, is aan jou gekoppeld.
+          </p>
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <code className="min-w-0 flex-1 truncate rounded-lg bg-paneel px-3 py-2 text-sm text-tekst">
+              {link}
+            </code>
+            <Button type="button" size="sm" variant="ghost" onClick={kopieer}>
+              {gekopieerd ? "Gekopieerd" : "Kopieer link"}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <p className="mt-6 font-semibold">Of laat ons ze uitnodigen</p>
+      <p className="mt-1 tekst-klein text-tekst-secundair">
+        Vul een e-mailadres in en de opdrachtgever krijgt direct een nette mail
+        uit jouw naam, met jouw link erin.
+      </p>
+
+      <form onSubmit={verstuur} className="mt-4 space-y-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <Input
             label="Bedrijfsnaam"
@@ -97,11 +142,13 @@ export default function BrengOpdrachtgever({
         />
         <div className="flex items-center gap-4">
           <Button type="submit" disabled={status === "bezig"}>
-            {status === "bezig" ? "Versturen…" : "Aanbevelen"}
+            {status === "bezig" ? "Versturen…" : "Breng binnen"}
           </Button>
           {status === "verzonden" && (
             <span className="text-sm text-succes">
-              Bedankt, staat in de pool ✓
+              {gemaild
+                ? "Bedankt, de uitnodiging is verstuurd"
+                : "Bedankt, staat in de pool"}
             </span>
           )}
           {status === "fout" && (

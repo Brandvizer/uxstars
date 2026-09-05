@@ -77,6 +77,7 @@ export default function AccountForm({
   reacties,
   email,
   userId,
+  aanbrengCode,
 }: {
   profiel: Star;
   uitnodiging: { token: string; code?: string | null; status: string } | null;
@@ -85,6 +86,7 @@ export default function AccountForm({
   reacties: MijnReactie[];
   email: string | undefined;
   userId: string;
+  aanbrengCode: string | null;
 }) {
   const [tab, setTab] = useState<TabId>("profiel");
   const [bezig, setBezig] = useState(false);
@@ -590,7 +592,7 @@ export default function AccountForm({
       )}
 
       {tab === "opdrachtgever" && (
-        <BrengOpdrachtgever aanbevelingen={aanbevelingen} />
+        <BrengOpdrachtgever aanbevelingen={aanbevelingen} aanbrengCode={aanbrengCode} />
       )}
     </div>
   );

@@ -6,6 +6,8 @@ import { getSupabaseServer } from "@/lib/supabase-server";
 import { getSupabaseService } from "@/lib/supabase";
 import { stuurMail, emailHtml, esc } from "@/lib/mail";
 import type { Json } from "@/lib/database.types";
+import { aanbrengLink, geldigeAanbrengCode } from "@/lib/aanbrengen";
+import { MEMBERSHIP } from "@/lib/membership";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uxstars.vercel.app";
 
@@ -86,21 +88,58 @@ export async function werkProfielBij(
   return { ok: true };
 }
 
-/** Ster beveelt een opdrachtgever aan (lead naar de admin-pool). */
+/**
+ * Ster beveelt een opdrachtgever aan (lead naar de admin-pool). Is er een
+ * e-mailadres, dan krijgt de opdrachtgever direct een uitnodiging met de
+ * persoonlijke aanbrenglink van de ster, zodat de koppeling automatisch loopt
+ * en de ster later zijn beloning krijgt.
+ */
 export async function beveelBedrijfAan(
   payload: Record<string, unknown>,
-): Promise<{ ok: boolean }> {
+): Promise<{ ok: boolean; gemaild: boolean }> {
   const supabase = await getSupabaseServer();
-  if (!supabase) return { ok: false };
+  if (!supabase) return { ok: false, gemaild: false };
   const { error } = await supabase.rpc("beveel_bedrijf_aan", {
     payload: payload as Json,
   });
   if (error) {
     console.error("beveel_bedrijf_aan:", error.message);
-    return { ok: false };
+    return { ok: false, gemaild: false };
   }
   revalidatePath("/account");
-  return { ok: true };
+
+  const naar = String(payload.contact_email ?? "").trim();
+  if (!naar) return { ok: true, gemaild: false };
+
+  const { data: profiel } = await supabase.rpc("mijn_profiel");
+  const ster = (Array.isArray(profiel) ? profiel[0] : profiel) as
+    | { naam?: string; aanbreng_code?: string | null }
+    | null;
+  const code = geldigeAanbrengCode(ster?.aanbreng_code);
+  if (!ster?.naam || !code) return { ok: true, gemaild: false };
+
+  const voornaam = ster.naam.split(" ")[0];
+  const contact = String(payload.contact_naam ?? "").trim().split(" ")[0];
+  const bedrijf = String(payload.bedrijf_naam ?? "").trim();
+  const toelichting = String(payload.toelichting ?? "").trim();
+  const link = aanbrengLink(SITE_URL, code);
+
+  const r = await stuurMail({
+    naar,
+    onderwerp: `${voornaam} denkt dat ${bedrijf || "jullie"} een ster zoekt`,
+    html: emailHtml({
+      voorkop: "Aanbevolen door een ster",
+      kop: `${esc(contact ? `Hoi ${contact}` : "Hoi")}, ${esc(voornaam)} brengt je naar UXSTARS`,
+      alineas: [
+        `<strong style="color:#0a0e1a;">${esc(ster.naam)}</strong> is een van onze gevouchte digital designers en denkt dat ${esc(bedrijf || "jouw organisatie")} baat heeft bij een ster uit ons stelsel.`,
+        ...(toelichting ? [`In ${esc(voornaam)}s woorden: &ldquo;${esc(toelichting)}&rdquo;`] : []),
+        `UXSTARS is een besloten netwerk van digital designers die voor elkaar instaan. Je plaatst een missie, wij brengen die bij de juiste sterren, en binnen dagen spreek je de eerste kandidaten. Geen bureau, geen marge op marge, één helder tarief.`,
+        `De eerste ${MEMBERSHIP.trialDagen} dagen zijn gratis. Via de knop hieronder maak je een bedrijfsaccount aan; ${esc(voornaam)} blijft dan aan jullie gekoppeld.`,
+      ],
+      knop: { label: "Bekijk UXSTARS voor opdrachtgevers", url: link },
+    }),
+  });
+  return { ok: true, gemaild: r.ok };
 }
 
 export async function uitloggenStar() {
