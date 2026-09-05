@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import Button from "@/components/ui/Button";
+import { meldNieuweAanmeldingAanAdmins } from "@/app/vroeg/actions";
 import RaketVoortgang from "@/components/missie/MissieForm/RaketVoortgang";
 import Input, { Textarea } from "@/components/ui/Input";
 
@@ -127,6 +128,14 @@ export default function VouchAanmelding({
       }
       return;
     }
+    // Seintje naar de beheerders; wachten is niet nodig en mag niet blokkeren.
+    void meldNieuweAanmeldingAanAdmins(
+      naam.trim(),
+      email.trim(),
+      rol,
+      seniority,
+      Boolean(token),
+    );
     onKlaar();
   };
 

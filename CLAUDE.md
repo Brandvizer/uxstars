@@ -87,6 +87,9 @@ npm run dev                          # http://localhost:3000
   gaan direct naar de founding-aanmelding.
 - Elke ster heeft precies één vouch om weg te geven; op de accountpagina is dat
   het "gouden ticket".
+- Admins krijgen mail bij: nieuwe vouch-aanvraag (/word-een-star), nieuwe
+  aanmelding (founding of via vouch, `app/vroeg/actions.ts`), nieuwe missie in
+  review. Ontvangers = tabel `admins`.
 
 ## Logboek
 
