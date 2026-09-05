@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
+import FoundingBalk from "@/components/account/FoundingBalk";
+import { FOUNDING_FASE } from "@/lib/founding-fase";
 import Input, { Textarea } from "@/components/ui/Input";
 import { werkProfielBij, uitloggenStar } from "@/app/account/actions";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
@@ -167,6 +169,8 @@ export default function AccountForm({
           </button>
         </form>
       </div>
+
+      {FOUNDING_FASE && <FoundingBalk naarTab={setTab} />}
 
       {/* Tabs */}
       <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-lijn [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

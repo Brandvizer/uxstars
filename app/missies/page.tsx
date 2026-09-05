@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import MissieKaart from "@/components/missie/MissieKaart";
 import Button from "@/components/ui/Button";
+import { FOUNDING_FASE, FOUNDING_TEKST } from "@/lib/founding-fase";
 import { getMissies } from "@/lib/missies";
 
 export const metadata: Metadata = {
@@ -23,6 +24,23 @@ export default async function MissiesPagina() {
           past, of stuur de missie door naar iemand uit jouw stelsel.
         </p>
       </div>
+
+      {FOUNDING_FASE && (
+        <div className="mt-10 rounded-2xl border border-accent/40 bg-accent/5 p-6 sm:p-8">
+          <p className="label text-accent">Founding-fase</p>
+          <h2 className="mt-2 kop-3">De eerste missies komen eraan</h2>
+          <p className="mt-2 max-w-2xl text-tekst-secundair">
+            {FOUNDING_TEKST.kort} De komende weken halen we de eerste
+            opdrachtgevers binnen. Zorg dat je profiel compleet is, dan sta je
+            vooraan als de eerste missie live gaat.
+          </p>
+          <div className="mt-5">
+            <Button href="/account" variant="secundair">
+              Naar je profiel
+            </Button>
+          </div>
+        </div>
+      )}
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         {missies.map((missie) => (

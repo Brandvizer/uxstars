@@ -7,6 +7,7 @@ import { getSupabaseServer } from "@/lib/supabase-server";
 import { getSupabaseService } from "@/lib/supabase";
 import { getAdminStatus } from "@/lib/admin";
 import { stuurMail, emailHtml, esc } from "@/lib/mail";
+import { FOUNDING_FASE } from "@/lib/founding-fase";
 import type { AdminReactie } from "@/lib/admin-data";
 
 async function huidigeOrigin(): Promise<string> {
@@ -634,8 +635,15 @@ export async function keurSterGoed(starId: string): Promise<{ ok: boolean }> {
         kop: `${esc(r.naam.split(" ")[0])}, je bent toegelaten`,
         alineas: [
           "Goed nieuws: je aanmelding is goedgekeurd. Je bent nu een volwaardige ster in het stelsel.",
-          "<strong>Je eigen profiel</strong>: log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
-          "<strong>Je eigen vouch</strong>: jij mag nu zelf één designer binnenhalen. Kies met zorg; het stelsel groeit door wie jij kiest.",
+          ...(FOUNDING_FASE
+            ? [
+                "Eén ding om te weten: het stelsel is nog niet open voor missies. De komende weken vullen we het stelsel en halen we de eerste opdrachtgevers binnen. Jij hoort het als eerste.",
+                "<strong>Wat je nu al kunt doen</strong>: je profiel compleet maken, je vouch weggeven aan één designer die het verdient, en een opdrachtgever aanbrengen die een ster zoekt.",
+              ]
+            : [
+                "<strong>Je eigen profiel</strong>: log in wanneer je wilt, houd je beschikbaarheid bij en reageer op missies die alleen gevouchte designers zien.",
+                "<strong>Je eigen vouch</strong>: jij mag nu zelf één designer binnenhalen. Kies met zorg; het stelsel groeit door wie jij kiest.",
+              ]),
         ],
         knop: { label: "Naar je profiel", url: `${base}/account` },
       }),
@@ -737,7 +745,14 @@ export async function keurAanmelding(
       alineas: [
         "Goed nieuws: je aanmelding is goedgekeurd en je account staat klaar.",
         "De knop hieronder logt je <strong>direct in</strong>, geen wachtwoord nodig. Maak daar je profiel compleet: voeg je <strong>uurtarief</strong> en een <strong>profielfoto</strong> toe. Je naam, rol en portfolio hebben we al.",
-        "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
+        ...(FOUNDING_FASE
+          ? [
+              "Eén ding om te weten: het stelsel is nog niet open voor missies. De komende weken vullen we het stelsel en halen we de eerste opdrachtgevers binnen. Jij hoort het als eerste.",
+              "Wat je nu al kunt doen: je profiel compleet maken, je vouch weggeven aan één designer die het verdient, en een opdrachtgever aanbrengen die een ster zoekt.",
+            ]
+          : [
+              "Vanaf nu kun je reageren op missies en heb je zelf één vouch om iemand binnen te halen.",
+            ]),
       ],
       knop: { label: "Log direct in", url: link },
     }),

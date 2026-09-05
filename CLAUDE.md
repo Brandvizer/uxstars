@@ -35,6 +35,10 @@ npm run dev                          # http://localhost:3000
 - Admin: `/admin/login` (magic link). Je e-mailadres moet in de tabel `admins`
   staan en `http://localhost:3000/**` in Supabase → Auth → Redirect URLs.
 - Homepage `/` redirect tijdelijk naar `/vroeg` (teaser-fase, founding-100).
+- **Founding-fase** staat aan via `NEXT_PUBLIC_FOUNDING_FASE=true` (Vercel, alle
+  omgevingen). Effect: founding-balk op de accountpagina en /missies, en de
+  welkomstmail zegt dat er nog geen missies zijn. Launchdag: variabele op
+  `false` zetten en redeployen. Teksten staan in `lib/founding-fase.ts`.
 
 ## Ontwerpregels (afgesproken, niet onderhandelbaar)
 
@@ -83,6 +87,10 @@ npm run dev                          # http://localhost:3000
   `dien_aanmelding_in`.
 - Aanmelden met een e-mailadres dat al een ster-account heeft wordt in de
   database geweigerd (migratie 43); het formulier toont dan een nette melding.
+- Founding-fase: designers kunnen zich aanmelden en worden goedgekeurd terwijl er
+  nog geen missies zijn. Boodschap overal: "nog niet open voor missies, de komende
+  weken, jij hoort het als eerste", plus drie dingen die ze nu kunnen doen
+  (profiel, vouch, opdrachtgever aanbrengen). Geen harde datum beloven.
 - Wachtlijst is alleen voor **opdrachtgevers** (pre-launch leads). Designers
   gaan direct naar de founding-aanmelding.
 - Elke ster heeft precies één vouch om weg te geven; op de accountpagina is dat
