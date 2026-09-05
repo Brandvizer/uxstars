@@ -3,7 +3,7 @@
 
 export const MEMBERSHIP = {
   naam: "UXSTARS Partner",
-  trialDagen: 30,
+  trialDagen: 14,
   maand: { tier: "partner_maand", prijs: 149, periode: "per maand" },
   jaar: { tier: "partner_jaar", prijs: 1490, periode: "per jaar" },
 } as const;

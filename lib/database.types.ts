@@ -577,6 +577,10 @@ export type Database = {
         Args: Record<string, never>;
         Returns: Json;
       };
+      membership_voor_reactie: {
+        Args: { p_reactie_id: string };
+        Returns: Json;
+      };
       markeer_beloning_uitbetaald: {
         Args: { p_id: string };
         Returns: undefined;

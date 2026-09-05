@@ -492,6 +492,57 @@ export async function wijsKandidaatAf(
   return { ok: true };
 }
 
+
+type MembershipCheck = {
+  bedrijf_id: string | null;
+  bedrijf_naam: string | null;
+  bedrijf_email: string | null;
+  membership_status: string | null;
+  ok: boolean;
+};
+
+/**
+ * Voorstellen en plaatsen vereisen een betalend membership van het bedrijf.
+ * Is dat er niet, dan krijgt het bedrijf meteen een mail om te activeren en
+ * de admin een duidelijke melding. Missies zonder bedrijfsaccount zijn vrij.
+ */
+async function eisMembership(
+  supabase: NonNullable<Awaited<ReturnType<typeof getSupabaseServer>>>,
+  reactieId: string,
+  missieTitel: string,
+): Promise<{ ok: true } | { ok: false; fout: string }> {
+  const { data } = await supabase.rpc("membership_voor_reactie", {
+    p_reactie_id: reactieId,
+  });
+  const c = data as MembershipCheck | null;
+  if (!c || c.ok) return { ok: true };
+
+  const inTrial = c.membership_status === "trial";
+  if (c.bedrijf_email) {
+    const base = await huidigeOrigin();
+    await stuurMail({
+      naar: c.bedrijf_email,
+      onderwerp: `Er is een ster voor je missie: ${missieTitel}`,
+      html: emailHtml({
+        voorkop: "Bijna een match",
+        kop: "Activeer je membership om deze ster te ontmoeten",
+        alineas: [
+          `Goed nieuws: voor <strong style="color:#0a0e1a;">${esc(missieTitel)}</strong> hebben we een gevouchte digital designer die past.`,
+          inTrial
+            ? "Je zit nog in de proefperiode. Kennismaken en plaatsen kan zodra je membership actief is. Dat regel je in één minuut in je portaal; je proefperiode stopt dan en de eerste maand gaat in."
+            : "Je membership is op dit moment niet actief. Activeer het in je portaal, dan stellen we de ster meteen aan je voor.",
+          "Eén helder tarief, maandelijks opzegbaar, geen marge op de designer.",
+        ],
+        knop: { label: "Activeer je membership", url: `${base}/bedrijf` },
+      }),
+    });
+  }
+  return {
+    ok: false,
+    fout: `${c.bedrijf_naam ?? "Het bedrijf"} heeft nog geen actief membership (${c.membership_status ?? "geen"}). Ze hebben een mail gekregen om te activeren.`,
+  };
+}
+
 /**
  * Stelt de ster van een reactie voor aan de opdrachtgever: mailt het
  * starprofiel + de motivatie, en markeert de reactie als voorgesteld.
@@ -512,6 +563,9 @@ export async function stelVoor(
   if (!r) return { ok: false, fout: "Reactie niet gevonden" };
   if (!r.opdrachtgever_email)
     return { ok: false, fout: "Geen e-mailadres van de opdrachtgever" };
+
+  const check = await eisMembership(supabase, reactieId, r.missie_titel);
+  if (!check.ok) return check;
 
   const html = emailHtml({
     voorkop: "Een ster reageerde",
@@ -576,6 +630,14 @@ export async function bevestigPlaatsing(
   const r = ((reacties as AdminReactie[] | null) ?? []).find(
     (x) => x.reactie_id === reactieId,
   );
+
+  if (r) {
+    const check = await eisMembership(supabase, reactieId, r.missie_titel);
+    if (!check.ok) {
+      console.error("bevestig_plaatsing:", check.fout);
+      return { ok: false };
+    }
+  }
 
   const { error } = await supabase.rpc("bevestig_plaatsing", {
     p_reactie_id: reactieId,

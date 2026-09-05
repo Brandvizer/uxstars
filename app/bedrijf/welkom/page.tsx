@@ -325,7 +325,7 @@ export default function BedrijfWelkom() {
                   : `Start ${MEMBERSHIP.trialDagen} dagen gratis`}
               </Button>
               <p className="mt-3 text-center text-xs text-tekst-secundair">
-                Geen verplichtingen tijdens de proefperiode.
+                Missie plaatsen en reacties zien in de proefperiode; kennismaken zodra je membership actief is.
               </p>
 
               <div className="mt-6 space-y-2 border-t border-lijn pt-5 text-sm text-tekst-secundair">
@@ -362,7 +362,7 @@ export default function BedrijfWelkom() {
             className="rijs-in mt-3 text-tekst-secundair"
             style={{ animationDelay: "0.4s" }}
           >
-            Je proefperiode loopt. Je kunt nu je eerste missie plaatsen.
+            Je proefperiode loopt. Plaats nu je eerste missie; kennismaken met een ster kan zodra je membership actief is.
           </p>
           <div className="rijs-in mt-8" style={{ animationDelay: "0.6s" }}>
             <Button onClick={() => router.replace("/bedrijf")}>

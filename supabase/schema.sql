@@ -2981,3 +2981,83 @@ as $$
     select id, bedrijf_naam, created_at, status from losse_leads
   ) x;
 $$;
+
+-- ===== 20250612120046_plaatsing_vereist_membership.sql =====
+-- Een ster voorstellen of een plaatsing bevestigen kan alleen als het bedrijf
+-- een betalend (actief) membership heeft. In de proefperiode mag een bedrijf
+-- een missie plaatsen en reacties bekijken; de match zelf zit achter de
+-- betaling. Missies zonder bedrijfsaccount (publiek formulier) vallen hier
+-- buiten; die regelt UXSTARS handmatig.
+create or replace function public.controleer_membership_voor_reactie(p_reactie_id uuid)
+returns void
+language plpgsql
+set search_path = public
+as $$
+declare
+  v_status text;
+begin
+  select o.membership_status into v_status
+  from public.reacties r
+  join public.missies m on m.id = r.missie_id
+  join public.opdrachtgevers o on o.id = m.opdrachtgever_id
+  where r.id = p_reactie_id;
+
+  if v_status is not null and v_status <> 'actief' then
+    raise exception 'MEMBERSHIP_VEREIST';
+  end if;
+end;
+$$;
+
+create or replace function public.markeer_voorgesteld(p_reactie_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not public.is_admin() then raise exception 'Alleen beheerders'; end if;
+  perform public.controleer_membership_voor_reactie(p_reactie_id);
+  update public.reacties set status = 'uitgenodigd' where id = p_reactie_id;
+end;
+$$;
+
+create or replace function public.bevestig_plaatsing(
+  p_reactie_id   uuid,
+  p_deal_type    text default 'direct',
+  p_ster_tarief  numeric default null,
+  p_klant_tarief numeric default null
+)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_missie uuid;
+  v_star   uuid;
+  v_marge  numeric;
+begin
+  if not public.is_admin() then raise exception 'Alleen beheerders'; end if;
+  perform public.controleer_membership_voor_reactie(p_reactie_id);
+
+  select missie_id, star_id into v_missie, v_star
+  from public.reacties where id = p_reactie_id;
+  if v_missie is null then raise exception 'Reactie niet gevonden'; end if;
+
+  if p_deal_type = 'via_uxstars'
+     and p_klant_tarief is not null and p_ster_tarief is not null then
+    v_marge := p_klant_tarief - p_ster_tarief;
+  else
+    v_marge := null;
+  end if;
+
+  insert into public.plaatsingen (
+    missie_id, star_id, status, deal_type, tarief_uur, klant_tarief_uur, marge_uur
+  ) values (
+    v_missie, v_star, 'actief', coalesce(p_deal_type, 'direct'),
+    p_ster_tarief, p_klant_tarief, v_marge
+  );
+
+  update public.missies set status = 'gevuld' where id = v_missie;
+end;
+$$;

@@ -87,6 +87,12 @@ npm run dev                          # http://localhost:3000
   `dien_aanmelding_in`.
 - Aanmelden met een e-mailadres dat al een ster-account heeft wordt in de
   database geweigerd (migratie 43); het formulier toont dan een nette melding.
+- **Proefperiode is 14 dagen** (`MEMBERSHIP.trialDagen`, Stripe volgt). In de
+  proefperiode mag een bedrijf missies plaatsen en reacties zien; **voorstellen
+  en plaatsen vereisen een actief (betalend) membership** (migratie 46, check
+  in `stelVoor` en `bevestigPlaatsing`). Zonder membership krijgt het bedrijf
+  automatisch een mail "Activeer je membership om deze ster te ontmoeten" en de
+  admin een melding. Missies zonder bedrijfsaccount vallen buiten de check.
 - Founding-fase: designers kunnen zich aanmelden en worden goedgekeurd terwijl er
   nog geen missies zijn. Boodschap overal: "nog niet open voor missies, de komende
   weken, jij hoort het als eerste", plus drie dingen die ze nu kunnen doen
@@ -119,7 +125,7 @@ container 1280, /vroeg rustiger (sterrenveld in achtergrondmodus, teller als
 "Founding-plekken vrij 95 / 100"), aanmeldpagina met kopbalk en raketvoortgang,
 vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`; keys `ANTHROPIC_API_KEY` en `ANTHROPIC_WORKSPACE_ID`, de laatste is verplicht bij identity-linked keys).
 
-**5 sep 2026** · Founding-fase als instelling (`NEXT_PUBLIC_FOUNDING_FASE`) met afvinklijst op account, blok op /missies en aangepaste welkomstmail. Admin-mail bij elke nieuwe aanmelding. Aanbrengbeloning volledig geautomatiseerd (migratie 44). Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
+**5 sep 2026** · Founding-fase als instelling (`NEXT_PUBLIC_FOUNDING_FASE`) met afvinklijst op account, blok op /missies en aangepaste welkomstmail. Admin-mail bij elke nieuwe aanmelding. Aanbrengbeloning volledig geautomatiseerd (migraties 44 en 45). Proefperiode naar 14 dagen; voorstellen en plaatsen alleen met actief membership (migratie 46). Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
 
 **Launchlijst** (doen op de dag dat opdrachtgevers welkom zijn):
 1. `NEXT_PUBLIC_FOUNDING_FASE` op `false` in Vercel en redeployen.

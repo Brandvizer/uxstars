@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Button from "@/components/ui/Button";
 import LogoRij from "@/components/home/LogoRij";
 import MembershipKaart from "@/components/opdrachtgevers/MembershipKaart";
+import { MEMBERSHIP } from "@/lib/membership";
 
 export const metadata: Metadata = {
   title: "Voor opdrachtgevers",
@@ -130,9 +131,11 @@ export default function OpdrachtgeversPagina() {
               wij per missie.
             </p>
             <p className="mt-5 text-tekst-secundair">
-              Start met <span className="text-tekst">30 dagen gratis</span>.
-              Daarna kies je maandelijks of jaarlijks, en je zegt op wanneer je
-              wilt.
+              Start met{" "}
+              <span className="text-tekst">{MEMBERSHIP.trialDagen} dagen gratis</span>:
+              plaats je missie en zie wie reageert. Kennismaken en plaatsen doe
+              je met een actief membership, maandelijks of jaarlijks, opzeggen
+              wanneer je wilt.
             </p>
           </div>
           <MembershipKaart />
