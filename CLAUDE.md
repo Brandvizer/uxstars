@@ -121,4 +121,16 @@ vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-ops
 
 **5 sep 2026** · Founding-fase als instelling (`NEXT_PUBLIC_FOUNDING_FASE`) met afvinklijst op account, blok op /missies en aangepaste welkomstmail. Admin-mail bij elke nieuwe aanmelding. Aanbrengbeloning volledig geautomatiseerd (migratie 44). Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
 
+**Launchlijst** (doen op de dag dat opdrachtgevers welkom zijn):
+1. `NEXT_PUBLIC_FOUNDING_FASE` op `false` in Vercel en redeployen.
+2. Stripe liveaccount activeren; webhook-bestemming live aanmaken op
+   `/api/stripe/webhook` met `checkout.session.completed`,
+   `customer.subscription.updated`, `customer.subscription.deleted`,
+   `invoice.paid`, `invoice.payment_failed`; het live `whsec_` als
+   `STRIPE_WEBHOOK_SECRET` op Production zetten.
+3. Redirect van `/` naar `/vroeg` weghalen; /vroeg wachtlijst vervangen door
+   knop naar /bedrijf/welkom.
+4. "We zijn open"-mail naar alle founding-sterren (nog te bouwen).
+5. Testmissies uit de database halen.
+
 **Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.
