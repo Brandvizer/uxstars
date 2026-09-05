@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import FoundingBalk from "@/components/account/FoundingBalk";
+import DeelLink from "@/components/ui/DeelLink";
 import { FOUNDING_FASE } from "@/lib/founding-fase";
 import { AANBRENGEN } from "@/lib/aanbrengen";
 import Input, { Textarea } from "@/components/ui/Input";
@@ -503,13 +504,28 @@ export default function AccountForm({
                   een plek in het stelsel. Zij krassen de vouch open, wij
                   beoordelen kort, en vanaf dan stamt hun ster van jou af.
                 </p>
-                {uitnodiging.code && (
-                  <p className="mt-5 inline-flex items-center gap-3 rounded-full border border-accent/40 bg-achtergrond/70 px-4 py-2 font-mono text-sm tracking-[0.2em] text-accent">
-                    {uitnodiging.code}
-                  </p>
+                {inviteUrl && (
+                  <div className="mt-6">
+                    <DeelLink
+                      uitleg="Jouw vouch-link. Wie hem opent, krast de vouch open en meldt zich aan."
+                      url={inviteUrl}
+                      naschrift={
+                        uitnodiging.code ? (
+                          <>
+                            Liever mondeling? De code is{" "}
+                            <span className="font-mono tracking-[0.15em] text-accent">
+                              {uitnodiging.code}
+                            </span>
+                            , in te vullen op uxstars.nl/uitnodiging.
+                          </>
+                        ) : undefined
+                      }
+                    />
+                  </div>
                 )}
-                <div className="mt-6">
-                  <NodigUit inviteUrl={inviteUrl} />
+                <p className="mt-6 font-semibold">Of laat ons de vouch mailen</p>
+                <div className="mt-3">
+                  <NodigUit />
                 </div>
               </div>
             </div>

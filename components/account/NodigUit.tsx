@@ -5,13 +5,12 @@ import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import { verstuurVouchNaar } from "@/app/account/actions";
 
-export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
+export default function NodigUit() {
   const [naarEmail, setNaarEmail] = useState("");
   const [bericht, setBericht] = useState("");
   const [status, setStatus] = useState<
     "idle" | "bezig" | "verzonden" | "fout"
   >("idle");
-  const [gekopieerd, setGekopieerd] = useState(false);
 
   const verstuur = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,15 +18,6 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
     setStatus("bezig");
     const r = await verstuurVouchNaar(naarEmail, bericht);
     setStatus(r.ok ? "verzonden" : "fout");
-  };
-
-  const kopieerLink = async () => {
-    if (!inviteUrl) return;
-    try {
-      await navigator.clipboard.writeText(inviteUrl);
-      setGekopieerd(true);
-      setTimeout(() => setGekopieerd(false), 2000);
-    } catch {}
   };
 
   if (status === "verzonden") {
@@ -82,11 +72,6 @@ export default function NodigUit({ inviteUrl }: { inviteUrl: string | null }) {
         <Button type="submit" disabled={status === "bezig" || !naarEmail.trim()}>
           {status === "bezig" ? "Versturen…" : "Verstuur vouch"}
         </Button>
-        {inviteUrl && (
-          <Button type="button" variant="ghost" onClick={kopieerLink}>
-            {gekopieerd ? "Link gekopieerd" : "Kopieer de link"}
-          </Button>
-        )}
       </div>
       {status === "fout" && (
         <p className="text-sm text-accent-actief" role="alert">

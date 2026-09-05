@@ -6,6 +6,7 @@ import Input, { Textarea } from "@/components/ui/Input";
 import Badge from "@/components/ui/Badge";
 import { beveelBedrijfAan } from "@/app/account/actions";
 import { AANBRENGEN, aanbrengLink } from "@/lib/aanbrengen";
+import DeelLink from "@/components/ui/DeelLink";
 
 export type Aanbeveling = {
   id: string;
@@ -41,7 +42,6 @@ export default function BrengOpdrachtgever({
     "idle",
   );
   const [gemaild, setGemaild] = useState(false);
-  const [gekopieerd, setGekopieerd] = useState(false);
   const [lijst, setLijst] = useState<Aanbeveling[]>(aanbevelingen);
 
   const link = aanbrengCode
@@ -50,15 +50,6 @@ export default function BrengOpdrachtgever({
         aanbrengCode,
       )
     : null;
-
-  const kopieer = async () => {
-    if (!link) return;
-    try {
-      await navigator.clipboard.writeText(link);
-      setGekopieerd(true);
-      setTimeout(() => setGekopieerd(false), 2000);
-    } catch {}
-  };
 
   const verstuur = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -116,19 +107,11 @@ export default function BrengOpdrachtgever({
         </p>
 
         {link && (
-          <div className="mt-5 rounded-xl border border-lijn bg-achtergrond p-4">
-            <p className="tekst-klein text-tekst-secundair">
-              Jouw aanbrenglink. Deel hem waar je wilt; iedereen die er een
-              bedrijfsaccount mee aanmaakt, is aan jou gekoppeld.
-            </p>
-            <div className="mt-2 flex flex-wrap items-center gap-3">
-              <code className="min-w-0 flex-1 truncate rounded-lg bg-paneel px-3 py-2 text-sm text-tekst">
-                {link}
-              </code>
-              <Button type="button" size="sm" variant="ghost" onClick={kopieer}>
-                {gekopieerd ? "Gekopieerd" : "Kopieer link"}
-              </Button>
-            </div>
+          <div className="mt-5">
+            <DeelLink
+              uitleg="Jouw aanbrenglink. Deel hem waar je wilt; iedereen die er een bedrijfsaccount mee aanmaakt, is aan jou gekoppeld."
+              url={link}
+            />
           </div>
         )}
 
