@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import FoundingBalk from "@/components/account/FoundingBalk";
 import { FOUNDING_FASE } from "@/lib/founding-fase";
+import { AANBRENGEN } from "@/lib/aanbrengen";
 import Input, { Textarea } from "@/components/ui/Input";
 import { werkProfielBij, uitloggenStar } from "@/app/account/actions";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
@@ -150,7 +151,7 @@ export default function AccountForm({
     },
     {
       id: "opdrachtgever",
-      label: "Opdrachtgever",
+      label: `Verdien ${AANBRENGEN.bedragTekst}`,
       badge: aanbevelingen.length,
     },
   ];
