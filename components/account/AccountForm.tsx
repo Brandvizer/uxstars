@@ -170,7 +170,37 @@ export default function AccountForm({
         </form>
       </div>
 
-      {FOUNDING_FASE && <FoundingBalk naarTab={setTab} />}
+      {FOUNDING_FASE && (
+        <FoundingBalk
+          naarTab={setTab}
+          stappen={[
+            {
+              tab: "profiel",
+              label: "Maak je profiel compleet",
+              hint: [
+                !profiel.tarief_uur && "uurtarief",
+                !profiel.foto_url && "profielfoto",
+                !profiel.bio && "korte bio",
+              ]
+                .filter(Boolean)
+                .join(", ") || undefined,
+              klaar: Boolean(profiel.tarief_uur && profiel.foto_url && profiel.bio),
+            },
+            {
+              tab: "stelsel",
+              label: "Geef je vouch weg",
+              hint: "één designer die het verdient",
+              klaar: Boolean(uitnodiging && uitnodiging.status !== "open"),
+            },
+            {
+              tab: "opdrachtgever",
+              label: "Breng een opdrachtgever binnen",
+              hint: "ken je iemand die een ster zoekt?",
+              klaar: aanbevelingen.length > 0,
+            },
+          ]}
+        />
+      )}
 
       {/* Tabs */}
       <nav className="mt-8 flex gap-1 overflow-x-auto border-b border-lijn [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
