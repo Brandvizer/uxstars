@@ -6,7 +6,7 @@ import type { AdminLead } from "@/lib/admin-data";
 
 const veld =
   "rounded-lg border border-lijn bg-achtergrond px-3 py-2 text-sm text-tekst focus:border-accent focus:outline-none";
-const STATUS = ["nieuw", "benaderd", "binnen", "afgewezen"];
+const STATUS = ["nieuw", "benaderd", "binnen", "betalend", "afgewezen"];
 
 function Kaart({ lead }: { lead: AdminLead }) {
   const [status, setStatus] = useState(lead.status);

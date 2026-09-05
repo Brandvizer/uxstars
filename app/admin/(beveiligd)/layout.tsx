@@ -9,6 +9,7 @@ import {
   getAdminBedrijfLeads,
   getAanmeldingen,
   getWachtlijst,
+  getAdminBeloningen,
 } from "@/lib/admin-data";
 import { uitloggen } from "./actions";
 import Tabs from "./Tabs";
@@ -52,7 +53,7 @@ export default async function BeveiligdeAdminLayout({
   }
 
   // Tellingen voor de tab-badges: alleen wat nog actie vraagt.
-  const [missies, reacties, bedrijven, plaatsingen, leads, aanmeldingen, wachtlijst] =
+  const [missies, reacties, bedrijven, plaatsingen, leads, aanmeldingen, wachtlijst, beloningen] =
     await Promise.all([
       getReviewMissies(),
       getAdminReacties(),
@@ -61,6 +62,7 @@ export default async function BeveiligdeAdminLayout({
       getAdminBedrijfLeads(),
       getAanmeldingen(),
       getWachtlijst(),
+      getAdminBeloningen(),
     ]);
   const tellingen: Record<string, number> = {
     "/admin": missies.length,
@@ -76,6 +78,7 @@ export default async function BeveiligdeAdminLayout({
       (p) => p.deal_type === "via_uxstars" && p.contract_status !== "afgerond",
     ).length,
     "/admin/wachtlijst": wachtlijst.filter((w) => w.status === "nieuw").length,
+    "/admin/beloningen": beloningen.filter((b) => b.status === "open").length,
   };
 
   return (

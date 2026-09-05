@@ -798,3 +798,18 @@ export async function wijsAanmelding(
   revalidatePath("/admin/aanmeldingen");
   return { ok: true };
 }
+
+/** Markeert een aanbrengbeloning als uitbetaald (na betaling van de factuur). */
+export async function markeerBeloningUitbetaald(id: string): Promise<{ ok: boolean }> {
+  const { isAdmin } = await getAdminStatus();
+  if (!isAdmin) return { ok: false };
+  const supabase = await getSupabaseServer();
+  if (!supabase) return { ok: false };
+  const { error } = await supabase.rpc("markeer_beloning_uitbetaald", { p_id: id });
+  if (error) {
+    console.error("markeer_beloning_uitbetaald:", error.message);
+    return { ok: false };
+  }
+  revalidatePath("/admin/beloningen");
+  return { ok: true };
+}

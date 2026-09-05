@@ -27,7 +27,13 @@ const groepen: Groep[] = [
       { href: "/admin/wachtlijst", label: "Wachtlijst" },
     ],
   },
-  { titel: "Deals", tabs: [{ href: "/admin/plaatsingen", label: "Plaatsingen" }] },
+  {
+    titel: "Deals",
+    tabs: [
+      { href: "/admin/plaatsingen", label: "Plaatsingen" },
+      { href: "/admin/beloningen", label: "Beloningen" },
+    ],
+  },
 ];
 
 export default function Tabs({ tellingen }: { tellingen: Record<string, number> }) {

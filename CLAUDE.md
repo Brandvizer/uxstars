@@ -76,7 +76,7 @@ npm run dev                          # http://localhost:3000
 - **AI in formulieren**: één knop, één voorstel, nooit stil overschrijven; altijd een "Terug naar mijn tekst". Prompt bevat de toonregels (geen streepjes, "digital designers"). Route heeft een limiet per IP. De AI mag maximaal 2 vervolgvragen stellen over inhoud die een designer mist (doelgroep, huidige situatie, beslissers, waarom nu), nooit over wat latere stappen al vragen (rol, uren, duur, locatie, start, tarief). Max 3 rondes.
 - **Admin-tabs** zijn gegroepeerd: Dashboard · Designers (Aanmeldingen,
   Uitnodigingen, Reacties, Accounts) · Opdrachtgevers (Missies in review,
-  Bedrijven, Leads, Wachtlijst) · Deals (Plaatsingen).
+  Bedrijven, Leads, Wachtlijst) · Deals (Plaatsingen, Beloningen).
 - **Paginatitels**: alleen de paginanaam in `metadata.title`; de layout plakt
   er zelf " | UXSTARS" achter.
 
@@ -95,6 +95,16 @@ npm run dev                          # http://localhost:3000
   gaan direct naar de founding-aanmelding.
 - Elke ster heeft precies één vouch om weg te geven; op de accountpagina is dat
   het "gouden ticket".
+- **Aanbrengbeloning** (migratie 44, `lib/aanbrengen.ts` voor bedrag en tekst):
+  elke ster heeft een aanbrengcode `UXS-XXXX` en link `/bedrijf/welkom?via=code`.
+  De middleware bewaart `?via=` 90 dagen in cookie `uxs_via`; `maak_bedrijf`
+  koppelt de aanbrenger (cookie, anders een lead met hetzelfde e-mailadres).
+  Lead met e-mail = automatische uitnodigingsmail aan de opdrachtgever met de
+  link. Stripe `invoice.paid` met bedrag > 0 → `registreer_beloning` (één per
+  bedrijf, ooit) → €149 open + extra vouch + mail aan ster (factuur sturen met
+  kenmerk) en admins. Enige handwerk: factuur betalen en in
+  /admin/beloningen op uitbetaald zetten. Stripe-webhook moet `invoice.paid`
+  ontvangen (event aanzetten in Stripe Dashboard → Webhooks).
 - Admins krijgen mail bij: nieuwe vouch-aanvraag (/word-een-star), nieuwe
   aanmelding (founding of via vouch, `app/vroeg/actions.ts`), nieuwe missie in
   review. Ontvangers = tabel `admins`.
@@ -109,6 +119,6 @@ container 1280, /vroeg rustiger (sterrenveld in achtergrondmodus, teller als
 "Founding-plekken vrij 95 / 100"), aanmeldpagina met kopbalk en raketvoortgang,
 vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-opschoonknop voor missie-omschrijving (`/api/missie/opschonen`; keys `ANTHROPIC_API_KEY` en `ANTHROPIC_WORKSPACE_ID`, de laatste is verplicht bij identity-linked keys).
 
-**5 sep 2026** · Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
+**5 sep 2026** · Founding-fase als instelling (`NEXT_PUBLIC_FOUNDING_FASE`) met afvinklijst op account, blok op /missies en aangepaste welkomstmail. Admin-mail bij elke nieuwe aanmelding. Aanbrengbeloning volledig geautomatiseerd (migratie 44). Productiecheck na de grote stapel van 3 sep: desktop en mobiel in orde, opschoonknop met vervolgvragen werkt live, geen consolefouten. Mobiel: schakelaar op /vroeg korter (Designer / Opdrachtgever) en founding-label zonder zijlijnen.
 
 **Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.

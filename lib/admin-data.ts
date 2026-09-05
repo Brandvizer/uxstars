@@ -268,3 +268,26 @@ export async function getReviewMissies() {
   }
   return data ?? [];
 }
+
+export type AdminBeloning = {
+  id: string;
+  kenmerk: string;
+  bedrag_cent: number;
+  status: "open" | "uitbetaald";
+  ster_naam: string;
+  ster_email: string | null;
+  bedrijf_naam: string;
+  created_at: string;
+  uitbetaald_op: string | null;
+};
+
+export async function getAdminBeloningen(): Promise<AdminBeloning[]> {
+  const supabase = await getSupabaseServer();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("admin_beloningen");
+  if (error) {
+    console.error("admin_beloningen:", error.message);
+    return [];
+  }
+  return (data as AdminBeloning[] | null) ?? [];
+}
