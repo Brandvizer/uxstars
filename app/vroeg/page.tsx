@@ -81,12 +81,12 @@ export default function VroegPage() {
       <section className="relative z-10">
         <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-16 text-center sm:px-6">
           <p
-            className="label rijs-in mb-5 flex items-center gap-2.5 text-accent"
+            className="label rijs-in mb-5 flex items-center justify-center gap-2.5 text-center text-accent"
             style={{ animationDelay: "0.1s" }}
           >
-            <span className="h-px w-6 bg-accent/50" />
+            <span className="hidden h-px w-6 bg-accent/50 sm:block" />
             Founding · de eerste 100 sterren
-            <span className="h-px w-6 bg-accent/50" />
+            <span className="hidden h-px w-6 bg-accent/50 sm:block" />
           </p>
           <h1
             className="rijs-in text-balance"

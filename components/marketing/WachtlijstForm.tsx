@@ -42,7 +42,13 @@ export default function WachtlijstForm() {
                 : "text-tekst-secundair hover:text-tekst"
             }`}
           >
-            {t === "designer" ? "Ik ben designer" : "Ik ben opdrachtgever"}
+            {/* Op mobiel korter, anders breekt de tweede optie af */}
+            <span className="sm:hidden">
+              {t === "designer" ? "Designer" : "Opdrachtgever"}
+            </span>
+            <span className="hidden sm:inline">
+              {t === "designer" ? "Ik ben designer" : "Ik ben opdrachtgever"}
+            </span>
           </button>
         ))}
       </div>
