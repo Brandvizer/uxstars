@@ -52,28 +52,20 @@ export default function MissieKaart({ missie }: { missie: Missie }) {
       <p className="mt-4 flex-1 text-base text-tekst-secundair">{missie.intro}</p>
 
       <div className="mt-5 flex flex-wrap gap-2">
-        <Badge>{missie.locatie}</Badge>
-        <Badge>{missie.urenPerWeek}</Badge>
-        <Badge>{missie.tariefIndicatie}</Badge>
-        <Badge>{missie.seniority}</Badge>
+        {/* Lege waarden geven geen leeg pilletje */}
+        {[missie.locatie, missie.urenPerWeek, missie.tariefIndicatie, missie.seniority]
+          .filter((v) => v && v.trim() !== "")
+          .map((v) => (
+            <Badge key={v}>{v}</Badge>
+          ))}
       </div>
 
       <div className="mt-6">
         <Link
           href={`/missies/${missie.slug}`}
-          className="inline-flex items-center gap-2 font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
+          className="inline-flex items-center font-semibold text-accent transition-colors duration-200 hover:text-accent-actief"
         >
           Bekijk de missie
-          <svg
-            viewBox="0 0 24 24"
-            className="h-4 w-4 stroke-current"
-            fill="none"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
         </Link>
       </div>
     </article>
