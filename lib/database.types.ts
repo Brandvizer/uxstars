@@ -56,6 +56,7 @@ export type Database = {
           membership_tot: string | null;
           stripe_customer_id: string | null;
           stripe_subscription_id: string | null;
+          aangebracht_door: string | null;
           created_at: string;
         };
         Insert: {
@@ -95,6 +96,7 @@ export type Database = {
           foto_toestemming: boolean;
           vouch_herinnerd_op: string | null;
           beschikbaarheid_gepingd_op: string | null;
+          aanbreng_code: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -115,6 +117,7 @@ export type Database = {
           foto_toestemming?: boolean;
           vouch_herinnerd_op?: string | null;
           beschikbaarheid_gepingd_op?: string | null;
+          aanbreng_code?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -310,11 +313,13 @@ export type Database = {
           contact_email: string | null;
           toelichting: string | null;
           status: string;
+          bedrijf_id: string | null;
           created_at: string;
         };
         Insert: {
           id?: string;
           ster_id?: string | null;
+          bedrijf_id?: string | null;
           bedrijf_naam: string;
           contact_naam?: string | null;
           contact_email?: string | null;
@@ -381,6 +386,30 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["wachtlijst"]["Insert"]>;
+        Relationships: [];
+      };
+      beloningen: {
+        Row: {
+          id: string;
+          ster_id: string;
+          bedrijf_id: string;
+          bedrag_cent: number;
+          kenmerk: string;
+          status: "open" | "uitbetaald";
+          created_at: string;
+          uitbetaald_op: string | null;
+        };
+        Insert: {
+          id?: string;
+          ster_id: string;
+          bedrijf_id: string;
+          bedrag_cent: number;
+          kenmerk: string;
+          status?: "open" | "uitbetaald";
+          created_at?: string;
+          uitbetaald_op?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["beloningen"]["Insert"]>;
         Relationships: [];
       };
     };
@@ -533,8 +562,24 @@ export type Database = {
         Returns: undefined;
       };
       maak_bedrijf: {
-        Args: { p_naam: string };
+        Args: { p_naam: string; p_aanbreng_code?: string | null };
         Returns: string;
+      };
+      mijn_aanbreng_code: {
+        Args: Record<string, never>;
+        Returns: string | null;
+      };
+      registreer_beloning: {
+        Args: { p_bedrijf_id: string; p_bedrag_cent: number };
+        Returns: Json;
+      };
+      admin_beloningen: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
+      markeer_beloning_uitbetaald: {
+        Args: { p_id: string };
+        Returns: undefined;
       };
       mijn_bedrijf: {
         Args: Record<string, never>;

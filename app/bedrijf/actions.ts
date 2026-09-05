@@ -1,8 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { AANBRENGEN, geldigeAanbrengCode } from "@/lib/aanbrengen";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import { getSupabaseServer } from "@/lib/supabase-server";
 import { getSupabaseService } from "@/lib/supabase";
 import { stripe } from "@/lib/stripe";
@@ -118,15 +119,26 @@ export async function werkMissieBij(invoer: {
   return { ok: true };
 }
 
-/** Maakt (of koppelt) het bedrijfsaccount bij eerste login. Idempotent. */
+/**
+ * Maakt (of koppelt) het bedrijfsaccount bij eerste login. Idempotent.
+ * Geeft de aanbrengcode uit de cookie mee (van een ?via=-link), zodat de
+ * database de aanbrenger kan vastleggen. Zonder cookie valt de database terug
+ * op een lead met hetzelfde e-mailadres.
+ */
 export async function maakBedrijf(naam: string): Promise<{ ok: boolean }> {
   const supabase = await getSupabaseServer();
   if (!supabase) return { ok: false };
-  const { error } = await supabase.rpc("maak_bedrijf", { p_naam: naam });
+  const jar = await cookies();
+  const code = geldigeAanbrengCode(jar.get(AANBRENGEN.cookie)?.value);
+  const { error } = await supabase.rpc("maak_bedrijf", {
+    p_naam: naam,
+    p_aanbreng_code: code,
+  });
   if (error) {
     console.error("maak_bedrijf:", error.message);
     return { ok: false };
   }
+  if (code) jar.delete(AANBRENGEN.cookie);
   revalidatePath("/bedrijf");
   return { ok: true };
 }
