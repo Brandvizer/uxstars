@@ -139,4 +139,12 @@ vouch-kaart als gouden ticket, admin-tabs gegroepeerd, logorij op /vroeg, AI-ops
 4. "We zijn open"-mail naar alle founding-sterren (nog te bouwen).
 5. Testmissies uit de database halen.
 
-**Volgende stap (parkeer)**: inspreken van de missie-omschrijving via de Web Speech API, pas als het formulier op mobiel gebruikt wordt.
+**Geparkeerd voor later, nu niet bouwen**
+- Inspreken van de missie-omschrijving via de Web Speech API, pas als het
+  formulier op mobiel gebruikt wordt.
+- Matchmaker met de Claude Agent SDK, pas na de eerste tien missies: bij een
+  nieuwe missie doorloopt een agent de actieve sterren (profiel, portfolio-link,
+  beschikbaarheid), legt ze naast de omschrijving en stelt de admin drie
+  kandidaten voor met korte onderbouwing. Als aparte route op knopdruk vanuit
+  de admin; "voorstellen" blijft een menselijke handeling. Nu niet: geen data
+  om op te matchen, en de opschoonknop heeft aan de gewone API genoeg.
