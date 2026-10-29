@@ -3,7 +3,6 @@ import LogoBalk from "@/components/marketing/LogoBalk";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 import LogoRij from "@/components/home/LogoRij";
-import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Het besloten stelsel van digital designers",
@@ -138,7 +137,7 @@ export default function VroegPage() {
 
       {/* Hero + inschrijfformulier */}
       <section className="relative z-10">
-        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-16 pt-16 text-center sm:px-6">
+        <div className="pointer-events-none relative mx-auto flex max-w-2xl flex-col items-center px-4 pb-10 pt-16 text-center sm:px-6">
           <p
             className="label rijs-in mb-5 flex items-center justify-center gap-2.5 text-center text-accent"
             style={{ animationDelay: "0.1s" }}
@@ -165,13 +164,6 @@ export default function VroegPage() {
             Wet DBA.
           </p>
 
-          <div
-            id="aanmelden"
-            className="rijs-in mt-7 flex w-full scroll-mt-24 justify-center"
-            style={{ animationDelay: "0.5s" }}
-          >
-            <WachtlijstForm />
-          </div>
         </div>
         {/* Sociaal bewijs direct onder het formulier */}
         <div className="rijs-in" style={{ animationDelay: "0.65s" }}>
@@ -388,11 +380,8 @@ export default function VroegPage() {
           Opdrachtgever? Laat je e-mail achter, dan ben je als eerste aan de
           beurt zodra we opengaan.
         </p>
-        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button href="/vroeg/aanmelden">Claim je founding-plek</Button>
-          <Button href="#aanmelden" variant="ghost">
-            Ik ben opdrachtgever
-          </Button>
+        <div id="aanmelden" className="mt-7 flex w-full scroll-mt-24 justify-center">
+          <WachtlijstForm />
         </div>
       </section>
     </div>
