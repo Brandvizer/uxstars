@@ -3,11 +3,12 @@ import LogoBalk from "@/components/marketing/LogoBalk";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
 import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 import LogoRij from "@/components/home/LogoRij";
+import Button from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Binnenkort",
+  title: "Het besloten stelsel van digital designers",
   description:
-    "Een besloten netwerk van gevouchte digital designers. Geen cv-loterij, voor designers én opdrachtgevers. Zet jezelf op de lijst voor vroege toegang.",
+    "UXSTARS is een invite-only netwerk van gevouchte digital designers. Opdrachtgevers huren binnen dagen een ster in, zonder cv-loterij en zonder zorgen over de Wet DBA.",
 };
 
 const PIJN = [
@@ -54,6 +55,64 @@ const STAPPEN = [
   },
 ];
 
+const CONCEPT = [
+  {
+    titel: "Geen vacaturebank, geen bureau",
+    tekst:
+      "UXSTARS is een zelf-curerend stelsel waarin designers elkaar persoonlijk aanbevelen. Elke designer is een ster, elke opdracht een missie.",
+  },
+  {
+    titel: "Binnen via een vouch",
+    tekst:
+      "Je komt alleen binnen als een vakgenoot die met je werkte voor je instaat. Elk lid krijgt één vouch om weg te geven. Zo groeit het stelsel ster voor ster en blijft de kwaliteit hoog.",
+  },
+  {
+    titel: "Rechtstreeks contact",
+    tekst:
+      "Opdrachtgever en designer spreken elkaar direct. Geen tussenlaag die mailt, belt en marge pakt. Wij zorgen alleen dat de match klopt en het contract deugt.",
+  },
+];
+
+const MANIEREN = [
+  {
+    titel: "Direct",
+    kop: "Jullie tekenen rechtstreeks",
+    tekst:
+      "Opdrachtgever en ster sluiten zelf het contract. UXSTARS brengt jullie bij elkaar en rekent een vaste, transparante fee per uur.",
+    punten: [
+      "Eigen contract tussen opdrachtgever en ster",
+      "Vaste fee per uur, geen verrassingen",
+      "Snelste route als je het inhuren al goed geregeld hebt",
+    ],
+  },
+  {
+    titel: "Via UXSTARS",
+    kop: "Wij zijn de contractlaag",
+    tekst:
+      "Het contract loopt via UXSTARS. De opdrachtgever draagt geen risico op schijnzelfstandigheid, de ster blijft volledig zelfstandig met eigen tarief en eigen onderneming.",
+    punten: [
+      "Geen Wet DBA-zorgen voor de opdrachtgever",
+      "Ster blijft 100% zelfstandig",
+      "Eén factuur, wij regelen contract en compliance",
+    ],
+  },
+];
+
+const WAARDE = [
+  {
+    label: "Voor designers",
+    kop: "Vrijheid, verbondenheid en rugdekking",
+    tekst:
+      "Zelfstandig blijven en toch bij een exclusief stelsel horen. Toegang tot mooie missies, vakgenoten die voor je instaan en geen contract- en compliancegedoe.",
+  },
+  {
+    label: "Voor opdrachtgevers",
+    kop: "Snel, vertrouwd en veilig",
+    tekst:
+      "Binnen dagen een gevouchte ster, aanbevolen door vakgenoten, zonder Wet DBA-risico en met direct menselijk contact in plaats van een bureaulaag.",
+  },
+];
+
 export default function VroegPage() {
   return (
     <div className="relative">
@@ -85,7 +144,7 @@ export default function VroegPage() {
             style={{ animationDelay: "0.1s" }}
           >
             <span className="hidden h-px w-6 bg-accent/50 sm:block" />
-            Founding · de eerste 100 sterren
+            Het besloten stelsel van digital designers
             <span className="hidden h-px w-6 bg-accent/50 sm:block" />
           </p>
           <h1
@@ -100,10 +159,10 @@ export default function VroegPage() {
             className="rijs-in mt-4 max-w-xl text-base text-tekst-secundair"
             style={{ animationDelay: "0.36s" }}
           >
-            Solliciteren voelt als een loterij, screenen als gokken. UXSTARS
-            draait het om: een besloten netwerk van gevouchte digital designers,
-            van UX tot UI en product, waar werk en talent elkaar rechtstreeks
-            vinden.
+            UXSTARS is een invite-only netwerk van gevouchte digital designers,
+            van UX tot UI en product. Opdrachtgevers huren binnen dagen een ster
+            in, zonder cv-loterij, zonder bureaulaag en zonder zorgen over de
+            Wet DBA.
           </p>
 
           <div
@@ -117,6 +176,49 @@ export default function VroegPage() {
         {/* Sociaal bewijs direct onder het formulier */}
         <div className="rijs-in" style={{ animationDelay: "0.65s" }}>
           <LogoRij compact />
+        </div>
+      </section>
+
+      {/* Wat is UXSTARS: het concept in drie zinnen */}
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
+        <p className="label text-center text-accent">Wat is UXSTARS</p>
+        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance">
+          Een stelsel dat zichzelf cureert
+        </h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {CONCEPT.map((c) => (
+            <div
+              key={c.titel}
+              className="rounded-2xl border border-lijn bg-paneel p-6"
+            >
+              <h3 className="text-tekst">{c.titel}</h3>
+              <p className="mt-2 text-base text-tekst-secundair">{c.tekst}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Waarom nu: Wet DBA */}
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-4 sm:px-6">
+        <div className="rounded-2xl border border-accent/30 bg-paneel p-6 sm:p-10 md:grid md:grid-cols-5 md:gap-10">
+          <div className="md:col-span-2">
+            <p className="label text-accent">Waarom nu</p>
+            <h2 className="mt-3 text-balance">
+              Toptalent inhuren zonder Wet DBA-risico
+            </h2>
+          </div>
+          <div className="mt-5 space-y-4 text-base text-tekst-secundair md:col-span-3 md:mt-0">
+            <p>
+              Sinds de handhaving van de Wet DBA in 2025 is het voor bedrijven
+              risicovol om zzp&apos;ers rechtstreeks in te huren. Schijnzelfstandigheid
+              kan naheffingen opleveren. Bedrijven willen nog steeds de beste
+              designers, maar zonder dat risico.
+            </p>
+            <p className="text-tekst">
+              UXSTARS lost precies dat op. Je huurt in zonder Wet DBA-zorgen,
+              terwijl de designer volledig zelfstandig blijft.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -195,7 +297,7 @@ export default function VroegPage() {
       </section>
 
       {/* Hoe het werkt — drie stappen (echte volgorde, dus genummerd) */}
-      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-24 pt-16 sm:px-6">
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
         <p className="label text-center text-accent">
           Hoe het werkt
         </p>
@@ -212,6 +314,85 @@ export default function VroegPage() {
               <p className="mt-2 text-base text-tekst-secundair">{s.tekst}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Twee manieren om in te huren */}
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
+        <p className="label text-center text-accent">Twee manieren om samen te werken</p>
+        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance">
+          Direct of via UXSTARS, jullie kiezen
+        </h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {MANIEREN.map((m) => (
+            <div
+              key={m.titel}
+              className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
+            >
+              <p className="label text-accent">{m.titel}</p>
+              <h3 className="mt-3 text-tekst">{m.kop}</h3>
+              <p className="mt-2 text-base text-tekst-secundair">{m.tekst}</p>
+              <div className="my-5 h-px bg-lijn" />
+              <ul className="space-y-2.5 text-base">
+                {m.punten.map((p) => (
+                  <li key={p} className="flex items-start gap-3">
+                    <span className="flex h-[1lh] shrink-0 items-center">
+                      <svg
+                        viewBox="0 0 20 20"
+                        className="h-5 w-5 text-succes"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M4 10.5l4 4 8-9" />
+                      </svg>
+                    </span>
+                    <span className="text-tekst">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* De waarde, voor beide kanten */}
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pb-16 pt-16 sm:px-6">
+        <p className="label text-center text-accent">De waarde</p>
+        <h2 className="mx-auto mt-3 max-w-2xl text-center text-balance">
+          Wat je eraan hebt
+        </h2>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {WAARDE.map((w) => (
+            <div
+              key={w.label}
+              className="rounded-2xl border border-lijn bg-paneel p-6 sm:p-8"
+            >
+              <p className="label text-accent">{w.label}</p>
+              <h3 className="mt-3 text-tekst">{w.kop}</h3>
+              <p className="mt-2 text-base text-tekst-secundair">{w.tekst}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Slot: terug naar het formulier */}
+      <section className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-16 text-center sm:px-6">
+        <p className="label text-accent">Founding</p>
+        <h2 className="mt-3 text-balance">We openen met de eerste 100 sterren</h2>
+        <p className="mx-auto mt-4 max-w-xl text-base text-tekst-secundair">
+          Designer? Claim je founding-plek en help het stelsel vormgeven.
+          Opdrachtgever? Laat je e-mail achter, dan ben je als eerste aan de
+          beurt zodra we opengaan.
+        </p>
+        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button href="/vroeg/aanmelden">Claim je founding-plek</Button>
+          <Button href="#aanmelden" variant="ghost">
+            Ik ben opdrachtgever
+          </Button>
         </div>
       </section>
     </div>

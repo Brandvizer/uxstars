@@ -4,7 +4,6 @@ import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import FoundingTeller from "@/components/marketing/FoundingTeller";
 
 type Type = "designer" | "opdrachtgever";
 
@@ -59,7 +58,9 @@ export default function WachtlijstForm() {
             We openen met de eerste 100 sterren. Meld je direct aan met je
             portfolio en claim je plek in het stelsel.
           </p>
-          <FoundingTeller metCta />
+          <Button href="/vroeg/aanmelden" className="w-full">
+            Claim je founding-plek
+          </Button>
         </div>
       ) : status === "klaar" ? (
         <div className="mt-5 rounded-xl border border-succes/40 bg-achtergrond/60 p-5 text-center">
