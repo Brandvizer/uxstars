@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import LogoBalk from "@/components/marketing/LogoBalk";
 import SterrenVeld from "@/components/constellation/SterrenVeld";
-import WachtlijstForm from "@/components/marketing/WachtlijstForm";
 import LogoRij from "@/components/home/LogoRij";
 
 export const metadata: Metadata = {
@@ -371,18 +370,18 @@ export default function VroegPage() {
         </div>
       </section>
 
-      {/* Slot: terug naar het formulier */}
+      {/* Slot: informatief, geen call-to-action */}
       <section className="relative z-10 mx-auto max-w-2xl px-4 pb-24 pt-16 text-center sm:px-6">
-        <p className="label text-accent">Founding</p>
-        <h2 className="mt-3 text-balance">We openen met de eerste 100 sterren</h2>
+        <p className="label text-accent">Stand van zaken</p>
+        <h2 className="mt-3 text-balance">We bouwen het stelsel op met de eerste 100 sterren</h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-tekst-secundair">
-          Designer? Claim je founding-plek en help het stelsel vormgeven.
-          Opdrachtgever? Laat je e-mail achter, dan ben je als eerste aan de
-          beurt zodra we opengaan.
+          UXSTARS gaat stap voor stap open: eerst de designers, daarna de
+          opdrachtgevers. Vragen over het concept? Mail naar{" "}
+          <a href="mailto:hallo@uxstars.nl" className="text-tekst underline underline-offset-4">
+            hallo@uxstars.nl
+          </a>
+          .
         </p>
-        <div id="aanmelden" className="mt-7 flex w-full scroll-mt-24 justify-center">
-          <WachtlijstForm />
-        </div>
       </section>
     </div>
   );
